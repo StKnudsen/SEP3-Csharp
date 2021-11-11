@@ -6,6 +6,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tier1-Client", "Tier1-Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessServer", "BusinessServer\BusinessServer.csproj", "{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{E2FC476F-0B69-412B-90D9-091C2CE88ED0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{9416D46F-2ACE-4E03-91E5-DFBA310955DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedLibrary", "SharedLibrary\SharedLibrary.csproj", "{C72951B0-3F1A-4969-8688-C6BFD26FAF70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +19,21 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6} = {70EE6267-C125-42C4-9B36-880B4DDDC7DC}
+		{E2FC476F-0B69-412B-90D9-091C2CE88ED0} = {A8E93E47-9420-46E2-B7D2-E4D7D682E1D1}
+		{C72951B0-3F1A-4969-8688-C6BFD26FAF70} = {9416D46F-2ACE-4E03-91E5-DFBA310955DB}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2FC476F-0B69-412B-90D9-091C2CE88ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2FC476F-0B69-412B-90D9-091C2CE88ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2FC476F-0B69-412B-90D9-091C2CE88ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2FC476F-0B69-412B-90D9-091C2CE88ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C72951B0-3F1A-4969-8688-C6BFD26FAF70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C72951B0-3F1A-4969-8688-C6BFD26FAF70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C72951B0-3F1A-4969-8688-C6BFD26FAF70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C72951B0-3F1A-4969-8688-C6BFD26FAF70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

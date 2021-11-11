@@ -1,4 +1,4 @@
-﻿namespace BusinessServer.Models
+﻿namespace SharedLibrary.Models
 {
     public class User
     {

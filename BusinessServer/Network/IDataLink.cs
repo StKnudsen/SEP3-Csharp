@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using BusinessServer.Models;
+using SharedLibrary.Models;
 
 namespace BusinessServer.Network
 {
