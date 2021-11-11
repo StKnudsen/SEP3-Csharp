@@ -4,9 +4,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tier2-BusinessServer", "Tie
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tier1-Client", "Tier1-Client", "{A8E93E47-9420-46E2-B7D2-E4D7D682E1D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessServer", "BusinessServer\BusinessServer.csproj", "{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6} = {70EE6267-C125-42C4-9B36-880B4DDDC7DC}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB1CB32C-9C3D-4615-9F34-EEDD78C972C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
