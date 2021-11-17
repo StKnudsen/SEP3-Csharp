@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "dgSpecHash": "dt2tZPLJF13g5HkwP2rZw/7iu158HjY1zPV7k8QuIFlbp0CwY2Txf/37Amrp87X6HUTfJA8TEZgwaXYecrUMDw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\BusinessServer\\BusinessServer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Bent\\.nuget\\packages\\microsoft.aspnetcore.connections.abstractions\\5.0.12\\microsoft.aspnetcore.connections.abstractions.5.0.12.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.12\\microsoft.aspnetcore.http.features.5.0.12.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\microsoft.aspnetcore.signalr.common\\5.0.12\\microsoft.aspnetcore.signalr.common.5.0.12.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.1\\microsoft.extensions.primitives.5.0.1.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512",
+    "C:\\Users\\Bent\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
