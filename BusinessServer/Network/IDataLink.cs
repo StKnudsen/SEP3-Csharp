@@ -5,6 +5,6 @@ namespace BusinessServer.Network
 {
     public interface IDataLink
     {
-        public Task<bool> ValidateUser(User user);
+        public Task<User> GetUserAsync(string username);
     }
 }

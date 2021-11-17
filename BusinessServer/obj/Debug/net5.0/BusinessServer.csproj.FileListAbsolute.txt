@@ -11,7 +11,6 @@ C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\Microsof
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\BusinessServer.csprojAssemblyReference.cache
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\BusinessServer.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\BusinessServer.AssemblyInfoInputs.cache
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\BusinessServer.AssemblyInfo.cs
@@ -27,3 +26,11 @@ C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\Business
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\ref\BusinessServer.dll
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\BusinessServer.pdb
 C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\BusinessServer.genruntimeconfig.cache
+C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\System.IO.Pipelines.dll
+C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\SharedLibrary.dll
+C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\bin\Debug\net5.0\SharedLibrary.pdb
+C:\Users\Bent\RiderProjects\SEP3-Csharp\BusinessServer\obj\Debug\net5.0\BusinessServer.csproj.AssemblyReference.cache

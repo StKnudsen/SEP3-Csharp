@@ -1,0 +1,47 @@
+﻿@page "/Login"
+@using Client.Authentication
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <NotAuthorized>
+        <h3>Login</h3>
+        <div class="form-group">
+            <label>
+                Username:
+                <input @bind-value="username" type="text"/>
+            </label>
+            <label>
+                Password:
+                <input @bind-value="password" type="password"/>
+            </label>
+            <p class="text-danger">@errorLabel</p>
+            <button class="btn btn-primary" @onclick="PerformLogin">Login</button>
+        </div>
+    </NotAuthorized>
+
+    <Authorized>
+        <p>Already signed in!</p>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    public string username { get; set; }
+    public string password { get; set; }
+    public string errorLabel { get; set; }
+
+    public void PerformLogin()
+    {
+        errorLabel = "";
+        try
+        {
+            ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLoginAsync(username, password);
+            NavigationManager.NavigateTo("/SuperSecretPage");
+        }
+        catch (Exception e)
+        {
+            errorLabel = e.Message;
+        }
+    }
+
+}

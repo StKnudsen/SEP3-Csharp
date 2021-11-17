@@ -2,33 +2,29 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using BusinessServer.Services;
 using SharedLibrary.Models;
-
 
 namespace BusinessServer.Network
 {
     public class DataLink : IDataLink
     {
-        public async Task<bool> ValidateUser(User user)
+        public async Task<User> GetUserAsync(string username)
         {
             using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"http://localhost:8080/user/{user.Username}");
+            HttpResponseMessage response = await client.GetAsync($"http://localhost:8080/user/{username}");
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"StatusCode: {response.StatusCode}");
             }
 
-            string controlAsString = await response.Content.ReadAsStringAsync();
-            User controlUser = JsonSerializer.Deserialize<User>(controlAsString, new JsonSerializerOptions
+            string userAsString = await response.Content.ReadAsStringAsync();
+            User user = JsonSerializer.Deserialize<User>(userAsString, new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
 
-            using Md5Check comparator = new Md5Check();
-
-            return comparator.Compare(user.Password, controlUser?.Password);
+            return user;
         }
     }
 }

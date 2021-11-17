@@ -1,6 +1,50 @@
 ﻿@page "/Prototype"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+
 <h3>Prototype</h3>
 
+<div class="form-group">
+    <label>
+        Username:
+        <input @bind="username" type="text"/>
+    </label>
+    <label>
+        <input @bind="password" type="password"/>
+    </label>
+    <p>@errorLabel</p>
+    <button class="btn btn-primary" @onclick="ValidateUserAsync" disabled="@(!IsConnected)">Validate me!</button>
+</div>
+
 @code {
+    private HubConnection HubConnection;
     
+    public string username { get; set; }
+    public string password { get; set; }
+    public string errorLabel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        HubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("https://localhost:5001/userhub")).Build();
+
+        await HubConnection.StartAsync();
+    }
+
+    private bool IsConnected =>
+        HubConnection.State == HubConnectionState.Connected;
+
+    private async Task ValidateUserAsync()
+    {
+        errorLabel = "Validating...";
+        bool IsValid = await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password);
+        if (IsValid)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            errorLabel = "Invalid username or password";
+        }
+    }
 }
