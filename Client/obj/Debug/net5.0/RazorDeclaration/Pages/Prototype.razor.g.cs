@@ -82,14 +82,59 @@ using Client.Shared;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 2 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Prototype.razor"
+using Microsoft.AspNetCore.SignalR.Client;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Prototype")]
+    public partial class Prototype : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 19 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Prototype.razor"
+       
+    private HubConnection HubConnection;
+    
+    public string username { get; set; }
+    public string password { get; set; }
+    public string errorLabel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        HubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("https://localhost:5001/userhub")).Build();
+
+        await HubConnection.StartAsync();
+    }
+
+    private bool IsConnected =>
+        HubConnection.State == HubConnectionState.Connected;
+
+    private async Task ValidateUserAsync()
+    {
+        errorLabel = "Validating...";
+        bool IsValid = await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password);
+        if (IsValid)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            errorLabel = "Invalid username or password";
+        }
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }
 #pragma warning restore 1591

@@ -547,24 +547,25 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "Microsoft.AspNetCore.Connections.Abstractions >= 5.0.12",
       "Microsoft.AspNetCore.SignalR.Client >= 5.0.12",
       "SharedLibrary >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Bent\\.nuget\\packages\\": {}
+    "C:\\Users\\Tina Hadberg\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\Client\\Client.csproj",
+      "projectUniqueName": "C:\\Users\\Tina Hadberg\\RiderProjects\\SEP3-Csharp\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\Client\\Client.csproj",
-      "packagesPath": "C:\\Users\\Bent\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\Client\\obj\\",
+      "projectPath": "C:\\Users\\Tina Hadberg\\RiderProjects\\SEP3-Csharp\\Client\\Client.csproj",
+      "packagesPath": "C:\\Users\\Tina Hadberg\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Tina Hadberg\\RiderProjects\\SEP3-Csharp\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Bent\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Tina Hadberg\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -576,8 +577,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\SharedLibrary\\SharedLibrary.csproj": {
-              "projectPath": "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\SharedLibrary\\SharedLibrary.csproj"
+            "C:\\Users\\Tina Hadberg\\RiderProjects\\SEP3-Csharp\\SharedLibrary\\SharedLibrary.csproj": {
+              "projectPath": "C:\\Users\\Tina Hadberg\\RiderProjects\\SEP3-Csharp\\SharedLibrary\\SharedLibrary.csproj"
             }
           }
         }
@@ -592,6 +593,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Connections.Abstractions": {
+            "target": "Package",
+            "version": "[5.0.12, )"
+          },
           "Microsoft.AspNetCore.SignalR.Client": {
             "target": "Package",
             "version": "[5.0.12, )"

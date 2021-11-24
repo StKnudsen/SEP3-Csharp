@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BusinessServer.Services
+namespace BusinessServer.Services.Security
 {
     public interface IHashCheck : IDisposable
     {
