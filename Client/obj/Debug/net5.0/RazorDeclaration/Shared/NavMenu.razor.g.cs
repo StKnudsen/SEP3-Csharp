@@ -82,6 +82,13 @@ using Client.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 1 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Shared\NavMenu.razor"
+using Client.Authentication;
+
+#line default
+#line hidden
+#nullable disable
     public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -90,21 +97,36 @@ using Client.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 30 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Shared\NavMenu.razor"
+#line 100 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Shared\NavMenu.razor"
        
     private bool collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => collapseNavMenu ? "hidden" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 
+    private async Task PerformLogout()
+    {
+        try
+        {
+            await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).Logout();
+            NavigationManager.NavigateTo("/Login");
+        }
+        catch (Exception e)
+        {
+    // ignored
+        }
+    }
+
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     }
 }
 #pragma warning restore 1591

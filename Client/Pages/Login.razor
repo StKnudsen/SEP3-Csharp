@@ -5,8 +5,6 @@
 
 <AuthorizeView>
     <NotAuthorized>
-
-
         <h2 class="text-3xl font-medium text-gray-800 mx-auto text-center mt-20">Log in</h2>
 
         <div class="mt-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex  items-center space-x-4 border border-gray-300">
@@ -14,7 +12,6 @@
                 <svg class="mr-4 ml-2" viewBox="85.703 200 228.594 96.797" width="100.594" height="56.797">
                     <defs>
                         <style data-bx-fonts="Archivo" data-bx-pinned="true">
-            /*import url(https://fonts.googleapis.com/css2?family=Archivo%3Aital%2Cwght%400%2C100%3B0%2C200%3B0%2C300%3B0%2C400%3B0%2C500%3B0%2C600%3B0%2C700%3B0%2C800%3B0%2C900%3B1%2C100%3B1%2C200%3B1%2C300%3B1%2C400%3B1%2C500%3B1%2C600%3B1%2C700%3B1%2C800%3B1%2C900&amp;display=swap);*/
           </style>
                     </defs>
                     <rect x="200" width="38.099" height="78.022" style="fill: rgb(216, 216, 216);" y="200"></rect>
@@ -69,16 +66,15 @@
                 <div class="text-gray-500">
                     <form class="form-group">
                         <label class="text-gray-700 text-sm font-semibold">Brugernavn</label>
-                        <input class="border rounded border-gray-400 mb-2" type="text" name="Username" @bind-value="username">
+                        <input class="border rounded border-gray-400 mb-2" type="text" name="Username" @bind-value="Username">
                         <label class="text-gray-700 text-sm font-semibold">Password</label>
-                        <input class="mb-2 border rounded border-gray-400" type="password" name="password" @bind-value="password">
-                        <p class="text-red-600 text-sm">@errorLabel</p>
-
-                        <button @onclick="PerformLogin"
-                                class="ml-2 mt-4 bg-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                            Log in <!-- Disable hvis der er input i login felterne -->
-                        </button>
+                        <input class="mb-2 border rounded border-gray-400" type="password" name="password" @bind-value="Password">
+                        <p class="text-red-600 text-sm">@ErrorLabel</p>
                     </form>
+                    <button @onclick="PerformLogin"
+                            class="ml-2 mt-4 bg-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                        Log in <!-- Disable hvis der er input i login felterne -->
+                    </button>
                     <button @onclick="GuestLogin"
                             class="mt-4 mr-2 bg-red-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                         Gæst
@@ -95,35 +91,35 @@
 </AuthorizeView>
 
 @code {
-    private string username { get; set; }
-    private string password { get; set; }
-    private string errorLabel { get; set; }
+    private string Username { get; set; }
+    private string Password { get; set; }
+    private string ErrorLabel { get; set; }
 
-    private void PerformLogin()
+    private async void PerformLogin()
     {
-        errorLabel = "";
+        ErrorLabel = "";
         try
         {
-            ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLoginAsync(username, password);
+            await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLoginAsync(Username, Password);
             NavigationManager.NavigateTo("/SuperSecretPage");
         }
         catch (Exception e)
         {
-            errorLabel = e.Message;
+            ErrorLabel = e.Message;
         }
     }
 
-    private void GuestLogin()
+    private async void GuestLogin()
     {
-        errorLabel = "";
+        ErrorLabel = "";
         try
         {
-            ((CustomAuthenticationStateProvider) AuthenticationStateProvider).GuestLogin();
+            await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).GuestLogin();
             NavigationManager.NavigateTo("/SuperSecretPage");
         }
         catch (Exception e)
         {
-            errorLabel = e.Message;
+            ErrorLabel = e.Message;
         }
     }
 

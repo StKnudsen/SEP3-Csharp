@@ -62,7 +62,8 @@ namespace Client.Authentication
             await HubConnection.StartAsync();
 
             ClaimsIdentity identity = new ClaimsIdentity();
-            if (await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password))
+            bool response = await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password);
+            if (response)
             {
                 RegisteredUser user = new RegisteredUser
                 {
@@ -96,6 +97,14 @@ namespace Client.Authentication
             await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serializedData);
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
+        }
+
+        public async Task Logout()
+        {
+            CachedUser = null;
+            var user = new ClaimsPrincipal(new ClaimsIdentity());
+            await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
+            NotifyAuthenticationStateChanged(Task.FromResult<AuthenticationState>(new AuthenticationState(user)));
         }
 
         private ClaimsIdentity SetupClaimsForUser(User user)
