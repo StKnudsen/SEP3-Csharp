@@ -89,6 +89,26 @@ using Client.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 13 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Shared\MainLayout.razor"
+ 
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var user = (await AuthStat).User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/Login");
+        }
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }
 #pragma warning restore 1591

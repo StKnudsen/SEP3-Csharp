@@ -99,6 +99,14 @@ namespace Client.Authentication
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
         }
 
+        public async Task Logout()
+        {
+            CachedUser = null;
+            var user = new ClaimsPrincipal(new ClaimsIdentity());
+            await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
+            NotifyAuthenticationStateChanged(Task.FromResult<AuthenticationState>(new AuthenticationState(user)));
+        }
+
         private ClaimsIdentity SetupClaimsForUser(User user)
         {
             List<Claim> claims = new List<Claim>();
