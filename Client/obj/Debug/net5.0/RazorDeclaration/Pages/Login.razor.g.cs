@@ -98,18 +98,32 @@ using Client.Authentication;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 28 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\Login.razor"
+#line 97 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\Login.razor"
        
-    public string username { get; set; }
-    public string password { get; set; }
-    public string errorLabel { get; set; }
+    private string username { get; set; }
+    private string password { get; set; }
+    private string errorLabel { get; set; }
 
-    public void PerformLogin()
+    private void PerformLogin()
     {
         errorLabel = "";
         try
         {
             ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLoginAsync(username, password);
+            NavigationManager.NavigateTo("/SuperSecretPage");
+        }
+        catch (Exception e)
+        {
+            errorLabel = e.Message;
+        }
+    }
+
+    private void GuestLogin()
+    {
+        errorLabel = "";
+        try
+        {
+            ((CustomAuthenticationStateProvider) AuthenticationStateProvider).GuestLogin();
             NavigationManager.NavigateTo("/SuperSecretPage");
         }
         catch (Exception e)

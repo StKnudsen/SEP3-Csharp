@@ -83,7 +83,21 @@ using Client.Shared;
 #line hidden
 #nullable disable
 #nullable restore
+#line 2 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\SuperSecretPage.razor"
+using System.Text.Json;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 3 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\SuperSecretPage.razor"
+using SharedLibrary.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\SuperSecretPage.razor"
            [Authorize(Policy = "SignedIn")]
 
 #line default
@@ -97,6 +111,22 @@ using Client.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 12 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\SuperSecretPage.razor"
+       
+    
+    public string username { get; set; }
+    private readonly IJSRuntime JsRuntime;
+
+    protected override async Task OnInitializedAsync()
+    {
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        username = JsonSerializer.Deserialize<User>(userAsJson).Username;
+    }
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591

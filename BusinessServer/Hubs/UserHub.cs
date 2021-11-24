@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BusinessServer.Services;
 using Microsoft.AspNetCore.SignalR;
+using SharedLibrary.Models;
 
 namespace BusinessServer.Hubs
 {
@@ -16,6 +17,11 @@ namespace BusinessServer.Hubs
         public async Task<bool> ValidateUserAsync(string username, string password)
         {
             return await UserService.ValidateUserAsync(username, password);
+        }
+
+        public async Task<GuestUser> GetGuestUserAsync()
+        {
+            return await UserService.GetGuestUserAsync();
         }
     }
 }

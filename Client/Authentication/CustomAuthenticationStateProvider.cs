@@ -14,6 +14,7 @@ namespace Client.Authentication
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly IJSRuntime JsRuntime;
+        private readonly string uriUserhub = "https://localhost:5001/userhub";
         private HubConnection HubConnection;
         private User CachedUser;
 
@@ -31,7 +32,7 @@ namespace Client.Authentication
                 string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
                 if (!string.IsNullOrEmpty(userAsJson))
                 {
-                    User temp = JsonSerializer.Deserialize<User>(userAsJson);
+                    RegisteredUser temp = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
                     ValidateLoginAsync(temp.Username, temp.Password);
                 }
             }
@@ -44,7 +45,7 @@ namespace Client.Authentication
             return await Task.FromResult(new AuthenticationState(claimsPrincipal));
         }
 
-        public async void ValidateLoginAsync(string username, string password)
+        public async Task ValidateLoginAsync(string username, string password)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -57,13 +58,13 @@ namespace Client.Authentication
             }
 
             HubConnection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/userhub").Build();
+                .WithUrl(uriUserhub).Build();
             await HubConnection.StartAsync();
 
             ClaimsIdentity identity = new ClaimsIdentity();
             if (await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password))
             {
-                User user = new User
+                RegisteredUser user = new RegisteredUser
                 {
                     Username = username,
                     Password = password
@@ -79,6 +80,21 @@ namespace Client.Authentication
                 throw new Exception("User not valid");
             }
             
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
+        }
+
+        public async Task GuestLogin()
+        {
+            HubConnection = new HubConnectionBuilder().WithUrl(uriUserhub).Build();
+            await HubConnection.StartAsync();
+
+            ClaimsIdentity identity = new ClaimsIdentity();
+            GuestUser guest = await HubConnection.InvokeAsync<GuestUser>("GetGuestUserAsync");
+
+            identity = SetupClaimsForUser(guest);
+            string serializedData = JsonSerializer.Serialize(guest);
+            await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serializedData);
+
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
         }
 

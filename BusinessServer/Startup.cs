@@ -1,5 +1,6 @@
 using System.Linq;
 using BusinessServer.Hubs;
+using BusinessServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
