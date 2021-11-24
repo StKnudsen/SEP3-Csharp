@@ -62,7 +62,8 @@ namespace Client.Authentication
             await HubConnection.StartAsync();
 
             ClaimsIdentity identity = new ClaimsIdentity();
-            if (await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password))
+            bool response = await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password);
+            if (response)
             {
                 RegisteredUser user = new RegisteredUser
                 {
