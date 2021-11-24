@@ -1,7 +1,5 @@
 @page "/Home"
 @using Client.GroupManagement
-@using Client.Authentication
-@using Microsoft.AspNetCore.SignalR.Client
 @using SharedLibrary.Models
 @using System.Text.Json
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -17,19 +15,31 @@
 </AuthorizeView>
 
 @code {
-    public String name { get; set; }
+   // public string Name { get; set; }
     private async void CreateGroup()
     {
-        //await GroupManager.CreateGroupAsync(((CustomAuthenticationStateProvider) AuthenticationStateProvider).CachedUser);
-
+       
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (!string.IsNullOrEmpty(userAsJson))
+        {
+            RegisteredUser user = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
+            await GroupManager.CreateGroupAsync(user);
+        }
+        
+        
+        /*
         string serializedData = JsonSerializer.Serialize(name);
         await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser",serializedData);
+        */
+      //  await GroupManager.CreateGroupAsync();
     }
     
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
+       /*
         var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authstate.User;
-        name = user.Identity?.Name;
+        Name = user.Identity?.Name;
+        */
     }
 }

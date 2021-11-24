@@ -1,3 +1,6 @@
+using System;
+using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Client.Authentication;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -17,9 +20,20 @@ namespace Client.GroupManagement
         {
             JsRuntime = jsRuntime;
         }
-        
+
         public async Task CreateGroupAsync(User groupOwner)
         {
+            HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).Build();
+            await HubConnection.StartAsync();
+            if (groupOwner.Equals(null))
+            {
+                string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+                if (!string.IsNullOrEmpty(userAsJson))
+                {
+                    groupOwner = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
+                }
+            }
+
             await HubConnection.InvokeAsync("CreateGroupAsync", groupOwner);
         }
     }

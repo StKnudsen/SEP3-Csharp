@@ -91,34 +91,20 @@ using Client.GroupManagement;
 #nullable disable
 #nullable restore
 #line 3 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
-using Client.Authentication;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 4 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
-using Microsoft.AspNetCore.SignalR.Client;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 5 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
 using SharedLibrary.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+#line 4 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
 using System.Text.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+#line 9 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
            [Authorize(Policy = "SignedIn")]
 
 #line default
@@ -133,22 +119,34 @@ using System.Text.Json;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 19 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+#line 17 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
        
-    public String name { get; set; }
+   // public string Name { get; set; }
     private async void CreateGroup()
     {
-        //await GroupManager.CreateGroupAsync(((CustomAuthenticationStateProvider) AuthenticationStateProvider).CachedUser);
-
+       
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (!string.IsNullOrEmpty(userAsJson))
+        {
+            RegisteredUser user = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
+            await GroupManager.CreateGroupAsync(user);
+        }
+        
+        
+        /*
         string serializedData = JsonSerializer.Serialize(name);
         await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser",serializedData);
+        */
+      //  await GroupManager.CreateGroupAsync();
     }
     
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
+       /*
         var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authstate.User;
-        name = user.Identity?.Name;
+        Name = user.Identity?.Name;
+        */
     }
 
 #line default

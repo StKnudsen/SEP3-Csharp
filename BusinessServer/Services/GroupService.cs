@@ -30,14 +30,21 @@ namespace BusinessServer.Services
 
         public async Task CreateNewGroupAsync(User groupOwner)
         {
-            string groupId;
-            do
+            try
             {
-                groupId = RandomString(6);
-            } while (ActiveGroups.Any(g => g.Id.Equals(groupId)));
+                string groupId;
+                do
+                {
+                    groupId = RandomString(6);
+                } while (ActiveGroups.Any(g => g.Id.Equals(groupId)));
             
-            Group newGroup = new Group(groupOwner, groupId);
-            ActiveGroups.Add(newGroup);
+                Group newGroup = new Group(groupOwner, groupId);
+                ActiveGroups.Add(newGroup);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Opret gruppe sejler i GroupService");
+            }
         }
 
         private static Random random = new();
