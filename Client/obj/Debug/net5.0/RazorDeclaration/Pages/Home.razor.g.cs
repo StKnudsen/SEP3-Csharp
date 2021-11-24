@@ -83,20 +83,79 @@ using Client.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\SuperSecretPage.razor"
+#line 2 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+using Client.GroupManagement;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+using Client.Authentication;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+using Microsoft.AspNetCore.SignalR.Client;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+using SharedLibrary.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 6 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+using System.Text.Json;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 11 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
            [Authorize(Policy = "SignedIn")]
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/SuperSecretPage")]
-    public partial class SuperSecretPage : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Home")]
+    public partial class Home : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 19 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+       
+    public String name { get; set; }
+    private async void CreateGroup()
+    {
+        //await GroupManager.CreateGroupAsync(((CustomAuthenticationStateProvider) AuthenticationStateProvider).CachedUser);
+
+        string serializedData = JsonSerializer.Serialize(name);
+        await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser",serializedData);
+    }
+    
+    protected async override Task OnInitializedAsync()
+    {
+        var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        name = user.Identity?.Name;
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JsRuntime { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private GroupManager GroupManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     }
 }

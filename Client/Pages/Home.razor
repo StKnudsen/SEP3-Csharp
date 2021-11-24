@@ -1,0 +1,35 @@
+@page "/Home"
+@using Client.GroupManagement
+@using Client.Authentication
+@using Microsoft.AspNetCore.SignalR.Client
+@using SharedLibrary.Models
+@using System.Text.Json
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject GroupManager GroupManager
+@inject IJSRuntime JsRuntime
+
+@attribute [Authorize(Policy = "SignedIn")]
+
+<h3>Home</h3>
+<AuthorizeView>
+    <p>Velkommen @context.User.Identity?.Name</p>
+    <Button @onclick="CreateGroup">Opret gruppe</Button>
+</AuthorizeView>
+
+@code {
+    public String name { get; set; }
+    private async void CreateGroup()
+    {
+        //await GroupManager.CreateGroupAsync(((CustomAuthenticationStateProvider) AuthenticationStateProvider).CachedUser);
+
+        string serializedData = JsonSerializer.Serialize(name);
+        await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser",serializedData);
+    }
+    
+    protected async override Task OnInitializedAsync()
+    {
+        var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        name = user.Identity?.Name;
+    }
+}

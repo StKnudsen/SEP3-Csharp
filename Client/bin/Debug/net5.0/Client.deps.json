@@ -33,6 +33,7 @@
     ".NETCoreApp,Version=v5.0": {
       "Client/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Connections.Abstractions": "5.0.12",
           "Microsoft.AspNetCore.SignalR.Client": "5.0.12",
           "SharedLibrary": "1.0.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",

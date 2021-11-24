@@ -110,7 +110,7 @@ using Client.Authentication;
         try
         {
             ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLoginAsync(username, password);
-            NavigationManager.NavigateTo("/SuperSecretPage");
+            NavigationManager.NavigateTo("/Home");
         }
         catch (Exception e)
         {
@@ -124,7 +124,7 @@ using Client.Authentication;
         try
         {
             ((CustomAuthenticationStateProvider) AuthenticationStateProvider).GuestLogin();
-            NavigationManager.NavigateTo("/SuperSecretPage");
+            NavigationManager.NavigateTo("/Home");
         }
         catch (Exception e)
         {
