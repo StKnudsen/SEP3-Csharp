@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
@@ -33,7 +32,7 @@ namespace Client.Authentication
                 if (!string.IsNullOrEmpty(userAsJson))
                 {
                     RegisteredUser temp = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
-                    ValidateLoginAsync(temp.Username, temp.Password);
+                    await ValidateLoginAsync(temp.Username, temp.Password);
                 }
             }
             else
@@ -62,7 +61,8 @@ namespace Client.Authentication
             await HubConnection.StartAsync();
 
             ClaimsIdentity identity = new ClaimsIdentity();
-            if (await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password))
+            bool response = await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password);
+            if (response)
             {
                 RegisteredUser user = new RegisteredUser
                 {
@@ -96,6 +96,14 @@ namespace Client.Authentication
             await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serializedData);
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
+        }
+
+        public async Task Logout()
+        {
+            CachedUser = null;
+            var user = new ClaimsPrincipal(new ClaimsIdentity());
+            await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }
 
         private ClaimsIdentity SetupClaimsForUser(User user)

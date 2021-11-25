@@ -1,17 +1,26 @@
 @inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            
-        </div>
-
-        <div class="content px-4">
-            @Body
-        </div>
+<div class="h-screen">
+    <NavMenu/>
+    
+    <div class="max-w-6xl mx-auto">
+        @Body
     </div>
 </div>
+
+@code
+{
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var user = (await AuthStat).User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/Login");
+        }
+    }
+}
