@@ -8,13 +8,15 @@ namespace SharedLibrary.Models
     {
         public string Id { get; set; }
         public User GroupOwner { get; set; }
-        public List<User> Users { get; set; }
+        public IList<User> Users { get; set; }
 
+        public Group(){}
+        
         public Group(User owner, string id)
         {
             GroupOwner = owner;
             Id = id;
-            Users = new List<User>()
+            Users = new List<User>
             {
                 GroupOwner
             };

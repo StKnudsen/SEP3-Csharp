@@ -21,10 +21,14 @@ namespace Client.GroupManagement
             JsRuntime = jsRuntime;
         }
 
-        public async Task CreateGroupAsync(User groupOwner)
+        public async Task<string> CreateGroupAsync(User groupOwner)
         {
-            HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).Build();
-            await HubConnection.StartAsync();
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).Build();
+                await HubConnection.StartAsync();
+            }
+
             if (groupOwner.Equals(null))
             {
                 string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
@@ -34,7 +38,19 @@ namespace Client.GroupManagement
                 }
             }
 
-            await HubConnection.InvokeAsync("CreateGroupAsync", groupOwner);
+            return await HubConnection.InvokeAsync<string>("CreateGroupAsync", groupOwner);
+        }
+
+        public async Task<Group> GetGroupFromIdAsync(string groupId)
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            Group group = await HubConnection.InvokeAsync<Group>("GetGroupFromIdAsync", groupId);
+            return group;
         }
     }
 }

@@ -6,6 +6,7 @@ namespace BusinessServer.Services
     public interface IGroupService
     {
         Task AddUserToGroupAsync(User user, string groupId);
-        Task CreateNewGroupAsync(User groupOwner);
+        Task<string> CreateNewGroupAsync(User groupOwner);
+        Task<Group> GetGroupFromId(string groupId);
     }
 }

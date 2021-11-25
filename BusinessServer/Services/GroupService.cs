@@ -28,7 +28,7 @@ namespace BusinessServer.Services
             }
         }
 
-        public async Task CreateNewGroupAsync(User groupOwner)
+        public async Task<string> CreateNewGroupAsync(User groupOwner)
         {
             try
             {
@@ -40,12 +40,21 @@ namespace BusinessServer.Services
             
                 Group newGroup = new Group(groupOwner, groupId);
                 ActiveGroups.Add(newGroup);
+                Console.WriteLine(ActiveGroups.Count);
+                return groupId;
             }
             catch (Exception e)
             {
                 throw new Exception("Opret gruppe sejler i GroupService");
             }
         }
+
+        public async Task<Group> GetGroupFromId(string groupId)
+        {
+            Console.WriteLine(ActiveGroups.Count);
+            return ActiveGroups.Find(g => g.Id.Equals(groupId));
+        }
+
 
         private static Random random = new();
 

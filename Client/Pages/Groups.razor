@@ -1,0 +1,33 @@
+﻿@page "/Groups/{groupId}"
+@using Client.GroupManagement
+@using SharedLibrary.Models
+@inject NavigationManager NavigationManager
+@inject GroupManager GroupManager
+
+@attribute [Authorize(Policy = "SignedIn")]
+
+<AuthorizeView>
+    @if (group == null)
+    {
+        <p>Page Loading...</p>
+    }
+    else
+    {
+        
+    }
+</AuthorizeView>
+
+
+@code {
+
+    [Parameter]
+    public string groupId { get; set; }
+
+    public Group group { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        group = await GroupManager.GetGroupFromIdAsync(groupId);
+    }
+
+}

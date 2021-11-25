@@ -2,6 +2,7 @@
 @using Client.GroupManagement
 @using SharedLibrary.Models
 @using System.Text.Json
+@inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject GroupManager GroupManager
 @inject IJSRuntime JsRuntime
@@ -21,7 +22,9 @@
         if (!string.IsNullOrEmpty(userAsJson))
         {
             User user = JsonSerializer.Deserialize<User>(userAsJson);
-            await GroupManager.CreateGroupAsync(user);
+            string groupId = await GroupManager.CreateGroupAsync(user);
+            
+            NavigationManager.NavigateTo($"/Groups/{groupId}");
         }
     }
 }

@@ -10,14 +10,21 @@ namespace BusinessServer.Hubs
     {
         private readonly IGroupService GroupService;
 
-        public GroupHub()
+        public GroupHub(IGroupService groupService)
         {
-            GroupService = new GroupService();
+            GroupService = groupService;
         }
 
-        public async Task CreateGroupAsync(User groupOwner)
+        public async Task<string> CreateGroupAsync(User groupOwner)
         {
-            await GroupService.CreateNewGroupAsync(groupOwner);
+            return await GroupService.CreateNewGroupAsync(groupOwner);
+        }
+
+        public async Task<Group> GetGroupFromIdAsync(string groupId)
+        {
+            Group groupFromId = await GroupService.GetGroupFromId(groupId);
+            
+            return groupFromId;
         }
     }
 }
