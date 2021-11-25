@@ -33,7 +33,7 @@ namespace Client.Authentication
                 if (!string.IsNullOrEmpty(userAsJson))
                 {
                     RegisteredUser temp = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
-                    ValidateLoginAsync(temp.Username, temp.Password);
+                    await ValidateLoginAsync(temp.Username, temp.Password);
                 }
             }
             else
@@ -104,7 +104,7 @@ namespace Client.Authentication
             CachedUser = null;
             var user = new ClaimsPrincipal(new ClaimsIdentity());
             await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
-            NotifyAuthenticationStateChanged(Task.FromResult<AuthenticationState>(new AuthenticationState(user)));
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }
 
         private ClaimsIdentity SetupClaimsForUser(User user)
