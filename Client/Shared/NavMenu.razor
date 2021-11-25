@@ -7,7 +7,7 @@
         <div class="flex justify-between">
             <div class="flex space-x-3">
                 <div class="">
-                    <a href="" class="flex items-center py-5 px-2">
+                    <a href="/" class="flex items-center py-5 px-2">
                         <span class="ml-2 text-red-700 font-bold hover:text-red-500 transition duration-500">DNNR</span>
                     </a>
                 </div>
@@ -15,13 +15,13 @@
                 <div class="hidden md:flex items-center space-x-1">
                     <NavLink
                         class="py-5 px-3 text-gray-800 font-medium hover:text-red-500 transition duration-500"
-                        href="/">
+                        href="/Home">
                         Hjem
                     </NavLink>
                     <AuthorizeView Policy="SignedIn">
                         <NavLink
                             class="py-5 px-3 text-gray-800 font-medium hover:text-red-500 transition duration-500"
-                            href="/SuperSecretPage">
+                            href="/Home">
                             Super Secret Page
                         </NavLink>
                     </AuthorizeView>
@@ -69,13 +69,13 @@
 
     <div class="@NavMenuCssClass md:hidden" @onclick="ToggleNavMenu">
         <NavLink class="block py-3 px-8 hover:bg-gray-300 hover:text-red-500 transition duration-500"
-                 href="/">
+                 href="/Home">
             Hjem
         </NavLink>
         <AuthorizeView Policy="SignedIn">
             <NavLink
                 class="block py-3 px-8 hover:bg-gray-300 hover:text-red-500 transition duration-500"
-                href="/SuperSecretPage">
+                href="/Home">
                 Super Secret Page
             </NavLink>
         </AuthorizeView>
@@ -111,7 +111,7 @@
     {
         try
         {
-            await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).Logout();
+            await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).LogoutAsync();
             NavigationManager.NavigateTo("/Login");
         }
         catch (Exception e)

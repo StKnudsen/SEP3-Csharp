@@ -83,7 +83,7 @@ namespace Client.Authentication
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
         }
 
-        public async Task GuestLogin()
+        public async Task GuestLoginAsync()
         {
             HubConnection = new HubConnectionBuilder().WithUrl(uriUserhub).Build();
             await HubConnection.StartAsync();
@@ -98,7 +98,7 @@ namespace Client.Authentication
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
         }
 
-        public async Task Logout()
+        public async Task LogoutAsync()
         {
             CachedUser = null;
             var user = new ClaimsPrincipal(new ClaimsIdentity());
