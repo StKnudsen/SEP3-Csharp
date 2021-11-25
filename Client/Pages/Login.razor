@@ -101,7 +101,7 @@
         try
         {
             await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLoginAsync(Username, Password);
-            NavigationManager.NavigateTo("/SuperSecretPage");
+            NavigationManager.NavigateTo("/Home");
         }
         catch (Exception e)
         {
@@ -115,7 +115,7 @@
         try
         {
             await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).GuestLogin();
-            NavigationManager.NavigateTo("/SuperSecretPage");
+            NavigationManager.NavigateTo("/Home");
         }
         catch (Exception e)
         {

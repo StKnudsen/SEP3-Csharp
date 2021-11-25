@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BusinessServer.Services
+namespace BusinessServer.Services.Security
 {
     public class Md5Check : IHashCheck
     {

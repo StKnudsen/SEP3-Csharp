@@ -1,7 +1,9 @@
 using Client.Authentication;
+using Client.GroupManagement;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +27,7 @@ namespace Client
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services.AddScoped<GroupManager>();
             
             // Opsætning af adgangspolitikker.
             services.AddAuthorization(options =>
@@ -32,6 +35,11 @@ namespace Client
                 options.AddPolicy("SignedIn", a =>
                     a.RequireAuthenticatedUser().RequireClaim("SignedIn", "true"));
             });
+
+            services.AddSignalR(options => 
+            { 
+                options.EnableDetailedErrors = true; 
+            }); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

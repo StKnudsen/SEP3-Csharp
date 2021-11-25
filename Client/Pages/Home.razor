@@ -1,0 +1,45 @@
+@page "/Home"
+@using Client.GroupManagement
+@using SharedLibrary.Models
+@using System.Text.Json
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject GroupManager GroupManager
+@inject IJSRuntime JsRuntime
+
+@attribute [Authorize(Policy = "SignedIn")]
+
+<h3>Home</h3>
+<AuthorizeView>
+    <p>Velkommen @context.User.Identity?.Name</p>
+    <Button @onclick="CreateGroup">Opret gruppe</Button>
+</AuthorizeView>
+
+@code {
+   // public string Name { get; set; }
+    private async void CreateGroup()
+    {
+       
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (!string.IsNullOrEmpty(userAsJson))
+        {
+            User user = JsonSerializer.Deserialize<User>(userAsJson);
+            await GroupManager.CreateGroupAsync(user);
+        }
+        
+        
+        /*
+        string serializedData = JsonSerializer.Serialize(name);
+        await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser",serializedData);
+        */
+      //  await GroupManager.CreateGroupAsync();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+       /*
+        var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        Name = user.Identity?.Name;
+        */
+    }
+}
