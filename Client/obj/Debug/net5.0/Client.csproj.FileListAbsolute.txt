@@ -50,8 +50,6 @@ C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.pdb
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.genruntimeconfig.cache
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.csproj.CopyComplete
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.csproj.AssemblyReference.cache
-C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\Prototype.razor.g.cs
-C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Razor\Pages\Prototype.razor.g.cs
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\bin\Debug\net5.0\Microsoft.AspNetCore.Connections.Abstractions.dll
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Client.dll
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Common.dll
@@ -66,9 +64,7 @@ C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\bin\Debug\net5.0\System.IO.Pipeli
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\bin\Debug\net5.0\SharedLibrary.dll
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\bin\Debug\net5.0\SharedLibrary.pdb
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\Login.razor.g.cs
-C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\SuperSecretPage.razor.g.cs
 C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Razor\Pages\Login.razor.g.cs
-C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Razor\Pages\SuperSecretPage.razor.g.cs
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.csproj.AssemblyReference.cache
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.AssemblyInfoInputs.cache
@@ -138,3 +134,5 @@ C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.R
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.Views.pdb
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.csproj.CopyComplete
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Client.genruntimeconfig.cache
+C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\Home.razor.g.cs
+C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\obj\Debug\net5.0\Razor\Pages\Home.razor.g.cs

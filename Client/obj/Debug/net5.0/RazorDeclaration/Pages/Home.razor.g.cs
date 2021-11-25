@@ -13,98 +13,98 @@ namespace Client.Pages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 1 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 2 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 3 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 4 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 5 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 6 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 7 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 8 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 9 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Client;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
+#line 10 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\_Imports.razor"
 using Client.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+#line 2 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
 using Client.GroupManagement;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+#line 3 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
 using SharedLibrary.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+#line 4 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
 using System.Text.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+#line 9 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
            [Authorize(Policy = "SignedIn")]
 
 #line default
@@ -119,7 +119,7 @@ using System.Text.Json;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 17 "C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
+#line 17 "C:\Users\Bent\RiderProjects\SEP3-Csharp\Client\Pages\Home.razor"
        
    // public string Name { get; set; }
     private async void CreateGroup()
@@ -128,7 +128,8 @@ using System.Text.Json;
         string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
         if (!string.IsNullOrEmpty(userAsJson))
         {
-            RegisteredUser user = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
+            Console.WriteLine(userAsJson);
+            User user = JsonSerializer.Deserialize<User>(userAsJson);
             await GroupManager.CreateGroupAsync(user);
         }
         

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using BusinessServer.Services;
 using Microsoft.AspNetCore.SignalR;
@@ -5,7 +6,7 @@ using SharedLibrary.Models;
 
 namespace BusinessServer.Hubs
 {
-    public class GroupHub :Hub
+    public class GroupHub : Hub
     {
         private readonly IGroupService GroupService;
 

@@ -30,7 +30,7 @@ namespace Client.GroupManagement
                 string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
                 if (!string.IsNullOrEmpty(userAsJson))
                 {
-                    groupOwner = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
+                    groupOwner = JsonSerializer.Deserialize<User>(userAsJson);
                 }
             }
 
