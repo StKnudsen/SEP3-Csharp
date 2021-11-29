@@ -1,8 +1,8 @@
 ﻿@page "/Groups/{groupId}"
-@using Client.GroupManagement
 @using SharedLibrary.Models
+@using Client.Connection.GroupManagement
 @inject NavigationManager NavigationManager
-@inject GroupManager GroupManager
+@inject IGroupManager GroupManager
 
 @attribute [Authorize(Policy = "SignedIn")]
 

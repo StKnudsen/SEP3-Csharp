@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SharedLibrary.Models;
 
-namespace Client.Authentication
+namespace Client.Connection.Authentication
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {

@@ -1,10 +1,10 @@
 @page "/Home"
-@using Client.GroupManagement
 @using SharedLibrary.Models
 @using System.Text.Json
+@using Client.Connection.GroupManagement
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject GroupManager GroupManager
+@inject IGroupManager GroupManager
 @inject IJSRuntime JsRuntime
 
 @attribute [Authorize(Policy = "SignedIn")]

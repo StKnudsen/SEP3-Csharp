@@ -1,5 +1,5 @@
-using Client.Authentication;
-using Client.GroupManagement;
+using Client.Connection.Authentication;
+using Client.Connection.GroupManagement;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SharedLibrary.Models;
+using IGroupManager = Client.Connection.GroupManagement.IGroupManager;
 
 namespace Client
 {
@@ -27,7 +28,7 @@ namespace Client
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-            services.AddScoped<GroupManager>();
+            services.AddScoped<IGroupManager, GroupManager>();
             
             // Opsætning af adgangspolitikker.
             services.AddAuthorization(options =>
