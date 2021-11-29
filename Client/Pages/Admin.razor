@@ -1,0 +1,26 @@
+﻿@page "/Admin"
+@using Client.Connection.Administration
+@inject IAdministration _administration
+<h3>Admin</h3>
+
+<div>Tilføj ingredienser</div>
+<input type="text" @bind-value="ingredientName"/>
+<!-- Der skal laves noget foreach med fødevaregrupper fra databasen, og dem der er markeret
+i checkboxene skal sendes med-->
+<input type="checkbox" @bind-value="_foodGroups"/>
+
+
+<input type="submit" @onclick="AddIngredientAsync"/>
+
+@code {
+    public IList<FoodGroup> _foodGroups { get; set; }
+
+    public string ingredientName { get; set; }
+
+    private async Task AddIngredientAsync()
+    {
+        await _administration.AddIngredientAsync(ingredientName, _foodGroups);
+        throw new NotImplementedException();
+    }
+
+}
