@@ -1,7 +1,8 @@
 @page "/Home"
+@using Client.Connection.GroupManagement
 @using SharedLibrary.Models
 @using System.Text.Json
-@using Client.Connection.GroupManagement
+@using System.ComponentModel.DataAnnotations
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IGroupManager GroupManager
@@ -9,13 +10,28 @@
 
 @attribute [Authorize(Policy = "SignedIn")]
 
-<h3>Home</h3>
 <AuthorizeView>
-    <p>Velkommen @context.User.Identity?.Name</p>
-    <Button @onclick="CreateGroupAsync">Opret gruppe</Button>
+    <div class="mt-6 p-6 max-w-l mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300">
+        <div class="container flex flex-col">
+            <p class="text-3xl text-red-700 font-bold mx-auto text-center mt-5">Velkommen @context.User.Identity?.Name</p>
+            <div class="flex flex-col mt-5">
+                <input type="text" class="max-w-xs mx-auto h-16 rounded border border-gray-400 shadow text-6xl text-gray-700 uppercase tracking-wide text-center" @bind-value="GroupId" maxlength="6">
+                <Button class="mx-auto block my-5 py-3 px-8 bg-red-800 text-gray-100 rounded font-medium hover:bg-red-600 transition duration-500" @onclick="JoinGroupAsync">Deltag i gruppe</Button>
+            </div>
+            <p class="text-center text-red-700 font-bold">ELLER</p>
+            <Button class="mx-auto block my-5 py-3 px-8 bg-red-800 text-gray-100 rounded font-medium hover:bg-red-600 transition duration-500" @onclick="CreateGroupAsync">Opret gruppe</Button>
+        </div>
+    </div>
 </AuthorizeView>
 
 @code {
+    private string GroupId { get; set; }
+
+    private async Task JoinGroupAsync()
+    {
+        
+    }
+
     private async void CreateGroupAsync()
     {
         string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
@@ -23,8 +39,9 @@
         {
             User user = JsonSerializer.Deserialize<User>(userAsJson);
             string groupId = await GroupManager.CreateGroupAsync(user);
-            
+
             NavigationManager.NavigateTo($"/Groups/{groupId}");
         }
     }
+
 }
