@@ -32,7 +32,11 @@ namespace Client.Connection.Authentication
                 if (!string.IsNullOrEmpty(userAsJson))
                 {
                     RegisteredUser temp = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
-                    await ValidateLoginAsync(temp.Username, temp.Password);
+
+                    if (temp.Password is not null)
+                    {
+                        await ValidateLoginAsync(temp.Username, temp.Password);
+                    }
                 }
             }
             else

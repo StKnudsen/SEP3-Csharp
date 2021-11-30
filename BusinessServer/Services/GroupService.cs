@@ -41,7 +41,6 @@ namespace BusinessServer.Services
             
                 Group newGroup = new Group(groupOwner, groupId);
                 ActiveGroups.Add(newGroup);
-                Console.WriteLine(ActiveGroups.Count);
                 return groupId;
             }
             catch (Exception e)
@@ -52,7 +51,6 @@ namespace BusinessServer.Services
 
         public async Task<Group> GetGroupFromId(string groupId)
         {
-            Console.WriteLine(ActiveGroups.Count);
             return ActiveGroups.Find(g => g.Id.Equals(groupId));
         }
 
