@@ -6,6 +6,6 @@ namespace Client.Connection.Administration
 {
     public interface IAdministration
     {
-        public Task AddIngredientAsync(string ingredientName, IList<FoodGroup> _foodGroups );
+        public Task AddIngredientAsync(string ingredientName, int _foodGroupId );
     }
 }

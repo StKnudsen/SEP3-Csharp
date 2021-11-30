@@ -7,20 +7,21 @@
 <input type="text" @bind-value="ingredientName"/>
 <!-- Der skal laves noget foreach med fødevaregrupper fra databasen, og dem der er markeret
 i checkboxene skal sendes med-->
-<input type="checkbox" @bind-value="_foodGroups"/>
-
+<select>
+    for each something 
+    <optiom @bind-value="_foodGroupId"/>
+</select>
 
 <input type="submit" @onclick="AddIngredientAsync"/>
 
 @code {
-    public IList<FoodGroup> _foodGroups { get; set; }
+    public int _foodGroupId;
 
     public string ingredientName { get; set; }
 
     private async Task AddIngredientAsync()
     {
-        await _administration.AddIngredientAsync(ingredientName, _foodGroups);
-        throw new NotImplementedException();
+        await _administration.AddIngredientAsync(ingredientName, _foodGroupId);
     }
 
 }

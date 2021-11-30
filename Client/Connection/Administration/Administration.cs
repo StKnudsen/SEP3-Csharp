@@ -16,9 +16,15 @@ namespace Client.Connection.Administration
             JsRuntime = jsRuntime;
         }
 
-        public Task AddIngredientAsync(string ingredientName, IList<FoodGroup> _foodGroups)
+        public async Task AddIngredientAsync(string ingredientName, int _foodGroupId)
         {
-            throw new System.NotImplementedException();
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            await HubConnection.InvokeAsync<string>("addIngredient", ingredientName, _foodGroupId);
         }
     }
 }

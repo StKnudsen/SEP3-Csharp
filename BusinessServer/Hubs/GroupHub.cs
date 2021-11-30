@@ -23,7 +23,7 @@ namespace BusinessServer.Hubs
         public async Task<Group> GetGroupFromIdAsync(string groupId)
         {
             Group groupFromId = await GroupService.GetGroupFromId(groupId);
-            
+
             return groupFromId;
         }
     }
