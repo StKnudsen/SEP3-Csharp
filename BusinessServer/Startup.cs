@@ -53,6 +53,7 @@ namespace BusinessServer
                 endpoints.MapControllers();
                 endpoints.MapHub<UserHub>("/userhub");
                 endpoints.MapHub<GroupHub>("/grouphub");
+                endpoints.MapHub<AdminHub>("/adminhub");
             });
         }
     }

@@ -1,3 +1,4 @@
+using Client.Connection.Administration;
 using Client.Connection.Authentication;
 using Client.Connection.GroupManagement;
 using Microsoft.AspNetCore.Builder;
@@ -29,7 +30,7 @@ namespace Client
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<IGroupManager, GroupManager>();
-            
+            services.AddScoped<IAdministration, Administration>();
             // Opsætning af adgangspolitikker.
             services.AddAuthorization(options =>
             {

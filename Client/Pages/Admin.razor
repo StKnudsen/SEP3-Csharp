@@ -7,18 +7,28 @@
 <input type="text" @bind-value="ingredientName"/>
 <!-- Der skal laves noget foreach med fødevaregrupper fra databasen, og dem der er markeret
 i checkboxene skal sendes med-->
-<select>
-    for each something 
-    <optiom @bind-value="_foodGroupId"/>
+<select name="_foodgroupId">
+    @{
+        foreach (KeyValuePair<int, string> pair in FoodGroupList)
+        {
+            <option value="@pair.Key" @bind-value="_foodGroupId">@pair.Value</option>
+        }
+    }
 </select>
 
 <input type="submit" @onclick="AddIngredientAsync"/>
 
 @code {
     public int _foodGroupId;
-
     public string ingredientName { get; set; }
 
+    public Dictionary<int, string> FoodGroupList;
+
+    protected override async Task OnInitializedAsync()
+    {
+     FoodGroupList =  await _administration.getFoodgroupsListAsync();
+    }
+    
     private async Task AddIngredientAsync()
     {
         await _administration.AddIngredientAsync(ingredientName, _foodGroupId);

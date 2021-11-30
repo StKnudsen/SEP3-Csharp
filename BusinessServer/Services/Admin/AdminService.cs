@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessServer.Network;
+using BusinessServer.Network.AdminDataLink;
 
 namespace BusinessServer.Services.Admin
 {
@@ -11,11 +12,11 @@ namespace BusinessServer.Services.Admin
         private Dictionary<int, string> ingredientList;
         private Dictionary<int, string> foodGroupList;
 
-        private readonly IDataLink DataLink;
+        private readonly IAdminDataLink AdminDataLink;
 
         public AdminService()
         {
-            DataLink = new DataLink();
+            AdminDataLink = new AdminDataLink();
             GetIngredientListAsync();
             GetFoodgroupListAsync();
         }
@@ -27,18 +28,18 @@ namespace BusinessServer.Services.Admin
                 throw new Exception("Ingrediens findes allerede i databasen");
             }
 
-            await DataLink.AddIngredientAsync(ingredientName, _foodGroupId);
+            await AdminDataLink.AddIngredientAsync(ingredientName, _foodGroupId);
             await GetIngredientListAsync();
         }
 
         public async Task GetIngredientListAsync()
         {
-            DataLink.GetIngredientListAsync();
+           ingredientList = await AdminDataLink.GetIngredientListAsync();
         }
 
         public async Task GetFoodgroupListAsync()
         {
-            DataLink.GetFoodgroupListAsync();
+           foodGroupList = await AdminDataLink.GetFoodgroupListAsync();
         }
     }
 }

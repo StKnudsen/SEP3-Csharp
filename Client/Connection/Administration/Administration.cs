@@ -24,7 +24,18 @@ namespace Client.Connection.Administration
                 await HubConnection.StartAsync();
             }
 
-            await HubConnection.InvokeAsync<string>("addIngredient", ingredientName, _foodGroupId);
+            await HubConnection.InvokeAsync<string>("AddIngredientAsync", ingredientName, _foodGroupId);
+        }
+
+        public async Task<Dictionary<int, string>> getFoodgroupsListAsync()
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            return await HubConnection.InvokeAsync<Dictionary<int, string>>("getFoodgroupList");
         }
     }
 }
