@@ -7,5 +7,6 @@ namespace Client.Connection.GroupManagement
     {
         Task<string> CreateGroupAsync(User groupOwner);
         Task<Group> GetGroupFromIdAsync(string groupId);
+        Task<bool> JoinGroupAsync(User user, string groupId);
     }
 }

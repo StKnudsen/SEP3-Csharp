@@ -15,12 +15,13 @@ namespace BusinessServer.Services
             ActiveGroups = new List<Group>();
         }
 
-        public async Task AddUserToGroupAsync(User user, string groupId)
+        public async Task<bool> AddUserToGroupAsync(User user, string groupId)
         {
             try
             {
                 Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
                 group.Users.Add(user);
+                return true;
             }
             catch (Exception e)
             {

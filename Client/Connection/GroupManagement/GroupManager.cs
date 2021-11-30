@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -47,6 +48,24 @@ namespace Client.Connection.GroupManagement
 
             Group group = await HubConnection.InvokeAsync<Group>("GetGroupFromIdAsync", groupId);
             return group;
+        }
+
+        public async Task<bool> JoinGroupAsync(User user, string groupId)
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            bool response = await HubConnection.InvokeAsync<bool>("JoinGroupAsync", user, groupId);
+
+            if (!response)
+            {
+                throw new Exception("FEJL! Kunne ikke tilføje bruger til gruppe.");
+            }
+
+            return true;
         }
     }
 }

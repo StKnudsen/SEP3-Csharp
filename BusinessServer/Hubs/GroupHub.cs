@@ -26,5 +26,10 @@ namespace BusinessServer.Hubs
             
             return groupFromId;
         }
+
+        public async Task<bool> JoinGroupAsync(User user, string groupId)
+        {
+            return await GroupService.AddUserToGroupAsync(user, groupId);
+        }
     }
 }
