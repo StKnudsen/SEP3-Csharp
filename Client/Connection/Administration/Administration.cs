@@ -18,18 +18,23 @@ namespace Client.Connection.Administration
             JsRuntime = jsRuntime;
         }
 
-        public async Task AddIngredientAsync(string ingredientName, int _foodGroupId)
+        public async Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId)
         {
-            if (HubConnection is null)
+            try
             {
-                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
-                await HubConnection.StartAsync();
+                if (HubConnection is null)
+                {
+                    HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                    await HubConnection.StartAsync();
+                }
+                
+                return  await HubConnection.InvokeAsync<bool>
+                    ("AddIngredientAsync", ingredientName, _foodGroupId);
             }
-
-            Console.WriteLine("Hi from Administration: " + ingredientName + _foodGroupId);
-            
-            await HubConnection.InvokeAsync<Task>
-                ("AddIngredientAsync", ingredientName, _foodGroupId);
+            catch (Exception e)
+            {
+                throw(new Exception(e.Message));
+            }
         }
 
         public async Task<Dictionary<int, string>> getFoodgroupListAsync()

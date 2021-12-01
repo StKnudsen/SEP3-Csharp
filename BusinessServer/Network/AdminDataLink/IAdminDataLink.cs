@@ -5,7 +5,7 @@ namespace BusinessServer.Network.AdminDataLink
 {
     public interface IAdminDataLink
     {
-        Task AddIngredientAsync(string ingredientName, int foodGroupId);
+        Task<bool> AddIngredientAsync(string ingredientName, int foodGroupId);
         Task<Dictionary<int, string >> GetFoodgroupListAsync();
         Task<Dictionary<int, string >> GetIngredientListAsync();
     }

@@ -14,10 +14,8 @@ namespace BusinessServer.Network.AdminDataLink
     {
         private readonly string uri = "http://localhost:8080";
         
-        public async Task AddIngredientAsync(string ingredientName, int foodGroupId)
+        public async Task<bool> AddIngredientAsync(string ingredientName, int foodGroupId)
         {
-            Console.WriteLine("Hi from AdminDataLink: " + ingredientName + foodGroupId);
-
             CustomPair ingredientAndFoodgroup = new CustomPair()
             {
                 Key = foodGroupId,
@@ -29,7 +27,7 @@ namespace BusinessServer.Network.AdminDataLink
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
-            Console.WriteLine(ingredientNameJson);
+            
             HttpContent content = new StringContent(
                 ingredientNameJson, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await client.PostAsync(
@@ -37,9 +35,10 @@ namespace BusinessServer.Network.AdminDataLink
             
             if (!responseMessage.IsSuccessStatusCode)
             {
-                Console.WriteLine(responseMessage.StatusCode);
                 throw new Exception("Kunne ikke tilføje ingrediens");
             }
+
+            return responseMessage.IsSuccessStatusCode;
         }
 
         public async Task<Dictionary<int, string>> GetFoodgroupListAsync()

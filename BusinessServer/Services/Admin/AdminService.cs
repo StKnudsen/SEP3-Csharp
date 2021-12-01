@@ -21,15 +21,16 @@ namespace BusinessServer.Services.Admin
             GetFoodgroupListAsync();
         }
 
-        public async Task AddIngredientAsync(string ingredientName, int _foodGroupId)
+        public async Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId)
         {
             if (ingredientList.ContainsValue(ingredientName.ToLower()))
             {
                 throw new Exception("Ingrediens findes allerede i databasen");
             }
-            Console.WriteLine("Hi from AdminService: " + ingredientName + _foodGroupId);
+          
             await AdminDataLink.AddIngredientAsync(ingredientName, _foodGroupId);
             await GetIngredientListAsync();
+            return true;
         }
 
         public async Task<Dictionary<int, string>> GetIngredientListAsync()

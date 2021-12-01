@@ -6,7 +6,7 @@ namespace Client.Connection.Administration
 {
     public interface IAdministration
     {
-        public Task AddIngredientAsync(string ingredientName, int _foodGroupId );
+        public Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId );
         Task<Dictionary<int, string>> getFoodgroupListAsync();
     }
 }

@@ -6,7 +6,7 @@
 
 
 <AuthorizeView Policy="SignedIn">
-    
+
     <h3>Admin</h3>
 
     <div>Tilføj ingredienser</div>
@@ -30,26 +30,45 @@
                     }
                 </select>
 
-                <input type="submit" @onclick="AddIngredientAsync"/></div>
+                <input type="submit" @onclick="AddIngredientAsync"/>
+            </div>
+            <p>@label</p>
         }
     }
-   
+
 </AuthorizeView>
 
 @code {
-    public int _foodGroupId { set; get;}
+    public int _foodGroupId { set; get; }
     public string ingredientName { get; set; }
+    public string label { get; set; }
 
     public Dictionary<int, string> FoodGroupList;
 
     protected override async Task OnInitializedAsync()
     {
-     FoodGroupList =  await _administration.getFoodgroupListAsync();
+        FoodGroupList = await _administration.getFoodgroupListAsync();
     }
-    
+
     private async Task AddIngredientAsync()
     {
-        await _administration.AddIngredientAsync(ingredientName, _foodGroupId);
+        try
+        {
+            bool result = await _administration.AddIngredientAsync(ingredientName, _foodGroupId);
+
+            if (result)
+            {
+                label = "Succes";
+            }
+            else if (!result)
+            {
+                label = "Netværksfejl";
+            }
+        }
+        catch (Exception e)
+        {
+            label = "Noget gik galt, kontakt backend";
+        }
     }
 
 }

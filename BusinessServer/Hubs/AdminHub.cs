@@ -16,10 +16,17 @@ namespace BusinessServer.Hubs
             AdminService = new AdminService();
         }
 
-        public async Task AddIngredientAsync(string ingredientName, int _foodGroupId)
+        public async Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId)
         {
-            Console.WriteLine("Hi from AdminHub: " + ingredientName + _foodGroupId);
-            await AdminService.AddIngredientAsync(ingredientName, _foodGroupId);
+            try
+            {
+                return await AdminService.AddIngredientAsync(ingredientName, _foodGroupId);
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
+            
         }
 
         public async Task<Dictionary<int, string>> getFoodgroupListAsync()
