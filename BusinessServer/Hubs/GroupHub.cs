@@ -45,8 +45,7 @@ namespace BusinessServer.Hubs
         private Task UpdateGroupAsync(string groupId)
         {
             //Object[] group = {await GetGroupFromIdAsync(groupId)};
-            Console.WriteLine("Update method");
-            return Clients.Group(groupId).SendAsync("UpdateGroup", GetGroupFromIdAsync(groupId));
+            return Clients.Group(groupId).SendAsync("UpdateGroup");
         }
     }
 }

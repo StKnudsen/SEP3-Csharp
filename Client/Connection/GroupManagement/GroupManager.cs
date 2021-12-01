@@ -1,7 +1,10 @@
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Client.Pages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using SharedLibrary.Models;
 
@@ -17,12 +20,12 @@ namespace Client.Connection.GroupManagement
         {
             JsRuntime = jsRuntime;
             
-            HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).WithAutomaticReconnect().Build();
-
-            HubConnection.On<Group>("UpdateGroup", (group) =>
-            {
-                Console.WriteLine("HURRA!!!! TØSERNE GIVER KAGE, TINA BAGER!!");
-            });
+            HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).ConfigureLogging(logging =>
+                {
+                    logging.AddConsole();
+                    logging.SetMinimumLevel(LogLevel.Error);
+                })
+                .WithAutomaticReconnect().Build();
 
             HubConnection.StartAsync();
         }
@@ -57,6 +60,11 @@ namespace Client.Connection.GroupManagement
             }
 
             return true;
+        }
+
+        public async Task RegisterPage(Groups page)
+        {
+            HubConnection.On("UpdateGroup", page.ForceGroupUpdate);
         }
         
     }

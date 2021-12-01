@@ -76,9 +76,15 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await GroupManager.RegisterPage(this);
         group = await GroupManager.GetGroupFromIdAsync(groupId);
     }
 
+    public async void ForceGroupUpdate()
+    {
+        group = await GroupManager.GetGroupFromIdAsync(groupId);
+        await InvokeAsync(StateHasChanged);
+    }
 
     private void StartGroupSwipe()
     {
