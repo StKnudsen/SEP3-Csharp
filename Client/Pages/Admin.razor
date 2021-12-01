@@ -7,11 +7,15 @@
 <input type="text" @bind-value="ingredientName"/>
 <!-- Der skal laves noget foreach med fødevaregrupper fra databasen, og dem der er markeret
 i checkboxene skal sendes med-->
-<select name="_foodgroupId">
+<select name="_foodgroupId" @bind="_foodGroupId">
     @{
+        while (FoodGroupList == null)
+        {
+            <p>loading chioces...</p>
+        }
         foreach (KeyValuePair<int, string> pair in FoodGroupList)
         {
-            <option value="@pair.Key" @bind-value="_foodGroupId">@pair.Value</option>
+            <option value="@pair.Key">@pair.Value</option>
         }
     }
 </select>
