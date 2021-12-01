@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using BusinessServer.Models;
 using Microsoft.AspNetCore.Http;
 using SharedLibrary.Models;
 
@@ -17,12 +18,22 @@ namespace BusinessServer.Network.AdminDataLink
         {
             Console.WriteLine("Hi from AdminDataLink: " + ingredientName + foodGroupId);
 
-            KeyValuePair<int, string> ingredientAndFoodgroup = new KeyValuePair<int, string>(foodGroupId, ingredientName);
+            CustomPair ingredientAndFoodgroup = new CustomPair()
+            {
+                Key = foodGroupId,
+                Value = ingredientName
+            };
             
             using HttpClient client = new HttpClient();
-            string ingredientNameJson = JsonSerializer.Serialize(ingredientAndFoodgroup);
-            HttpContent content = new StringContent(ingredientNameJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage responseMessage = await client.PostAsync($"{uri}/ingredients" , content);
+            string ingredientNameJson = JsonSerializer.Serialize(ingredientAndFoodgroup, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            Console.WriteLine(ingredientNameJson);
+            HttpContent content = new StringContent(
+                ingredientNameJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseMessage = await client.PostAsync(
+                $"{uri}/ingredients" , content);
             
             if (!responseMessage.IsSuccessStatusCode)
             {
