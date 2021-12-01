@@ -17,7 +17,7 @@ namespace BusinessServer.Services.Admin
         public AdminService()
         {
             AdminDataLink = new AdminDataLink();
-            GetIngredientListAsync();
+            ingredientList = GetIngredientListAsync().Result;
             GetFoodgroupListAsync();
         }
 
@@ -27,7 +27,7 @@ namespace BusinessServer.Services.Admin
             {
                 throw new Exception("Ingrediens findes allerede i databasen");
             }
-
+            Console.WriteLine("Hi from AdminService: " + ingredientName + _foodGroupId);
             await AdminDataLink.AddIngredientAsync(ingredientName, _foodGroupId);
             await GetIngredientListAsync();
         }

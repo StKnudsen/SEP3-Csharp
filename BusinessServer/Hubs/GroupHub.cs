@@ -10,9 +10,9 @@ namespace BusinessServer.Hubs
     {
         private readonly IGroupService GroupService;
 
-        public GroupHub(IGroupService groupService)
+        public GroupHub()
         {
-            GroupService = groupService;
+            GroupService = new GroupService();
         }
 
         public async Task<string> CreateGroupAsync(User groupOwner)

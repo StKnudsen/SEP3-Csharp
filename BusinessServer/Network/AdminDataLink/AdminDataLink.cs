@@ -15,12 +15,18 @@ namespace BusinessServer.Network.AdminDataLink
         
         public async Task AddIngredientAsync(string ingredientName, int foodGroupId)
         {
+            Console.WriteLine("Hi from AdminDataLink: " + ingredientName + foodGroupId);
+
+            KeyValuePair<int, string> ingredientAndFoodgroup = new KeyValuePair<int, string>(foodGroupId, ingredientName);
+            
             using HttpClient client = new HttpClient();
-            string ingredientNameJson = JsonSerializer.Serialize(ingredientName);
+            string ingredientNameJson = JsonSerializer.Serialize(ingredientAndFoodgroup);
             HttpContent content = new StringContent(ingredientNameJson, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await client.PostAsync($"{uri}/ingredients" , content);
+            
             if (!responseMessage.IsSuccessStatusCode)
             {
+                Console.WriteLine(responseMessage.StatusCode);
                 throw new Exception("Kunne ikke tilføje ingrediens");
             }
         }

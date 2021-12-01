@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BusinessServer.Services.Admin;
 using Microsoft.AspNetCore.SignalR;
@@ -10,13 +11,14 @@ namespace BusinessServer.Hubs
 
         private readonly IAdminService AdminService;
 
-        public AdminHub(IAdminService adminService)
+        public AdminHub()
         {
-            AdminService = adminService;
+            AdminService = new AdminService();
         }
 
         public async Task AddIngredientAsync(string ingredientName, int _foodGroupId)
         {
+            Console.WriteLine("Hi from AdminHub: " + ingredientName + _foodGroupId);
             await AdminService.AddIngredientAsync(ingredientName, _foodGroupId);
         }
 
