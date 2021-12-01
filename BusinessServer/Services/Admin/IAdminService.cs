@@ -6,8 +6,8 @@ namespace BusinessServer.Services.Admin
     public interface IAdminService
     {
         public Task AddIngredientAsync(string ingredientName, int _foodGroupId);
-        public Task GetIngredientListAsync();
-        public Task GetFoodgroupListAsync();
+        public Task<Dictionary<int, string>> GetIngredientListAsync();
+        public Task<Dictionary<int, string>> GetFoodgroupListAsync();
 
     }
 }

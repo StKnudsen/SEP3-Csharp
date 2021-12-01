@@ -1,26 +1,40 @@
 ﻿@page "/Admin"
 @using Client.Connection.Administration
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IAdministration _administration
-<h3>Admin</h3>
 
-<div>Tilføj ingredienser</div>
-<input type="text" @bind-value="ingredientName"/>
-<!-- Der skal laves noget foreach med fødevaregrupper fra databasen, og dem der er markeret
-i checkboxene skal sendes med-->
-<select name="_foodgroupId" @bind="_foodGroupId">
+
+<AuthorizeView Policy="SignedIn">
+    
+    <h3>Admin</h3>
+
+    <div>Tilføj ingredienser</div>
+
     @{
-        while (FoodGroupList == null)
+        if (FoodGroupList == null)
         {
             <p>loading chioces...</p>
         }
-        foreach (KeyValuePair<int, string> pair in FoodGroupList)
+        else
         {
-            <option value="@pair.Key">@pair.Value</option>
+            <div>
+                <input type="text" @bind-value="ingredientName"/>
+
+                <select name="_foodgroupId" @bind="_foodGroupId">
+                    @{
+                        foreach (KeyValuePair<int, string> pair in FoodGroupList)
+                        {
+                            <option value="@pair.Key">@pair.Value</option>
+                        }
+                    }
+                </select>
+
+                <input type="submit" @onclick="AddIngredientAsync"/></div>
         }
     }
-</select>
-
-<input type="submit" @onclick="AddIngredientAsync"/>
+   
+</AuthorizeView>
 
 @code {
     public int _foodGroupId;
@@ -30,7 +44,7 @@ i checkboxene skal sendes med-->
 
     protected override async Task OnInitializedAsync()
     {
-     FoodGroupList =  await _administration.getFoodgroupsListAsync();
+     FoodGroupList =  await _administration.getFoodgroupListAsync();
     }
     
     private async Task AddIngredientAsync()

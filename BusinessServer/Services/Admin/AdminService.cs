@@ -32,14 +32,14 @@ namespace BusinessServer.Services.Admin
             await GetIngredientListAsync();
         }
 
-        public async Task GetIngredientListAsync()
+        public async Task<Dictionary<int, string>> GetIngredientListAsync()
         {
-           ingredientList = await AdminDataLink.GetIngredientListAsync();
+          return ingredientList = await AdminDataLink.GetIngredientListAsync();
         }
 
-        public async Task GetFoodgroupListAsync()
+        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
         {
-           foodGroupList = await AdminDataLink.GetFoodgroupListAsync();
+           return foodGroupList = await AdminDataLink.GetFoodgroupListAsync();
         }
     }
 }
