@@ -1,7 +1,10 @@
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Client.Pages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using SharedLibrary.Models;
 
@@ -16,16 +19,19 @@ namespace Client.Connection.GroupManagement
         public GroupManager(IJSRuntime jsRuntime)
         {
             JsRuntime = jsRuntime;
+            
+            HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).ConfigureLogging(logging =>
+                {
+                    logging.AddConsole();
+                    logging.SetMinimumLevel(LogLevel.Error);
+                })
+                .WithAutomaticReconnect().Build();
+
+            HubConnection.StartAsync();
         }
 
         public async Task<string> CreateGroupAsync(User groupOwner)
         {
-            if (HubConnection is null)
-            {
-                HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).Build();
-                await HubConnection.StartAsync();
-            }
-
             if (groupOwner.Equals(null))
             {
                 string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
@@ -40,24 +46,12 @@ namespace Client.Connection.GroupManagement
 
         public async Task<Group> GetGroupFromIdAsync(string groupId)
         {
-            if (HubConnection is null)
-            {
-                HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).Build();
-                await HubConnection.StartAsync();
-            }
-
             Group group = await HubConnection.InvokeAsync<Group>("GetGroupFromIdAsync", groupId);
             return group;
         }
 
         public async Task<bool> JoinGroupAsync(User user, string groupId)
         {
-            if (HubConnection is null)
-            {
-                HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).Build();
-                await HubConnection.StartAsync();
-            }
-
             bool response = await HubConnection.InvokeAsync<bool>("JoinGroupAsync", user, groupId);
 
             if (!response)
@@ -67,5 +61,11 @@ namespace Client.Connection.GroupManagement
 
             return true;
         }
+
+        public async Task RegisterPage(Groups page)
+        {
+            HubConnection.On("UpdateGroup", page.ForceGroupUpdate);
+        }
+        
     }
 }

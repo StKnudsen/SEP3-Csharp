@@ -17,19 +17,35 @@ namespace BusinessServer.Hubs
 
         public async Task<string> CreateGroupAsync(User groupOwner)
         {
-            return await GroupService.CreateNewGroupAsync(groupOwner);
+            string groupId = await GroupService.CreateNewGroupAsync(groupOwner);
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupId);
+            return groupId;
         }
 
         public async Task<Group> GetGroupFromIdAsync(string groupId)
         {
-            Group groupFromId = await GroupService.GetGroupFromId(groupId);
-            
+            Group groupFromId = GroupService.GetGroupFromId(groupId);
             return groupFromId;
         }
 
         public async Task<bool> JoinGroupAsync(User user, string groupId)
         {
-            return await GroupService.AddUserToGroupAsync(user, groupId);
+            bool response = await GroupService.AddUserToGroupAsync(user, groupId);
+
+            if (response)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, groupId);
+                await UpdateGroupAsync(groupId);
+                return true;
+            }
+            
+            return false;
+        }
+
+        private Task UpdateGroupAsync(string groupId)
+        {
+            //Object[] group = {await GetGroupFromIdAsync(groupId)};
+            return Clients.Group(groupId).SendAsync("UpdateGroup");
         }
     }
 }
