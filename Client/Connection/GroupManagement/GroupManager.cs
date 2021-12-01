@@ -67,5 +67,10 @@ namespace Client.Connection.GroupManagement
 
             return true;
         }
+
+        public async Task UpdateGroup(Group group)
+        {
+            Console.WriteLine("Did we make it?? " + group.Id);
+        }
     }
 }

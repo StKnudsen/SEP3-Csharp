@@ -38,7 +38,7 @@ namespace BusinessServer.Services
                 {
                     groupId = RandomString(6);
                 } while (ActiveGroups.Any(g => g.Id.Equals(groupId)));
-            
+
                 Group newGroup = new Group(groupOwner, groupId);
                 ActiveGroups.Add(newGroup);
                 return groupId;
@@ -49,7 +49,7 @@ namespace BusinessServer.Services
             }
         }
 
-        public async Task<Group> GetGroupFromId(string groupId)
+        public Group GetGroupFromId(string groupId)
         {
             return ActiveGroups.Find(g => g.Id.Equals(groupId));
         }

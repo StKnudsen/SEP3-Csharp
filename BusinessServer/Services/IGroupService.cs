@@ -7,6 +7,6 @@ namespace BusinessServer.Services
     {
         Task<bool> AddUserToGroupAsync(User user, string groupId);
         Task<string> CreateNewGroupAsync(User groupOwner);
-        Task<Group> GetGroupFromId(string groupId);
+        Group GetGroupFromId(string groupId);
     }
 }
