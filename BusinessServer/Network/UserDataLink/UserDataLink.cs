@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BusinessServer.Models;
 using SharedLibrary.Models;
 
-namespace BusinessServer.Network
+namespace BusinessServer.Network.UserDataLink
 {
     public class DataLink : IDataLink
     {
