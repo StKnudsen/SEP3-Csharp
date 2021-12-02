@@ -52,5 +52,15 @@ namespace BusinessServer.Hubs
         {
             await Clients.Group(groupId).SendAsync("UpdateGroup");
         }
+
+        public async Task CastVote(string groupId, int id)
+        {
+            bool match = await GroupService.CastVote(groupId, id);
+
+            if (match)
+            {
+                await Clients.Group(groupId).SendAsync("Match", id);
+            }
+        }
     }
 }

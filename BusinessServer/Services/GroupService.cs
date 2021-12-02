@@ -78,6 +78,32 @@ namespace BusinessServer.Services
             }
         }
 
+        public async Task<bool> CastVote(string groupId, int id)
+        {
+            Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
+
+            if (group.Votes.Count != 0)
+            {
+                foreach (Vote vote in group.Votes)
+                {
+                    if (vote.SwipeObjectId == id)
+                    {
+                        vote.Votes++;
+                        if (vote.Votes == group.Users.Count)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }
+                }
+            }
+            
+            group.Votes.Add(new Vote(id));
+
+            return false;
+        }
+
 
         private static Random random = new();
 
@@ -87,5 +113,7 @@ namespace BusinessServer.Services
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+        
+        
     }
 }

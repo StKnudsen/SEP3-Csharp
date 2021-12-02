@@ -83,7 +83,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GroupManager.RegisterPage(this);
+        await GroupManager.RegisterGroupPage(this);
         group = await GroupManager.GetGroupFromIdAsync(groupId);
         await GetUsername();
     }

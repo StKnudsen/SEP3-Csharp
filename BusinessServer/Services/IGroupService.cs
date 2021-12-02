@@ -9,5 +9,6 @@ namespace BusinessServer.Services
         Task<string> CreateNewGroupAsync(User groupOwner);
         Group GetGroupFromId(string groupId);
         Task SetSwipeType(string groupId, string type);
+        Task<bool> CastVote(string groupId, int id);
     }
 }
