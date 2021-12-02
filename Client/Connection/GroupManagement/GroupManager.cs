@@ -23,7 +23,7 @@ namespace Client.Connection.GroupManagement
             HubConnection = new HubConnectionBuilder().WithUrl(uriGrouphub).ConfigureLogging(logging =>
                 {
                     logging.AddConsole();
-                    logging.SetMinimumLevel(LogLevel.Error);
+                    logging.SetMinimumLevel(LogLevel.Error);        //Dette gør at evt. fejl kommer som en stack trace..
                 })
                 .WithAutomaticReconnect().Build();
 
