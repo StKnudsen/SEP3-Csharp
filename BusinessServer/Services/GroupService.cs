@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessServer.Network.Group;
 using SharedLibrary.Models;
 
 namespace BusinessServer.Services
 {
     public class GroupService : IGroupService
     {
+        private readonly IGroupDataLink DataLink;
         private List<Group> ActiveGroups;
 
         public GroupService()
         {
             ActiveGroups = new List<Group>();
+            DataLink = new GroupDataLink();
         }
 
         public async Task<bool> AddUserToGroupAsync(User user, string groupId)
@@ -61,7 +64,18 @@ namespace BusinessServer.Services
 
         public async Task SetSwipeType(string groupId, string type)
         {
-            GetGroupFromId(groupId).SwipeType = type;
+            Group Group = GetGroupFromId(groupId);
+            Group.SwipeType = type;
+            
+            if (type.Equals("Opskrifter"))
+            {
+                Group.SwipeObject = await DataLink.GetShuffledRecipes();
+            }
+            
+            if (type.Equals("Restauranter"))
+            {
+                Group.SwipeObject = await DataLink.GetShuffledRestaurants();
+            }
         }
 
 

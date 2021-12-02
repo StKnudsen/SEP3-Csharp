@@ -5,9 +5,10 @@ namespace SharedLibrary.Models
     public class Group
     {
         public string Id { get; set; }
+        public string SwipeType { get; set; }
         public User GroupOwner { get; set; }
         public IList<User> Users { get; set; }
-        public string SwipeType { get; set; }
+        public IList<CustomPair> SwipeObject { get; set; }
 
         public Group(){}
         

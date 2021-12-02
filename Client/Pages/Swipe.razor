@@ -19,17 +19,19 @@
     else
     {
         <div class="mt-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300 flex flex-wrap">
-            plyf
+            @foreach (CustomPair pair in Group.SwipeObject)
+            {
+                <h3>@pair.Value</h3>
+            }
         </div>
     }
 </AuthorizeView>
 
 @code {
-
     [Parameter]
     public string groupId { get; set; }
 
-    private Group Group { get; set; }
+    public Group Group { get; set; }
     private User User { get; set; }
 
     protected override async Task OnInitializedAsync()
