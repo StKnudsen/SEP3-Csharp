@@ -8,7 +8,7 @@ using SharedLibrary.Models;
 
 namespace BusinessServer.Network.UserDataLink
 {
-    public class DataLink : IDataLink
+    public class UserDataLink : IUserDataLink
     {
         private readonly string uri = "http://localhost:8080";
 

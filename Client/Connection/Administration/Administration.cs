@@ -4,6 +4,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
+using SharedLibrary.Models;
 
 namespace Client.Connection.Administration
 {
@@ -37,7 +38,27 @@ namespace Client.Connection.Administration
             }
         }
 
-        public async Task<Dictionary<int, string>> getFoodgroupListAsync()
+        public async Task<bool> AddRecipeAsync(Recipe recipe)
+        {
+            try
+            {
+                if (HubConnection is null)
+                {
+                    HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                    await HubConnection.StartAsync();
+                }
+                
+                return  await HubConnection.InvokeAsync<bool>
+                    ("AddRecipeAsync",recipe);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
         {
             if (HubConnection is null)
             {
@@ -46,7 +67,31 @@ namespace Client.Connection.Administration
             }
 
             return await HubConnection.InvokeAsync<Dictionary<int, string>>
-                ("getFoodgroupListAsync");
+                ("GetFoodgroupListAsync");
+        }
+
+        public async Task<Dictionary<int, string>> GetUnitListAsync()
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            return await HubConnection.InvokeAsync<Dictionary<int, string>>
+                ("GetUnitListAsync");
+        }
+
+        public async Task<Dictionary<int, string>> GetIngredientListAsync()
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            return await HubConnection.InvokeAsync<Dictionary<int, string>>
+                ("GetIngredientListAsync");
         }
     }
 }

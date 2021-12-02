@@ -23,5 +23,11 @@ namespace BusinessServer.Hubs
         {
             return await UserService.GetGuestUserAsync();
         }
+
+        public async Task<RegisteredUser> GetUserAsync(string username)
+        {
+            return await UserService.GetUserAsync(username);
+        }
     }
+    
 }

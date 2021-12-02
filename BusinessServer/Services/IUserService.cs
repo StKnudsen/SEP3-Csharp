@@ -8,5 +8,6 @@ namespace BusinessServer.Services
     {
         Task<bool> ValidateUserAsync(string username, string password);
         Task<GuestUser> GetGuestUserAsync();
+        Task<RegisteredUser> GetUserAsync(string username);
     }
 }

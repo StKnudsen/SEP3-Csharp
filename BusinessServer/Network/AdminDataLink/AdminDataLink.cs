@@ -41,10 +41,33 @@ namespace BusinessServer.Network.AdminDataLink
             return responseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
+        public async Task<bool> AddRecipeAsync(Recipe recipe)
+        {
+            
+            using HttpClient client = new HttpClient();
+            string recipeJson = JsonSerializer.Serialize(recipe, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            
+            HttpContent content = new StringContent(
+                recipeJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseMessage = await client.PostAsync(
+                $"{uri}/recipes" , content);
+            
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception("Kunne ikke tilføje opskrift");
+            }
+
+            return responseMessage.IsSuccessStatusCode;
+        }
+
+        public async Task<Dictionary<int, string>> getFoodgroupList()
         {
             using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"{uri}/foodgroups");
+            HttpResponseMessage response = await client.GetAsync
+                ($"{uri}/foodgroups");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -79,6 +102,31 @@ namespace BusinessServer.Network.AdminDataLink
                 });
 
             return IngredientsList;
+        }
+
+        public async Task<Dictionary<int, string>> GetUnitListAsync()
+        {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{uri}/units");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"StatusCode: {response.StatusCode}");
+            }
+
+            string responseAsString = await response.Content.ReadAsStringAsync();
+            Dictionary<int, string> UnitsList = 
+                JsonSerializer.Deserialize<Dictionary<int, string>>(responseAsString, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            return UnitsList;
+        }
+
+        public Task<Dictionary<int, string>> GetRecipeListAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

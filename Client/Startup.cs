@@ -36,6 +36,8 @@ namespace Client
             {
                 options.AddPolicy("SignedIn", a =>
                     a.RequireAuthenticatedUser().RequireClaim("SignedIn", "true"));
+                options.AddPolicy("Admin",a => 
+                    a.RequireAuthenticatedUser().RequireClaim("Admin", "Admin"));
             });
 
             services.AddSignalR(options => 

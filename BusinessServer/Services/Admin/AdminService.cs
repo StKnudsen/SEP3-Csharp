@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BusinessServer.Network;
 using BusinessServer.Network.AdminDataLink;
+using SharedLibrary.Models;
 
 namespace BusinessServer.Services.Admin
 {
@@ -11,6 +12,8 @@ namespace BusinessServer.Services.Admin
     {
         private Dictionary<int, string> ingredientList;
         private Dictionary<int, string> foodGroupList;
+        private Dictionary<int, string> unitList;
+        private Dictionary<int, string> recipeList;
 
         private readonly IAdminDataLink AdminDataLink;
 
@@ -18,7 +21,9 @@ namespace BusinessServer.Services.Admin
         {
             AdminDataLink = new AdminDataLink();
             ingredientList = GetIngredientListAsync().Result;
-            GetFoodgroupListAsync();
+            foodGroupList = GetFoodgroupListAsync().Result;
+            unitList = GetUnitListAsync().Result;
+            recipeList = GetRecipeListAsync().Result;
         }
 
         public async Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId)
@@ -27,20 +32,42 @@ namespace BusinessServer.Services.Admin
             {
                 throw new Exception("Ingrediens findes allerede i databasen");
             }
-          
+
             await AdminDataLink.AddIngredientAsync(ingredientName, _foodGroupId);
             await GetIngredientListAsync();
             return true;
         }
 
+        public async Task<bool> AddRecipeAsync(Recipe recipe)
+        {
+            if (recipeList.ContainsValue(recipe.Name.ToLower()))
+            {
+                throw new Exception("Opskrift findes allerede i databasen");
+            }
+
+            await AdminDataLink.AddRecipeAsync(recipe);
+            await GetRecipeListAsync();
+            return true;
+        }
+
         public async Task<Dictionary<int, string>> GetIngredientListAsync()
         {
-          return ingredientList = await AdminDataLink.GetIngredientListAsync();
+            return ingredientList = await AdminDataLink.GetIngredientListAsync();
         }
 
         public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
         {
-           return foodGroupList = await AdminDataLink.GetFoodgroupListAsync();
+            return foodGroupList = await AdminDataLink.getFoodgroupList();
+        }
+
+        public async Task<Dictionary<int, string>> GetUnitListAsync()
+        {
+            return unitList = await AdminDataLink.GetUnitListAsync();
+        }
+
+        private async Task<Dictionary<int,string>> GetRecipeListAsync()
+        {
+            return recipeList = await AdminDataLink.GetRecipeListAsync();
         }
     }
 }

@@ -12,12 +12,12 @@ namespace BusinessServer.Services
 {
     public class UserService : IUserService
     {
-        private readonly IDataLink DataLink;
+        private readonly IUserDataLink _userDataLink;
         private IList<int[]> UsedGuestValues;
 
         public UserService()
         {
-            DataLink = new DataLink();
+            _userDataLink = new UserDataLink();
             UsedGuestValues = new List<int[]>();
         }
 
@@ -27,7 +27,7 @@ namespace BusinessServer.Services
 
             string hashPassword = hashCheck.GenerateHash(password);
 
-            RegisteredUser controlUser = await DataLink.GetUserAsync(username);
+            RegisteredUser controlUser = await _userDataLink.GetUserAsync(username);
 
             return hashCheck.Compare(hashPassword, controlUser.Password);
         }
@@ -48,12 +48,17 @@ namespace BusinessServer.Services
 
             } while (UsedGuestValues.Contains(guest));
 
-            return await DataLink.GetGuestUserAsync(colour, animal);
+            return await _userDataLink.GetGuestUserAsync(colour, animal);
+        }
+
+        public async Task<RegisteredUser> GetUserAsync(string username)
+        {
+            return await _userDataLink.GetUserAsync(username);
         }
 
         private async Task<ColourAnimalCount> GetColourAnimalCountAsync()
         {
-            return await DataLink.GetColourAnimalCountAsync();
+            return await _userDataLink.GetColourAnimalCountAsync();
         }
     }
 }

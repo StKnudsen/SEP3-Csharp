@@ -64,13 +64,9 @@ namespace Client.Connection.Authentication
             bool response = await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password);
             if (response)
             {
-                RegisteredUser user = new RegisteredUser
-                {
-                    Username = username,
-                    Password = password
-                };
+               RegisteredUser user = await HubConnection.InvokeAsync<RegisteredUser>("GetUserAsync", username);
 
-                identity = SetupClaimsForUser(user);
+               identity = SetupClaimsForUser(user);
                 string serializedData = JsonSerializer.Serialize(user);
                 await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serializedData);
                 CachedUser = user;
@@ -111,6 +107,7 @@ namespace Client.Connection.Authentication
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, user.Username));
             claims.Add(new Claim("SignedIn", "true"));
+            claims.Add(new Claim( "Admin","Admin"));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth_type");
             return identity;

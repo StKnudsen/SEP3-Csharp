@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BusinessServer.Services.Admin;
 using Microsoft.AspNetCore.SignalR;
+using SharedLibrary.Models;
 
 namespace BusinessServer.Hubs
 {
     public class AdminHub : Hub
     {
-
         private readonly IAdminService AdminService;
 
         public AdminHub()
@@ -26,12 +26,53 @@ namespace BusinessServer.Hubs
             {
                 throw (new Exception(e.Message));
             }
-            
+        }   
+        public async Task<bool> AddRecipeAsync(Recipe recipe)
+        {
+            try
+            {
+                return await AdminService.AddRecipeAsync(recipe);
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
         }
 
-        public async Task<Dictionary<int, string>> getFoodgroupListAsync()
+        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
         {
-           return await AdminService.GetFoodgroupListAsync();
+            try
+            {
+                return await AdminService.GetFoodgroupListAsync();
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
+        }
+
+        public async Task<Dictionary<int, string>> GetIngredientListAsync()
+        {
+            try
+            {
+                return await AdminService.GetIngredientListAsync();
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
+        }
+
+        public async Task<Dictionary<int, string>> GetUnitListAsync()
+        {
+            try
+            {
+                return await AdminService.GetUnitListAsync();
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
         }
     }
 }
