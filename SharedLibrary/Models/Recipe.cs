@@ -6,5 +6,10 @@ namespace SharedLibrary.Models
     {
         public string Name { get; set; }
         public List<RecipeIngredient> RecipeIngredient { get; set; }
+
+        public Recipe()
+        {
+            RecipeIngredient = new List<RecipeIngredient>();
+        }
     }
 }

@@ -54,6 +54,8 @@ namespace BusinessServer.Network.AdminDataLink
                 recipeJson, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await client.PostAsync(
                 $"{uri}/addrecipe" , content);
+
+            Console.WriteLine("Jeg nåede til AdminDataLink");
             
             if (!responseMessage.IsSuccessStatusCode)
             {

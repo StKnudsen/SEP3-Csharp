@@ -65,7 +65,7 @@
                                         @{
                                             foreach (string ingredient in ShowIngredientsList)
                                             {
-                                                <option value="@ingredient">@ingredient</option>
+                                                <option value="@ingredient" bind-value="addedIngredient">@ingredient</option>
                                             }
                                         }
                                     </datalist>
@@ -103,6 +103,7 @@
     public int _unitId { set; get; }
     public string ingredientName { get; set; } 
     public string ingredient { get; set; }
+    public string addedIngredient { get; set; }
     public string unitName { get; set; }
     public string label { get; set; }
     public int amount { get; set; }
@@ -148,11 +149,12 @@
     {
         RecipeIngredient recipeIngredient = new RecipeIngredient()
         {
-            IngredientName = ingredient,
+            IngredientName = addedIngredient,
             Amount = amount,
             UnitId = _unitId
         };
         NewRecipeIngredients.Add(recipeIngredient);
+        Console.WriteLine("Ingredienser: " + NewRecipeIngredients.Count);
     }
 
     private async Task AddRecipeAsync()
@@ -162,8 +164,12 @@
             Recipe recipe = new Recipe()
             {
                 Name = recipeName,
-                RecipeIngredient = NewRecipeIngredients
             };
+            foreach (RecipeIngredient recipeIngredient in NewRecipeIngredients)
+                {
+                   recipe.RecipeIngredient.Add(recipeIngredient);
+                }
+            Console.WriteLine("Listen med ingredienser på oprettet opskrift i admin.razor: " + recipe.RecipeIngredient.ToList());
             bool result = await _administration.AddRecipeAsync(recipe);
 
             if (result)
@@ -177,7 +183,8 @@
         }
         catch (Exception e)
         {
-            label = "Noget gik galt, kontakt backend";
+            label = "Noget gik galt med tilføjelse af opskrift, kontakt backend";
+            Console.WriteLine(e.StackTrace);
         }
     }
 

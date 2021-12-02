@@ -47,9 +47,9 @@ namespace Client.Connection.Administration
                     HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
                     await HubConnection.StartAsync();
                 }
-                
-                return  await HubConnection.InvokeAsync<bool>
-                    ("AddRecipeAsync", recipe);
+
+                Console.WriteLine("Administration: " + recipe.RecipeIngredient);
+                return await HubConnection.InvokeAsync<bool>("AddRecipeAsync", recipe);
             }
             catch (Exception e)
             {
