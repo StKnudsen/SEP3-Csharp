@@ -20,8 +20,13 @@ namespace BusinessServer.Services
             try
             {
                 Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
-                group.Users.Add(user);
-                return true;
+                if (group.SwipeType is null)
+                {
+                    group.Users.Add(user);
+                    return true;
+                }
+
+                throw new Exception();
             }
             catch (Exception e)
             {
@@ -52,6 +57,11 @@ namespace BusinessServer.Services
         public Group GetGroupFromId(string groupId)
         {
             return ActiveGroups.Find(g => g.Id.Equals(groupId));
+        }
+
+        public async Task SetSwipeType(string groupId, string type)
+        {
+            GetGroupFromId(groupId).SwipeType = type;
         }
 
 

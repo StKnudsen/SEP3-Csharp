@@ -7,6 +7,7 @@ namespace SharedLibrary.Models
         public string Id { get; set; }
         public User GroupOwner { get; set; }
         public IList<User> Users { get; set; }
+        public string SwipeType { get; set; }
 
         public Group(){}
         

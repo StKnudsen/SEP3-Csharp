@@ -8,5 +8,6 @@ namespace BusinessServer.Services
         Task<bool> AddUserToGroupAsync(User user, string groupId);
         Task<string> CreateNewGroupAsync(User groupOwner);
         Group GetGroupFromId(string groupId);
+        Task SetSwipeType(string groupId, string type);
     }
 }

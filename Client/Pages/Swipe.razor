@@ -12,7 +12,7 @@
     {
         <p>Page loading...</p>
     }
-    else if (!Group.Users.Contains(User))
+    else if (!IsGroupMember())
     {
         <p>Skrid pomfrit, det er en lukket fest!</p>
     }
@@ -35,10 +35,29 @@
     protected override async Task OnInitializedAsync()
     {
         Group = await GroupManager.GetGroupFromIdAsync(groupId);
-        await GetUsername();
+        await GetUser();
+        foreach (User user in Group.Users)
+        {
+            Console.WriteLine(user.Username);
+            Console.WriteLine(user == User);
+        }
+        Console.WriteLine(User.Username);
     }
 
-    private async Task GetUsername()
+    private bool IsGroupMember()
+    {
+        foreach (User user in Group.Users)
+        {
+            if (user.Username.Equals(User.Username))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private async Task GetUser()
     {
         string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
         if (userAsJson is not null)

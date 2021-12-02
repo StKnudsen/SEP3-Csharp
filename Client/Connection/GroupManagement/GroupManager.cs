@@ -62,9 +62,15 @@ namespace Client.Connection.GroupManagement
             return true;
         }
 
+        public async Task SetSwipeType(string groupId, string type)
+        {
+            await HubConnection.InvokeAsync("SetSwipeType", groupId, type);
+        }
+
         public async Task RegisterPage(Groups page)
         {
             HubConnection.On("UpdateGroup", page.ForceGroupUpdate);
+            HubConnection.On("SwipeStart", page.SwipeStart);
         }
         
     }

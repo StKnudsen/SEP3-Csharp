@@ -42,10 +42,15 @@ namespace BusinessServer.Hubs
             return false;
         }
 
-        private Task UpdateGroupAsync(string groupId)
+        public async Task SetSwipeType(string groupId, string type)
         {
-            //Object[] group = {await GetGroupFromIdAsync(groupId)};
-            return Clients.Group(groupId).SendAsync("UpdateGroup");
+            await GroupService.SetSwipeType(groupId, type);
+            await Clients.Group(groupId).SendAsync("SwipeStart");
+        }
+
+        private async Task UpdateGroupAsync(string groupId)
+        {
+            await Clients.Group(groupId).SendAsync("UpdateGroup");
         }
     }
 }

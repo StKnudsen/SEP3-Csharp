@@ -10,5 +10,6 @@ namespace Client.Connection.GroupManagement
         Task<Group> GetGroupFromIdAsync(string groupId);
         Task<bool> JoinGroupAsync(User user, string groupId);
         Task RegisterPage(Groups page);
+        Task SetSwipeType(string groupId, string type);
     }
 }

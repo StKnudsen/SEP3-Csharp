@@ -94,6 +94,11 @@
         await InvokeAsync(StateHasChanged);
     }
 
+    public void SwipeStart()
+    {
+        NavigationManager.NavigateTo($"/Swipe/{groupId}");
+    }
+
     private async Task GetUsername()
     {
         string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
@@ -111,7 +116,6 @@
 
     private void StartGroupSwipe()
     {
-        NavigationManager.NavigateTo($"/Swipe/{groupId}");
+        GroupManager.SetSwipeType(groupId, SwipeTypeSelected);
     }
-
 }
