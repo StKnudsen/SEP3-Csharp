@@ -60,7 +60,7 @@
                         <td>
                             <div class="dropdown">
                                 <div id="myDropdown" class="dropdown-content show">
-                                    <input list="ingredients" type="text" placeholder="Søg.." @bind-value="ingredientName" @oninput="(arg) => Filter(arg)">
+                                    <input list="ingredients" type="text" placeholder="Søg.." @bind-value="ingredient" @oninput="(arg) => Filter(arg)">
                                     <datalist id="ingredients">
                                         @{
                                             foreach (string ingredient in ShowIngredientsList)
@@ -101,7 +101,8 @@
 @code {
     public int _foodGroupId { set; get; }
     public int _unitId { set; get; }
-    public string ingredientName { get; set; }
+    public string ingredientName { get; set; } 
+    public string ingredient { get; set; }
     public string unitName { get; set; }
     public string label { get; set; }
     public int amount { get; set; }
@@ -147,7 +148,7 @@
     {
         RecipeIngredient recipeIngredient = new RecipeIngredient()
         {
-            IngredientName = ingredientName,
+            IngredientName = ingredient,
             Amount = amount,
             UnitId = _unitId
         };

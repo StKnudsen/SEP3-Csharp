@@ -31,7 +31,7 @@ namespace BusinessServer.Network.AdminDataLink
             HttpContent content = new StringContent(
                 ingredientNameJson, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await client.PostAsync(
-                $"{uri}/ingredients" , content);
+                $"{uri}/addingredients" , content);
             
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -53,7 +53,7 @@ namespace BusinessServer.Network.AdminDataLink
             HttpContent content = new StringContent(
                 recipeJson, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await client.PostAsync(
-                $"{uri}/recipes" , content);
+                $"{uri}/addrecipe" , content);
             
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -124,9 +124,24 @@ namespace BusinessServer.Network.AdminDataLink
             return UnitsList;
         }
 
-        public Task<Dictionary<int, string>> GetRecipeListAsync()
+        public async Task<Dictionary<int, string>> GetRecipeListAsync()
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{uri}/recipes");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"StatusCode: {response.StatusCode}");
+            }
+
+            string responseAsString = await response.Content.ReadAsStringAsync();
+            Dictionary<int, string> RecipesList = 
+                JsonSerializer.Deserialize<Dictionary<int, string>>(responseAsString, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            return RecipesList;
         }
     }
 }

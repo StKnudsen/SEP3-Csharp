@@ -49,7 +49,10 @@ namespace BusinessServer.Services.Admin
             await GetRecipeListAsync();
             return true;
         }
-
+        private async Task<Dictionary<int,string>> GetRecipeListAsync()
+        {
+            return recipeList = await AdminDataLink.GetRecipeListAsync();
+        }
         public async Task<Dictionary<int, string>> GetIngredientListAsync()
         {
             return ingredientList = await AdminDataLink.GetIngredientListAsync();
@@ -65,9 +68,6 @@ namespace BusinessServer.Services.Admin
             return unitList = await AdminDataLink.GetUnitListAsync();
         }
 
-        private async Task<Dictionary<int,string>> GetRecipeListAsync()
-        {
-            return recipeList = await AdminDataLink.GetRecipeListAsync();
-        }
+      
     }
 }

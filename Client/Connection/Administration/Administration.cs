@@ -49,7 +49,7 @@ namespace Client.Connection.Administration
                 }
                 
                 return  await HubConnection.InvokeAsync<bool>
-                    ("AddRecipeAsync",recipe);
+                    ("AddRecipeAsync", recipe);
             }
             catch (Exception e)
             {
