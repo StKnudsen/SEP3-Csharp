@@ -1,0 +1,51 @@
+﻿@page "/Swipe/{groupId}"
+@using SharedLibrary.Models
+@using System.Text.Json
+@using Client.Connection.GroupManagement
+@inject IGroupManager GroupManager
+@inject IJSRuntime JsRuntime
+
+@attribute [Authorize(Policy = "SignedIn")]
+
+<AuthorizeView>
+    @if (Group is null)
+    {
+        <p>Page loading...</p>
+    }
+    else if (!Group.Users.Contains(User))
+    {
+        <p>Skrid pomfrit, det er en lukket fest!</p>
+    }
+    else
+    {
+        <div class="mt-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300 flex flex-wrap">
+            plyf
+        </div>
+    }
+</AuthorizeView>
+
+@code {
+
+    [Parameter]
+    public string groupId { get; set; }
+
+    private Group Group { get; set; }
+    private User User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Group = await GroupManager.GetGroupFromIdAsync(groupId);
+        await GetUsername();
+    }
+
+    private async Task GetUsername()
+    {
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (userAsJson is not null)
+        {
+            User = JsonSerializer.Deserialize<User>(userAsJson);
+        }
+    }
+
+}
+
