@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessServer.Network.Group;
 using SharedLibrary.Models;
 
 namespace BusinessServer.Services
 {
     public class GroupService : IGroupService
     {
+        private readonly IGroupDataLink DataLink;
         private List<Group> ActiveGroups;
 
         public GroupService()
         {
             ActiveGroups = new List<Group>();
+            DataLink = new GroupDataLink();
         }
 
         public async Task<bool> AddUserToGroupAsync(User user, string groupId)
@@ -20,8 +23,13 @@ namespace BusinessServer.Services
             try
             {
                 Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
-                group.Users.Add(user);
-                return true;
+                if (group.SwipeType is null)
+                {
+                    group.Users.Add(user);
+                    return true;
+                }
+
+                throw new Exception();
             }
             catch (Exception e)
             {
@@ -54,6 +62,48 @@ namespace BusinessServer.Services
             return ActiveGroups.Find(g => g.Id.Equals(groupId));
         }
 
+        public async Task SetSwipeType(string groupId, string type)
+        {
+            Group Group = GetGroupFromId(groupId);
+            Group.SwipeType = type;
+            
+            if (type.Equals("Opskrifter"))
+            {
+                Group.SwipeObject = await DataLink.GetShuffledRecipes();
+            }
+            
+            if (type.Equals("Restauranter"))
+            {
+                Group.SwipeObject = await DataLink.GetShuffledRestaurants();
+            }
+        }
+
+        public async Task<bool> CastVote(string groupId, int id)
+        {
+            Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
+
+            if (group.Votes.Count != 0)
+            {
+                foreach (Vote vote in group.Votes)
+                {
+                    if (vote.SwipeObjectId == id)
+                    {
+                        vote.Votes++;
+                        if (vote.Votes == group.Users.Count)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }
+                }
+            }
+            
+            group.Votes.Add(new Vote(id));
+
+            return false;
+        }
+
 
         private static Random random = new();
 
@@ -63,5 +113,7 @@ namespace BusinessServer.Services
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+        
+        
     }
 }

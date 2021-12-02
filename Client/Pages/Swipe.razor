@@ -1,0 +1,87 @@
+﻿@page "/Swipe/{groupId}"
+@using SharedLibrary.Models
+@using System.Text.Json
+@using Client.Connection.GroupManagement
+@inject IGroupManager GroupManager
+@inject IJSRuntime JsRuntime
+
+@attribute [Authorize(Policy = "SignedIn")]
+
+<AuthorizeView>
+    @if (Group is null)
+    {
+        <p>Page loading...</p>
+    }
+    else if (!IsGroupMember())
+    {
+        <p>Skrid pomfrit, det er en lukket fest!</p>
+    }
+    else
+    {
+        <div class="mt-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300 flex flex-wrap">
+            @Group.SwipeObject[SwipeCount].Key
+            @Group.SwipeObject[SwipeCount].Value
+            <button @onclick="VoteNo" class="px-4 pt-2 bg-red-700 text-gray-100 rounded">Nope</button>
+            <button @onclick="VoteYes" class="px-4 pt-2 bg-green-700 text-gray-100 rounded">Haps</button>
+        </div>
+    }
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string groupId { get; set; }
+    private int SwipeCount = 0;
+    public Group Group { get; set; }
+    private User User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Group = await GroupManager.GetGroupFromIdAsync(groupId);
+        await GetUser();
+        await GroupManager.RegisterSwipePage(this);
+    }
+
+    public void Match(int id)
+    {
+        Console.WriteLine($"Tinanana-nananana-nanana giver KAGE! {id}");
+    }
+
+    private bool IsGroupMember()
+    {
+        foreach (User user in Group.Users)
+        {
+            if (user.Username.Equals(User.Username))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private async Task GetUser()
+    {
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (userAsJson is not null)
+        {
+            User = JsonSerializer.Deserialize<User>(userAsJson);
+        }
+    }
+
+    private async Task VoteYes()
+    {
+        await GroupManager.CastVote(groupId, Group.SwipeObject[SwipeCount].Key);
+        UpdateCount();
+    }
+
+    private async Task VoteNo()
+    {
+        UpdateCount();
+    }
+
+    private void UpdateCount()
+    {
+        SwipeCount++;
+    }
+}
+

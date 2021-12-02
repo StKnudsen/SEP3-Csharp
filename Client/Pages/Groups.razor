@@ -1,8 +1,10 @@
 ﻿@page "/Groups/{groupId}"
 @using SharedLibrary.Models
 @using Client.Connection.GroupManagement
+@using System.Text.Json
 @inject NavigationManager NavigationManager
 @inject IGroupManager GroupManager
+@inject IJSRuntime JsRuntime
 
 @attribute [Authorize(Policy = "SignedIn")]
 
@@ -15,19 +17,20 @@
     {
         <div class="mt-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300 flex flex-wrap">
             <form class="w-full max-w-lg">
+                <h2 class="my-4 mr-auto text-xl uppercase text-center">
+                    Hej @Username
+                </h2>
                 <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-recipes">
-                            Opskrifter
-                        </label>
-                        <input class="border rounded border-gray-400 mb-2" id="grid-recipes" type="radio" name="toggle" @bind-value="recipes">
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-restaurants">
-                            Restauranter
-                        </label>
-                        <input class="border rounded border-gray-400 mb-2" id="grid-restaurants" type="radio" name="toggle" @bind-value="restaurants">
-                    </div>
+                    @foreach (string type in SwipeOptions)
+                    {
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="@type">
+                                @type
+                            </label>
+                            <input class="border rounded border-gray-400 mb-2" id="@type" value="@type" type="radio" @onchange="SwipeSelection"
+                                   checked="@(SwipeTypeSelected.Equals(type, StringComparison.OrdinalIgnoreCase))" name="toggle">
+                        </div>
+                    }
                 </div>
                 <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -36,11 +39,14 @@
                         </label>
                         <input class="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4" id="grid-zip" type="text" placeholder="8700" @bind-value="zip">
                     </div>
-                    <div class="w-full md:w-1/2 px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-start">
-                        </label>
-                        <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" id="grid-start" type="button" value="Start" @onclick="StartGroupSwipe">
-                    </div>
+                    @if (Username.Equals(group.GroupOwner.Username))
+                    {
+                        <div class="w-full md:w-1/2 px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-start">
+                            </label>
+                            <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" id="grid-start" type="button" value="Start" @onclick="StartGroupSwipe">
+                        </div>
+                    }
                 </div>
             </form>
             <table class="w-full divide-gray-200 border border-gray-200 shadow rounded overflow-auto">
@@ -54,7 +60,7 @@
                         <tr>
                             <td>@user.Username</td>
                         </tr>
-                    </div>  
+                    </div>
                 }
                 </tbody>
             </table>
@@ -69,15 +75,17 @@
     public string groupId { get; set; }
 
     private Group group { get; set; }
+    private string Username { get; set; }
 
-    private bool recipes { get; set; }
-    private bool restaurants { get; set; }
+    private string[] SwipeOptions = {"Opskrifter", "Restauranter"};
+    private string SwipeTypeSelected = "Opskrifter";
     private int? zip { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        await GroupManager.RegisterPage(this);
+        await GroupManager.RegisterGroupPage(this);
         group = await GroupManager.GetGroupFromIdAsync(groupId);
+        await GetUsername();
     }
 
     public async void ForceGroupUpdate()
@@ -86,16 +94,28 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    private void StartGroupSwipe()
+    public void SwipeStart()
     {
-        if (recipes)
+        NavigationManager.NavigateTo($"/Swipe/{groupId}");
+    }
+
+    private async Task GetUsername()
+    {
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (userAsJson is not null)
         {
-    //todo: noget
-        }
-        else if (restaurants)
-        {
-    //todo: noget andet med zip
+            User user = JsonSerializer.Deserialize<User>(userAsJson);
+            Username = user?.Username;
         }
     }
 
+    private void SwipeSelection(ChangeEventArgs args)
+    {
+        SwipeTypeSelected = args.Value?.ToString();
+    }
+
+    private void StartGroupSwipe()
+    {
+        GroupManager.SetSwipeType(groupId, SwipeTypeSelected);
+    }
 }

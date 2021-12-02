@@ -62,10 +62,25 @@ namespace Client.Connection.GroupManagement
             return true;
         }
 
-        public async Task RegisterPage(Groups page)
+        public async Task SetSwipeType(string groupId, string type)
+        {
+            await HubConnection.InvokeAsync("SetSwipeType", groupId, type);
+        }
+
+        public async Task RegisterGroupPage(Groups page)
         {
             HubConnection.On("UpdateGroup", page.ForceGroupUpdate);
+            HubConnection.On("SwipeStart", page.SwipeStart);
         }
         
+        public async Task RegisterSwipePage(Swipe page)
+        {
+            HubConnection.On<int>("Match", page.Match);
+        }
+
+        public async Task CastVote(string groupId, int id)
+        {
+            await HubConnection.InvokeAsync("CastVote", groupId, id);
+        }
     }
 }

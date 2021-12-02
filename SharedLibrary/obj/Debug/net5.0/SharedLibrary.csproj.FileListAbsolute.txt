@@ -22,3 +22,15 @@ C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\S
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.dll
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\ref\SharedLibrary.dll
 C:\Users\Tina Hadberg\RiderProjects\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.pdb
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\bin\Debug\net5.0\SharedLibrary.deps.json
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\bin\Debug\net5.0\SharedLibrary.dll
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\bin\Debug\net5.0\ref\SharedLibrary.dll
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\bin\Debug\net5.0\SharedLibrary.pdb
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.csproj.AssemblyReference.cache
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.AssemblyInfoInputs.cache
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.AssemblyInfo.cs
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.csproj.CoreCompileInputs.cache
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.dll
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\ref\SharedLibrary.dll
+C:\Users\zteph\RiderProjects\Playground\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.pdb

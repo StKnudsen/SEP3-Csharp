@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Bent\\.nuget\\packages\\": {}
+    "C:\\Users\\zteph\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\SharedLibrary\\SharedLibrary.csproj",
+      "projectUniqueName": "C:\\Users\\zteph\\RiderProjects\\Playground\\SEP3-Csharp\\SharedLibrary\\SharedLibrary.csproj",
       "projectName": "SharedLibrary",
-      "projectPath": "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\SharedLibrary\\SharedLibrary.csproj",
-      "packagesPath": "C:\\Users\\Bent\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Bent\\RiderProjects\\SEP3-Csharp\\SharedLibrary\\obj\\",
+      "projectPath": "C:\\Users\\zteph\\RiderProjects\\Playground\\SEP3-Csharp\\SharedLibrary\\SharedLibrary.csproj",
+      "packagesPath": "C:\\Users\\zteph\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\zteph\\RiderProjects\\Playground\\SEP3-Csharp\\SharedLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Bent\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\zteph\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -58,7 +58,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
