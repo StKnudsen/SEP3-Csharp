@@ -60,7 +60,9 @@ namespace BusinessServer.Services
 
         public Group GetGroupFromId(string groupId)
         {
-            return ActiveGroups.Find(g => g.Id.Equals(groupId));
+            Console.WriteLine(ActiveGroups.Count);
+            Group groupFromId = ActiveGroups.Find(g => g.Id.Equals(groupId));
+            return groupFromId;
         }
 
         public async Task SetSwipeType(string groupId, string type)
