@@ -5,8 +5,10 @@ namespace BusinessServer.Services
 {
     public interface IGroupService
     {
-        Task AddUserToGroupAsync(User user, string groupId);
+        Task<bool> AddUserToGroupAsync(User user, string groupId);
         Task<string> CreateNewGroupAsync(User groupOwner);
-        Task<Group> GetGroupFromId(string groupId);
+        Group GetGroupFromId(string groupId);
+        Task SetSwipeType(string groupId, string type);
+        Task<bool> CastVote(string groupId, int id);
     }
 }

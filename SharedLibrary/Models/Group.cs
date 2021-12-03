@@ -1,14 +1,16 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SharedLibrary.Models
 {
     public class Group
     {
         public string Id { get; set; }
+        public string SwipeType { get; set; }
         public User GroupOwner { get; set; }
         public IList<User> Users { get; set; }
+        public IList<CustomPair> SwipeObject { get; set; }
+        
+        public IList<Vote> Votes { get; set; }
 
         public Group(){}
         
@@ -20,6 +22,7 @@ namespace SharedLibrary.Models
             {
                 GroupOwner
             };
+            Votes = new List<Vote>();
         }
     }
 }

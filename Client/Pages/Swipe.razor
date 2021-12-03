@@ -1,0 +1,162 @@
+﻿@page "/Swipe/{groupId}"
+@using SharedLibrary.Models
+@using System.Text.Json
+@using Client.Connection.GroupManagement
+@inject IGroupManager GroupManager
+@inject IJSRuntime JsRuntime
+
+@attribute [Authorize(Policy = "SignedIn")]
+
+<AuthorizeView>
+    @if (Group is null)
+    {
+        <PageLoading/>
+    }
+    else if (!IsGroupMember())
+    {
+        <p>Skrid pomfrit, det er en lukket fest!</p>
+    }
+    else
+    {
+        <!-- component -->
+        <div class="p-16">
+            <div class="w-full m-auto ">
+                @if (!IsMatch)
+                {
+                    @if (!IsWaiting)
+                    {
+                        <div class="w-4/5 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
+                            
+                            <SwipeObject SwipeTitle="@SwipeTitle" ImgUrl="https://picsum.photos/640/600/?random" />
+                            
+                            <div class="flex items-center justify-between p-4">
+
+                                <button
+                                    class="w-1/2 py-6 px-4 bg-red-700 hover:bg-red-500 text-white text-2xl rounded-l-xl transition duration-500"
+                                    @onclick="VoteNo">
+                                    Nej tak
+                                </button>
+
+                                <button
+                                    class="w-1/2 py-6 px-4 bg-green-700 hover:bg-green-500 text-white text-2xl rounded-r-xl transition duration-500"
+                                    @onclick="VoteYes">
+                                    Ja tak!
+                                </button>
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="w-4/5 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
+                            <header class="items-center py-12 px-4 text-center">
+                                <h3 class="text-2xl text-center text-gray-800">
+                                    Venter på gruppen bliver færdig...
+                                </h3>
+                            </header>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="w-4/5 py-2 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
+                        <div class="flex items-center justify-between p-2">
+                            <h3 class="ml-4 text-4xl text-gray-800">
+                                Hurra... I fandt et match!
+                            </h3>
+                        </div>
+                        
+                        <SwipeObject SwipeTitle="@SwipeTitle" ImgUrl="https://picsum.photos/640/600/?random" />
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+</AuthorizeView>
+
+@code {
+
+    [Parameter]
+    public string groupId { get; set; }
+
+    public bool IsWaiting = false;
+    public bool IsMatch = false;
+    private int SwipeCount = 0;
+    public string SwipeTitle { get; set; }
+
+    public Group Group { get; set; }
+    private User User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Group = await GroupManager.GetGroupFromIdAsync(groupId);
+        await GetUser();
+        await GroupManager.RegisterSwipePage(this);
+        SwipeTitle = Group.SwipeObject[SwipeCount].Value;
+    }
+
+    public async Task Match(int id)
+    {
+        IsMatch = true;
+        foreach (CustomPair pair in Group.SwipeObject)
+        {
+            if (pair.Key == id)
+            {
+                SwipeTitle = pair.Value;
+            }
+        }
+        
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private bool IsGroupMember()
+    {
+        foreach (User user in Group.Users)
+        {
+            if (user.Username.Equals(User.Username))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private async Task GetUser()
+    {
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (userAsJson is not null)
+        {
+            User = JsonSerializer.Deserialize<User>(userAsJson);
+        }
+    }
+
+    private async Task VoteYes()
+    {
+        await GroupManager.CastVote(groupId, Group.SwipeObject[SwipeCount].Key);
+        UpdateCount();
+    }
+
+    private async Task VoteNo()
+    {
+        UpdateCount();
+    }
+
+    private void UpdateCount()
+    {
+        if (IsMatch) return;
+        
+        if (SwipeCount == Group.SwipeObject.Count - 1)
+        {
+            IsWaiting = true;
+        }
+        else
+        {
+            SwipeCount++;
+            SwipeTitle = Group.SwipeObject[SwipeCount].Value;
+        }
+    }
+
+}

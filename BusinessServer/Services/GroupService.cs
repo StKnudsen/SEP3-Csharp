@@ -2,25 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessServer.Network.Group;
 using SharedLibrary.Models;
+using SharedLibrary.Util;
 
 namespace BusinessServer.Services
 {
     public class GroupService : IGroupService
     {
+        private readonly IGroupDataLink DataLink;
         private List<Group> ActiveGroups;
 
         public GroupService()
         {
             ActiveGroups = new List<Group>();
+            DataLink = new GroupDataLink();
         }
 
-        public async Task AddUserToGroupAsync(User user, string groupId)
+        public async Task<bool> AddUserToGroupAsync(User user, string groupId)
         {
             try
             {
                 Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
-                group.Users.Add(user);
+                if (group.SwipeType is null)
+                {
+                    group.Users.Add(user);
+                    return true;
+                }
+
+                throw new Exception();
             }
             catch (Exception e)
             {
@@ -37,10 +47,9 @@ namespace BusinessServer.Services
                 {
                     groupId = RandomString(6);
                 } while (ActiveGroups.Any(g => g.Id.Equals(groupId)));
-            
+
                 Group newGroup = new Group(groupOwner, groupId);
                 ActiveGroups.Add(newGroup);
-                Console.WriteLine(ActiveGroups.Count);
                 return groupId;
             }
             catch (Exception e)
@@ -49,10 +58,51 @@ namespace BusinessServer.Services
             }
         }
 
-        public async Task<Group> GetGroupFromId(string groupId)
+        public Group GetGroupFromId(string groupId)
         {
-            Console.WriteLine(ActiveGroups.Count);
             return ActiveGroups.Find(g => g.Id.Equals(groupId));
+        }
+
+        public async Task SetSwipeType(string groupId, string type)
+        {
+            Group Group = GetGroupFromId(groupId);
+            Group.SwipeType = type;
+            
+            if (type.Equals(Util.RECIPE))
+            {
+                Group.SwipeObject = await DataLink.GetShuffledRecipes();
+            }
+            
+            if (type.Equals(Util.RESTAURANT))
+            {
+                Group.SwipeObject = await DataLink.GetShuffledRestaurants();
+            }
+        }
+
+        public async Task<bool> CastVote(string groupId, int id)
+        {
+            Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
+
+            if (group.Votes.Count != 0)
+            {
+                foreach (Vote vote in group.Votes)
+                {
+                    if (vote.SwipeObjectId == id)
+                    {
+                        vote.Votes++;
+                        if (vote.Votes == group.Users.Count)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }
+                }
+            }
+            
+            group.Votes.Add(new Vote(id));
+
+            return false;
         }
 
 
@@ -64,5 +114,7 @@ namespace BusinessServer.Services
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+        
+        
     }
 }

@@ -1,0 +1,21 @@
+<div class="p-4">
+    <img
+        src="@ImgUrl"
+        alt="Placeholder"
+        class="rounded-xl object-cover h-96 w-full"/>
+</div>
+
+<div class="">
+    <header class="flex items-center justify-between p-2">
+        <h3 class="ml-4 text-4xl text-gray-800">
+            @SwipeTitle
+        </h3>
+    </header>
+</div>
+
+@code {
+    [Parameter]
+    public string SwipeTitle { get; set; }
+    [Parameter]
+    public string ImgUrl { get; set; }
+}
