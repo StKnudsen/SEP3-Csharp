@@ -18,9 +18,13 @@
     {
         await base.OnInitializedAsync();
         var user = (await AuthStat).User;
-        if (!user.Identity.IsAuthenticated)
+        if (user.Identity != null && !user.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("/Login");
+        }
+        else if(user.Identity == null)
+        {
+            Console.WriteLine("User is null");
         }
     }
 }

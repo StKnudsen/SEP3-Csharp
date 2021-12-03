@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Connection" />
       <Folder Include="Data" />
     </ItemGroup>
 

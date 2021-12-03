@@ -1,0 +1,202 @@
+﻿@page "/Admin"
+@using Client.Connection.Administration
+@using SharedLibrary.Models
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IAdministration _administration
+
+
+<AuthorizeView Policy="Admin">
+
+    <h3>Admin</h3>
+
+    @{
+        <p>Tilføj ingrediens til fødevaregruppe</p>
+
+        if (FoodGroupList == null)
+        {
+            <p>Loader...</p>
+        }
+        else
+        {
+            <div>
+                <input type="text" @bind-value="ingredientName"/>
+
+                <select name="_foodgroupId" @bind="_foodGroupId">
+                    @{
+                        foreach (KeyValuePair<int, string> pair in FoodGroupList)
+                        {
+                            <option value="@pair.Key">@pair.Value</option>
+                        }
+                    }
+                </select>
+
+                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
+            </div>
+        }
+
+        <p>Tilføj opskrift</p>
+
+        if (ShowIngredientsList == null ||
+            UnitList == null)
+        {
+            <p>Loader...</p>
+        }
+        else
+        {
+            <div>
+                <input type="text" @bind-value="recipeName"/>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <td>Ingrediensnavn</td>
+                        <td>Mængde</td>
+                        <td>Måleenhed</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="dropdown">
+                                <div id="myDropdown" class="dropdown-content show">
+                                    <input list="ingredients" type="text" placeholder="Søg.." @bind-value="addedIngredient" @oninput="(arg) => Filter(arg)">
+                                    <datalist id="ingredients">
+                                        @{
+                                            foreach (string ingredient in ShowIngredientsList)
+                                            {
+                                                <option value="@ingredient">@ingredient</option>
+                                            }
+                                        }
+                                    </datalist>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text" @bind-value="amount"/>
+                        </td>
+                        <td>
+                            <select name="_unitId" @bind="_unitId">
+                                @{
+                                    foreach (KeyValuePair<int, string> pair in UnitList)
+                                    {
+                                        <option value="@pair.Key" selected="@pair.Key.Equals(1)">@pair.Value</option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ingrediens" type="submit" @onclick="AddIngredientToNewRecipeIngredientsListAsync"/>
+                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj opskrift" type="submit" @onclick="AddRecipeAsync"/>
+
+            </div>
+            <p>@label</p>
+        }
+    }
+
+</AuthorizeView>
+
+@code {
+    public int _foodGroupId { set; get; }
+    public int _unitId { set; get; }
+    public string ingredientName { get; set; } 
+    public string ingredient { get; set; }
+    public string addedIngredient { get; set; }
+    public string unitName { get; set; }
+    public string label { get; set; }
+    public int amount { get; set; }
+    public string recipeName { get; set; }
+
+    public Dictionary<int, string> FoodGroupList;
+    public Dictionary<int, string> UnitList;
+    public Dictionary<int, string> IngredientList;
+    public List<string> ShowIngredientsList;
+    public List<RecipeIngredient> NewRecipeIngredients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        FoodGroupList = await _administration.GetFoodgroupListAsync();
+        UnitList = await _administration.GetUnitListAsync();
+        IngredientList = await _administration.GetIngredientListAsync();
+        ShowIngredientsList = new List<string>(IngredientList.Values);
+        NewRecipeIngredients = new List<RecipeIngredient>();
+    }
+
+    private async Task AddIngredientAsync()
+    {
+        try
+        {
+            bool result = await _administration.AddIngredientAsync(ingredientName, _foodGroupId);
+
+            if (result)
+            {
+                label = "Succes";
+            }
+            else if (!result)
+            {
+                label = "Netværksfejl";
+            }
+        }
+        catch (Exception e)
+        {
+            label = "Noget gik galt, kontakt backend";
+        }
+    }
+
+    private void AddIngredientToNewRecipeIngredientsListAsync()
+    {
+        RecipeIngredient recipeIngredient = new RecipeIngredient()
+        {
+            IngredientName = addedIngredient,
+            Amount = amount,
+            UnitId = _unitId
+        };
+        NewRecipeIngredients.Add(recipeIngredient);
+        Console.WriteLine("Ingredienser: " + NewRecipeIngredients.Count);
+    }
+
+    private async Task AddRecipeAsync()
+    {
+        try
+        {
+            Recipe recipe = new Recipe()
+            {
+                Name = recipeName,
+            };
+            foreach (RecipeIngredient recipeIngredient in NewRecipeIngredients)
+                {
+                   recipe.RecipeIngredient.Add(recipeIngredient);
+                }
+            Console.WriteLine("Listen med ingredienser på oprettet opskrift i admin.razor: " + recipe.RecipeIngredient.Count);
+            bool result = await _administration.AddRecipeAsync(recipe);
+
+            if (result)
+            {
+                label = "Succes";
+            }
+            else if (!result)
+            {
+                label = "Netværksfejl";
+            }
+        }
+        catch (Exception e)
+        {
+            label = "Noget gik galt med tilføjelse af opskrift, kontakt backend";
+            Console.WriteLine(e.StackTrace);
+        }
+    }
+
+
+    private void Filter(ChangeEventArgs args)
+    {
+        List<string> match = new List<string>();
+        match.AddRange(IngredientList.Values);
+
+        ShowIngredientsList = match.Where(i => i.Contains(args.Value.ToString() ?? string.Empty)).ToList();
+    }
+
+
+
+}

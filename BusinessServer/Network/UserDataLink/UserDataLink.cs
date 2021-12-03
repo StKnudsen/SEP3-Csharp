@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BusinessServer.Models;
 using SharedLibrary.Models;
 
-namespace BusinessServer.Network
+namespace BusinessServer.Network.UserDataLink
 {
-    public class DataLink : IDataLink
+    public class UserDataLink : IUserDataLink
     {
         private readonly string uri = "http://localhost:8080";
 
@@ -69,5 +70,6 @@ namespace BusinessServer.Network
 
             return guest;
         }
+        
     }
 }

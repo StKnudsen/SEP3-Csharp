@@ -1,13 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using BusinessServer.Models;
 using SharedLibrary.Models;
 
-namespace BusinessServer.Network
+namespace BusinessServer.Network.UserDataLink
 {
-    public interface IDataLink
+    public interface IUserDataLink
     {
         public Task<RegisteredUser> GetUserAsync(string username);
         public Task<ColourAnimalCount> GetColourAnimalCountAsync();
         public Task<GuestUser> GetGuestUserAsync(int ColourId, int AnimalId);
+        
     }
 }
