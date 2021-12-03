@@ -48,7 +48,7 @@ namespace Client.Connection.Administration
                     await HubConnection.StartAsync();
                 }
 
-                Console.WriteLine("Administration: " + recipe.RecipeIngredient);
+                Console.WriteLine("Administration: " + recipe.RecipeIngredient.Count);
                 return await HubConnection.InvokeAsync<bool>("AddRecipeAsync", recipe);
             }
             catch (Exception e)

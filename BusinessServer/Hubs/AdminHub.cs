@@ -29,7 +29,7 @@ namespace BusinessServer.Hubs
         }   
         public async Task<bool> AddRecipeAsync(Recipe recipe)
         {
-            Console.WriteLine("AdminHub er nået til AddRecipeAsync");
+            Console.WriteLine("AdminHub er nået til AddRecipeAsync " + recipe.RecipeIngredient.Count);
 
             try
             {

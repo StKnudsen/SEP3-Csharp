@@ -45,7 +45,7 @@ namespace BusinessServer.Services.Admin
                 throw new Exception("Opskrift findes allerede i databasen");
             }
 
-            Console.WriteLine("AdminService er nået til AddRecipeAsync");
+            Console.WriteLine("AdminService er nået til AddRecipeAsync " + recipe.RecipeIngredient.Count);
             
             await AdminDataLink.AddRecipeAsync(recipe);
             await GetRecipeListAsync();
