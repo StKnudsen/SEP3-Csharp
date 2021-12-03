@@ -21,49 +21,61 @@
         <!-- component -->
         <div class="p-16">
             <div class="w-full m-auto ">
-                <div
-                    class="w-4/5 mx-auto grid grid-cols-3 grid-rows-7 grid-flow-row overflow-hidden rounded-xl shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out">
-                    <div class="col-span-3 row-span-4 p-1 m-1">
-                        <a href="#">
+                @if (!IsWaiting)
+                {
+                    <div class="w-4/5 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
+                        <div class="p-4">
                             <img
                                 src="https://picsum.photos/640/600/?random"
                                 alt="Placeholder"
                                 class="rounded-xl object-cover h-96 w-full"/>
-                        </a>
-                    </div>
+                        </div>
 
-                    <div class="col-span-3 row-span-1">
-                        <header class="flex items-center justify-between leading-tight p-2">
-                            <h3 class="ml-4 text-4xl">
-                                @Group.SwipeObject[SwipeCount].Value
+                        <div class="">
+                            <header class="flex items-center justify-between p-2">
+                                <h3 class="ml-4 text-4xl text-gray-800">
+                                    @Group.SwipeObject[SwipeCount].Value
+                                </h3>
+                            </header>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4">
+
+                            <button
+                                class="w-1/2 py-6 px-4 bg-red-700 hover:bg-red-500 text-white text-2xl rounded-l-xl transition duration-500"
+                                @onclick="VoteNo">
+                                Nej tak
+                            </button>
+
+                            <button
+                                class="w-1/2 py-6 px-4 bg-green-700 hover:bg-green-500 text-white text-2xl rounded-r-xl transition duration-500"
+                                @onclick="VoteYes">
+                                Ja tak!
+                            </button>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="w-4/5 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
+                        <header class="items-center py-12 px-4 text-center">
+                            <h3 class="text-2xl text-center text-gray-800">
+                                Venter på gruppen bliver færdig...
                             </h3>
                         </header>
                     </div>
-
-                    <div class="flex items-center justify-between col-span-3 row-span-1 p-2">
-
-                        <button
-                            class="w-1/2 py-6 px-4 bg-red-700 hover:bg-red-500 text-white text-2xl rounded-l-xl transition duration-500"
-                            @onclick="VoteNo">
-                            Nej tak
-                        </button>
-
-                        <button
-                            class="w-1/2 py-6 px-4 bg-green-700 hover:bg-green-500 text-white text-2xl rounded-r-xl transition duration-500"
-                            @onclick="VoteYes">
-                            Ja tak!
-                        </button>
-                    </div>
-                </div>
+                }
+                
             </div>
         </div>
     }
 </AuthorizeView>
 
 @code {
-
     [Parameter]
     public string groupId { get; set; }
+
+    public bool IsWaiting = false;
 
     private int SwipeCount = 0;
     public Group Group { get; set; }
@@ -116,7 +128,14 @@
 
     private void UpdateCount()
     {
-        SwipeCount++;
+        if ( SwipeCount == Group.SwipeObject.Count -1 )
+        {
+            IsWaiting = true;
+        }
+        else
+        {
+            SwipeCount++;
+        }
     }
 
 }

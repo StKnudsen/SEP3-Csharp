@@ -2,6 +2,7 @@
 @using SharedLibrary.Models
 @using Client.Connection.GroupManagement
 @using System.Text.Json
+@using SharedLibrary.Util
 @inject NavigationManager NavigationManager
 @inject IGroupManager GroupManager
 @inject IJSRuntime JsRuntime
@@ -77,8 +78,8 @@
     private Group group { get; set; }
     private string Username { get; set; }
 
-    private string[] SwipeOptions = {"Opskrifter", "Restauranter"};
-    private string SwipeTypeSelected = "Opskrifter";
+    private string[] SwipeOptions = {Util.RECIPE, Util.RESTAURANT};
+    private string SwipeTypeSelected = Util.RECIPE;
     private int? zip { get; set; }
 
     protected override async Task OnInitializedAsync()
