@@ -18,9 +18,13 @@
     {
         <div class="mt-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300 flex flex-wrap">
             <form class="w-full max-w-lg">
-                <h2 class="my-4 mr-auto text-xl uppercase text-center">
+                <h2 class="my-4 text-xl uppercase text-center">
                     Hej @Username
                 </h2>
+                <p class="text-sm font-semibold text-gray-700">Gruppe ID:</p>
+                <p class="text-center mx-auto mb-6 py-4 px-2 text-2xl border border-gray-800 rounded">
+                    @groupId
+                </p>
                 <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
                     @foreach (string type in SwipeOptions)
                     {
@@ -33,22 +37,17 @@
                         </div>
                     }
                 </div>
-                <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-                            Postnummer
-                        </label>
-                        <input class="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4" id="grid-zip" type="text" placeholder="8700" @bind-value="zip">
-                    </div>
-                    @if (Username.Equals(group.GroupOwner.Username))
-                    {
-                        <div class="w-full md:w-1/2 px-3">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-start">
+                @if (SwipeTypeSelected.Equals(Util.RESTAURANT))
+                {
+                    <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+                                Postnummer
                             </label>
-                            <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" id="grid-start" type="button" value="Start" @onclick="StartGroupSwipe">
+                            <input class="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4" id="grid-zip" type="text" placeholder="8700" @bind-value="zip">
                         </div>
-                    }
-                </div>
+                    </div>
+                }
             </form>
             <table class="w-full divide-gray-200 border border-gray-200 shadow rounded overflow-auto">
                 <thead class="bg-gray-200">
@@ -65,6 +64,12 @@
                 }
                 </tbody>
             </table>
+            @if (Username.Equals(group.GroupOwner.Username))
+            {
+                <div class="w-full flex justify-end mt-6">
+                    <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" type="button" value="Start" @onclick="StartGroupSwipe">
+                </div>
+            }
         </div>
     }
 </AuthorizeView>
@@ -119,4 +124,5 @@
     {
         GroupManager.SetSwipeType(groupId, SwipeTypeSelected);
     }
+
 }
