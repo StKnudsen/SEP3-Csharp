@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BusinessServer.Network.Group;
 using SharedLibrary.Models;
+using SharedLibrary.Util;
 
 namespace BusinessServer.Services
 {
@@ -67,12 +68,12 @@ namespace BusinessServer.Services
             Group Group = GetGroupFromId(groupId);
             Group.SwipeType = type;
             
-            if (type.Equals("Opskrifter"))
+            if (type.Equals(Util.RECIPE))
             {
                 Group.SwipeObject = await DataLink.GetShuffledRecipes();
             }
             
-            if (type.Equals("Restauranter"))
+            if (type.Equals(Util.RESTAURANT))
             {
                 Group.SwipeObject = await DataLink.GetShuffledRestaurants();
             }
