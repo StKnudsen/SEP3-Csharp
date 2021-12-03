@@ -4,4 +4,11 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Content Include="obj\Debug\net5.0\SharedLibrary.csproj.AssemblyReference.cache" />
+      <Content Include="obj\Debug\net5.0\SharedLibrary.csproj.CoreCompileInputs.cache" />
+      <Content Include="obj\Debug\net5.0\SharedLibrary.dll" />
+      <Content Include="obj\Debug\net5.0\SharedLibrary.pdb" />
+    </ItemGroup>
+
 </Project>
