@@ -60,12 +60,12 @@
                         <td>
                             <div class="dropdown">
                                 <div id="myDropdown" class="dropdown-content show">
-                                    <input list="ingredients" type="text" placeholder="Søg.." @bind-value="ingredient" @oninput="(arg) => Filter(arg)">
+                                    <input list="ingredients" type="text" placeholder="Søg.." @bind-value="addedIngredient" @oninput="(arg) => Filter(arg)">
                                     <datalist id="ingredients">
                                         @{
                                             foreach (string ingredient in ShowIngredientsList)
                                             {
-                                                <option value="@ingredient" bind-value="addedIngredient">@ingredient</option>
+                                                <option value="@ingredient">@ingredient</option>
                                             }
                                         }
                                     </datalist>
@@ -169,7 +169,7 @@
                 {
                    recipe.RecipeIngredient.Add(recipeIngredient);
                 }
-            Console.WriteLine("Listen med ingredienser på oprettet opskrift i admin.razor: " + recipe.RecipeIngredient.ToList());
+            Console.WriteLine("Listen med ingredienser på oprettet opskrift i admin.razor: " + recipe.RecipeIngredient.Count);
             bool result = await _administration.AddRecipeAsync(recipe);
 
             if (result)
