@@ -88,7 +88,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ingrediens" type="submit" @onclick="AddIngredientToNewRecipeIngredientsListAsync"/>
+                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ingrediens" type="submit" @onclick="AddIngredientToNewRecipeIngredientsList"/>
                 <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj opskrift" type="submit" @onclick="AddRecipeAsync"/>
 
             </div>
@@ -144,8 +144,8 @@
             label = "Noget gik galt, kontakt backend";
         }
     }
-
-    private void AddIngredientToNewRecipeIngredientsListAsync()
+    
+    private void AddIngredientToNewRecipeIngredientsList()
     {
         RecipeIngredient recipeIngredient = new RecipeIngredient()
         {

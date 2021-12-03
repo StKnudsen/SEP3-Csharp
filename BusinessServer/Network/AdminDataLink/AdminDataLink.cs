@@ -65,7 +65,7 @@ namespace BusinessServer.Network.AdminDataLink
             return responseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<Dictionary<int, string>> getFoodgroupList()
+        public async Task<Dictionary<int, string>> getFoodgroupListAsync()
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync

@@ -64,7 +64,7 @@ namespace BusinessServer.Services.Admin
 
         public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
         {
-            return foodGroupList = await AdminDataLink.getFoodgroupList();
+            return foodGroupList = await AdminDataLink.getFoodgroupListAsync();
         }
 
         public async Task<Dictionary<int, string>> GetUnitListAsync()
