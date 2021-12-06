@@ -42,6 +42,16 @@ namespace BusinessServer.Hubs
             return false;
         }
 
+        public async Task DoneSwiping(string groupId)
+        {
+            bool Done = await GroupService.DoneSwiping(groupId);
+
+            if (Done)
+            {
+                await Clients.Group(groupId).SendAsync("NoMatch");
+            }
+        }
+
         public async Task SetSwipeType(string groupId, string type)
         {
             await GroupService.SetSwipeType(groupId, type);

@@ -11,6 +11,7 @@ namespace SharedLibrary.Models
         public IList<CustomPair> SwipeObject { get; set; }
         
         public IList<Vote> Votes { get; set; }
+        public int WaitingUsers { get; set; }
 
         public Group(){}
         

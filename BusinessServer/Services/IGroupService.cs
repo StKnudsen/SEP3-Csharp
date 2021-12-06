@@ -10,5 +10,6 @@ namespace BusinessServer.Services
         Group GetGroupFromId(string groupId);
         Task SetSwipeType(string groupId, string type);
         Task<bool> CastVote(string groupId, int id);
+        Task<bool> DoneSwiping(string groupId);
     }
 }

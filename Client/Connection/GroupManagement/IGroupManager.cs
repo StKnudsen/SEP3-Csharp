@@ -13,6 +13,6 @@ namespace Client.Connection.GroupManagement
         Task SetSwipeType(string groupId, string type);
         Task CastVote(string groupId, int id);
         Task RegisterSwipePage(Swipe page);
-
+        Task DoneSwiping(string groupId);
     }
 }

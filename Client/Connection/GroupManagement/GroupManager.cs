@@ -44,6 +44,11 @@ namespace Client.Connection.GroupManagement
             return await HubConnection.InvokeAsync<string>("CreateGroupAsync", groupOwner);
         }
 
+        public async Task DoneSwiping(string groupId)
+        {
+            await HubConnection.InvokeAsync("DoneSwiping", groupId);
+        }
+
         public async Task<Group> GetGroupFromIdAsync(string groupId)
         {
             Group group = await HubConnection.InvokeAsync<Group>("GetGroupFromIdAsync", groupId);
@@ -75,6 +80,7 @@ namespace Client.Connection.GroupManagement
         
         public async Task RegisterSwipePage(Swipe page)
         {
+            HubConnection.On("NoMatch", page.NoMatch);
             HubConnection.On<int>("Match", page.Match);
         }
 

@@ -69,16 +69,24 @@ namespace BusinessServer.Services
         {
             Group Group = GetGroupFromId(groupId);
             Group.SwipeType = type;
-            
+
             if (type.Equals(Util.RECIPE))
             {
                 Group.SwipeObject = await DataLink.GetShuffledRecipes();
             }
-            
+
             if (type.Equals(Util.RESTAURANT))
             {
                 Group.SwipeObject = await DataLink.GetShuffledRestaurants();
             }
+        }
+
+        public async Task<bool> DoneSwiping(string groupId)
+        {
+            Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
+            group.WaitingUsers++;
+
+            return group.Users.Count == group.WaitingUsers;
         }
 
         public async Task<bool> CastVote(string groupId, int id)
@@ -101,12 +109,11 @@ namespace BusinessServer.Services
                     }
                 }
             }
-            
+
             group.Votes.Add(new Vote(id));
 
             return false;
         }
-
 
         private static Random random = new();
 
@@ -116,7 +123,5 @@ namespace BusinessServer.Services
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
-        
-        
     }
 }

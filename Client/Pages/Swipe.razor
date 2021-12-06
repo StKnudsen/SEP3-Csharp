@@ -46,6 +46,18 @@
 
                         </div>
                     }
+                    else if (IsNoMatch)
+                    {
+                        <div class="w-4/5 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
+                            <header class="items-center py-12 px-4 text-center">
+                                <h3 class="text-2xl text-center text-gray-800">
+                                    Desværre... I fandt ikke noget match...
+                                    <br/>
+                                    Sulten i seng med jer!
+                                </h3>
+                            </header>
+                        </div>
+                    }
                     else
                     {
                         <div class="w-4/5 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
@@ -79,22 +91,29 @@
 @code {
 
     [Parameter]
-    public string groupId { get; set; }
+    public string GroupId { get; set; }
 
-    public bool IsWaiting = false;
-    public bool IsMatch = false;
-    private int SwipeCount = 0;
-    public string SwipeTitle { get; set; }
+    private bool IsWaiting;
+    private bool IsMatch;
+    private bool IsNoMatch;
+    private int SwipeCount;
+    private string SwipeTitle { get; set; }
 
-    public Group Group { get; set; }
+    private Group Group { get; set; }
     private User User { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Group = await GroupManager.GetGroupFromIdAsync(groupId);
+        Group = await GroupManager.GetGroupFromIdAsync(GroupId);
         await GetUser();
         await GroupManager.RegisterSwipePage(this);
         SwipeTitle = Group.SwipeObject[SwipeCount].Value;
+    }
+    
+    public async void NoMatch()
+    {
+        IsNoMatch = true;
+        await InvokeAsync(StateHasChanged);
     }
 
     public async Task Match(int id)
@@ -135,7 +154,7 @@
 
     private async Task VoteYes()
     {
-        await GroupManager.CastVote(groupId, Group.SwipeObject[SwipeCount].Key);
+        await GroupManager.CastVote(GroupId, Group.SwipeObject[SwipeCount].Key);
         UpdateCount();
     }
 
@@ -151,6 +170,7 @@
         if (SwipeCount == Group.SwipeObject.Count - 1)
         {
             IsWaiting = true;
+            GroupManager.DoneSwiping(GroupId);
         }
         else
         {
