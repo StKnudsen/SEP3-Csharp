@@ -102,7 +102,7 @@ namespace Client.Connection.Authentication
         {
             CachedUser = null;
             var user = new ClaimsPrincipal(new ClaimsIdentity());
-            await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
+            await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", ""); //TODO: bruger bliver måske ikke slettet korrekt?
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }
 
