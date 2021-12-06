@@ -7,47 +7,55 @@
 
 
 <AuthorizeView Policy="Admin">
+    <div class="mt-6 p-6 max-w-l  bg-white rounded-xl shadow-md flex-wrap items-center space-x-4 border border-gray-300">
+        <p class="text-3xl text-red-700 font-bold mx-auto text-center mt-5">Velkommen Admin</p>
 
-    <h3>Admin</h3>
 
-    @{
-        <p>Tilføj ingrediens til fødevaregruppe</p>
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj ingrediens til fødevaregruppe</p>
 
-        if (FoodGroupList == null)
+        @if (FoodGroupList == null)
         {
             <p>Loader...</p>
         }
         else
         {
-            <div>
-                <input type="text" @bind-value="ingredientName"/>
-
-                <select name="_foodgroupId" @bind="_foodGroupId">
-                    @{
-                        foreach (KeyValuePair<int, string> pair in FoodGroupList)
-                        {
-                            <option value="@pair.Key">@pair.Value</option>
+            <div class="flex justify-center mx-auto mt-4">
+               
+                <form class="form-group">
+                    <label class="text-gray-700 text-sm font-semibold">Ingrediensnavn</label>
+                    <input type="text" class=" border border-gray-300 rounded" @bind-value="ingredientName"/>
+                    <label class="text-gray-700 text-sm font-semibold">Fødevaregruppe</label>
+                    <select name="_foodgroupId" class="border border-gray-300 rounded" @bind="_foodGroupId">
+                        @{
+                            foreach (KeyValuePair<int, string> pair in FoodGroupList)
+                            {
+                                <option value="@pair.Key">@pair.Value</option>
+                            }
                         }
-                    }
-                </select>
-
-                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
-            </div>
+                    </select>
+                </form></div>
+                <div class="flex justify-center my-4">
+                    <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
+                </div>
+           
         }
+        <hr class="border-t-4 border-dotted border-red-600">
 
-        <p>Tilføj opskrift</p>
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj opskrift</p>
 
-        if (ShowIngredientsList == null ||
-            UnitList == null)
+        @if (ShowIngredientsList == null ||
+             UnitList == null)
         {
             <p>Loader...</p>
         }
         else
         {
             <div>
-                <input type="text" @bind-value="recipeName"/>
-
-                <table>
+                <div class="flex justify-center my-5">
+                    <label class="text-gray-700 text-sm font-semibold">Opskriftnavn</label>
+                    <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. boller i karry" @bind-value="recipeName"/>
+                </div>
+                <table class="mx-auto">
                     <thead>
                     <tr>
                         <td>Ingrediensnavn</td>
@@ -58,7 +66,7 @@
                     <tbody>
                     <tr>
                         <td>
-                            <div class="dropdown">
+                            <div class="dropdown border border-gray-300 rounded">
                                 <div id="myDropdown" class="dropdown-content show">
                                     <input list="ingredients" type="text" placeholder="Søg.." @bind-value="addedIngredient" @oninput="(arg) => Filter(arg)">
                                     <datalist id="ingredients">
@@ -73,10 +81,10 @@
                             </div>
                         </td>
                         <td>
-                            <input type="text" @bind-value="amount"/>
+                            <input type="text" class=" border border-gray-300 rounded" @bind-value="amount"/>
                         </td>
                         <td>
-                            <select name="_unitId" @bind="_unitId">
+                            <select name="_unitId" class=" border border-gray-300 rounded" @bind="_unitId">
                                 @{
                                     foreach (KeyValuePair<int, string> pair in UnitList)
                                     {
@@ -88,20 +96,20 @@
                     </tr>
                     </tbody>
                 </table>
-                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ingrediens" type="submit" @onclick="AddIngredientToNewRecipeIngredientsList"/>
-                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj opskrift" type="submit" @onclick="AddRecipeAsync"/>
-
+                <div class="flex justify-center my-5">
+                    <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ingrediens til opskrift" type="submit" @onclick="AddIngredientToNewRecipeIngredientsList"/>
+                    <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj opskrift" type="submit" @onclick="AddRecipeAsync"/>
+                </div>
             </div>
             <p>@label</p>
         }
-    }
-
+    </div>
 </AuthorizeView>
 
 @code {
     public int _foodGroupId { set; get; }
     public int _unitId { set; get; }
-    public string ingredientName { get; set; } 
+    public string ingredientName { get; set; }
     public string ingredient { get; set; }
     public string addedIngredient { get; set; }
     public string unitName { get; set; }
@@ -144,7 +152,7 @@
             label = "Noget gik galt, kontakt backend";
         }
     }
-    
+
     private void AddIngredientToNewRecipeIngredientsList()
     {
         RecipeIngredient recipeIngredient = new RecipeIngredient()
@@ -156,7 +164,7 @@
         NewRecipeIngredients.Add(recipeIngredient);
         amount = 0;
         _unitId = 0;
-        
+
         Console.WriteLine("Ingredienser: " + NewRecipeIngredients.Count);
     }
 
@@ -169,9 +177,9 @@
                 Name = recipeName,
             };
             foreach (RecipeIngredient recipeIngredient in NewRecipeIngredients)
-                {
-                   recipe.RecipeIngredient.Add(recipeIngredient);
-                }
+            {
+                recipe.RecipeIngredient.Add(recipeIngredient);
+            }
             Console.WriteLine("Listen med ingredienser på oprettet opskrift i admin.razor: " + recipe.RecipeIngredient.Count);
             bool result = await _administration.AddRecipeAsync(recipe);
 
