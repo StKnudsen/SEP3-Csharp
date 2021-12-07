@@ -21,13 +21,21 @@
                 <h2 class="my-4 text-xl uppercase text-center">
                     Hej @Username
                 </h2>
+                <div class="img-container">
+                    <img src="images/SDblackboard.png" alt="Sarah & Duck blackboard" width="100%">
+                    <p class="img-txt-center text-3xl text-gray-100 tracking-wide">
+                        @groupId
+                    </p>
+                </div>
+                <!--
                 <p class="text-sm font-semibold text-gray-700">Gruppe ID:</p>
                 <p class="text-center mx-auto mb-6 py-4 px-2 text-2xl border border-gray-800 rounded">
                     @groupId
                 </p>
+                -->
                 @if (IsGroupOwner)
                 {
-                    <div class="flex flex-wrap mx-3 mb-6 justify-evenly">   
+                    <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
                         @foreach (string type in SwipeOptions)
                         {
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
