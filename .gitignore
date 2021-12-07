@@ -1,3 +1,7 @@
-Client/bin/
-Client/obj/
-BusinessServer/obj/
+/Client/bin/
+/Client/obj/
+/BusinessServer/obj/
+/BusinessServer/bin/
+/.idea/
+/SharedLibrary/bin/
+/SharedLibrary/obj/
