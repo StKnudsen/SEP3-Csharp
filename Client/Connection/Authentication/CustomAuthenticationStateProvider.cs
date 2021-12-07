@@ -111,7 +111,7 @@ namespace Client.Connection.Authentication
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, user.Username));
             claims.Add(new Claim("SignedIn", "true"));
-            claims.Add(new Claim( "Admin","Admin"));
+            claims.Add(new Claim( "Admin",user.Role));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth_type");
             return identity;
