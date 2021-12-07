@@ -25,18 +25,22 @@
                 <p class="text-center mx-auto mb-6 py-4 px-2 text-2xl border border-gray-800 rounded">
                     @groupId
                 </p>
-                <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
-                    @foreach (string type in SwipeOptions)
-                    {
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="@type">
-                                @type
-                            </label>
-                            <input class="border rounded border-gray-400 mb-2" id="@type" value="@type" type="radio" @onchange="SwipeSelection"
-                                   checked="@(SwipeTypeSelected.Equals(type, StringComparison.OrdinalIgnoreCase))" name="toggle">
-                        </div>
-                    }
-                </div>
+                @if (IsGroupOwner)
+                {
+                    <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
+                        @foreach (string type in SwipeOptions)
+                        {
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="@type">
+                                    @type
+                                </label>
+                                <input class="border rounded border-gray-400 mb-2" id="@type" value="@type" type="radio" @onchange="SwipeSelection"
+                                       checked="@(SwipeTypeSelected.Equals(type, StringComparison.OrdinalIgnoreCase))" name="toggle">
+                            </div>
+                        }
+
+                    </div>
+                }
                 @if (SwipeTypeSelected.Equals(Util.RESTAURANT))
                 {
                     <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
@@ -64,7 +68,7 @@
                 }
                 </tbody>
             </table>
-            @if (Username.Equals(group.GroupOwner.Username))
+            @if (IsGroupOwner)
             {
                 <div class="w-full flex justify-end mt-6">
                     <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" type="button" value="Start" @onclick="StartGroupSwipe">
@@ -82,6 +86,7 @@
 
     private Group group { get; set; }
     private string Username { get; set; }
+    private bool IsGroupOwner { get; set; }
 
     private string[] SwipeOptions = {Util.RECIPE, Util.RESTAURANT};
     private string SwipeTypeSelected = Util.RECIPE;
@@ -92,6 +97,7 @@
         await GroupManager.RegisterGroupPage(this);
         group = await GroupManager.GetGroupFromIdAsync(groupId);
         await GetUsername();
+        IsGroupOwner = Username.Equals(group.GroupOwner.Username);
     }
 
     public async void ForceGroupUpdate()
