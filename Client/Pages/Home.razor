@@ -11,11 +11,12 @@
 @attribute [Authorize(Policy = "SignedIn")]
 
 <AuthorizeView>
-    <div class="mt-6 p-6 max-w-l mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300">
+    <div class="mt-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300">
         <div class="container flex flex-col">
             <p class="text-3xl text-red-700 font-bold mx-auto text-center mt-5">Velkommen @context.User.Identity?.Name</p>
-            <div class="flex flex-col mt-5">
-                <input type="text" class="max-w-xs mx-auto h-16 rounded border border-gray-400 shadow text-6xl text-gray-700 uppercase tracking-wide text-center" @bind-value="GroupId" maxlength="6">
+            <div class="flex flex-col mt-4">
+                <p class="text-sm font-semibold text-gray-700">Gruppe ID:</p>
+                <input type="text" class="text-center mb-6 py-4 px-2 text-2xl border border-gray-800 rounded" @bind-value="GroupId" maxlength="6">
                 <p class="text-red-600 text-sm">@ErrorLabel</p>
                 <Button class="mx-auto block my-5 py-3 px-8 bg-red-800 text-gray-100 rounded font-medium hover:bg-red-600 transition duration-500" @onclick="JoinGroupAsync">Deltag i gruppe</Button>
             </div>
