@@ -38,6 +38,10 @@ namespace Client
                     a.RequireAuthenticatedUser().RequireClaim("SignedIn", "true"));
                 options.AddPolicy("Admin",a => 
                     a.RequireAuthenticatedUser().RequireClaim("Admin", "Admin"));
+                options.AddPolicy("Registered",a => 
+                    a.RequireAuthenticatedUser().RequireClaim("Registered", "true"));
+                options.AddPolicy("Restaurateur",a => 
+                    a.RequireAuthenticatedUser().RequireClaim("Restaurateur", "true"));
             });
 
             services.AddSignalR(options => 

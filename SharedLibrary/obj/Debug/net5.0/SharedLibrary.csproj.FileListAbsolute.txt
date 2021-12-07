@@ -10,3 +10,15 @@ C:\Users\Bent\RiderProjects\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLib
 C:\Users\Bent\RiderProjects\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.dll
 C:\Users\Bent\RiderProjects\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\ref\SharedLibrary.dll
 C:\Users\Bent\RiderProjects\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.pdb
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\bin\Debug\net5.0\SharedLibrary.deps.json
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\bin\Debug\net5.0\SharedLibrary.dll
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\bin\Debug\net5.0\ref\SharedLibrary.dll
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\bin\Debug\net5.0\SharedLibrary.pdb
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.csproj.AssemblyReference.cache
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.AssemblyInfoInputs.cache
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.AssemblyInfo.cs
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.csproj.CoreCompileInputs.cache
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.dll
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\ref\SharedLibrary.dll
+C:\Dev\dotnet\SEP3-Csharp\SharedLibrary\obj\Debug\net5.0\SharedLibrary.pdb

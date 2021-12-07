@@ -1,8 +1,8 @@
 ﻿{
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\Bent\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\Bent\\.nuget\\packages"
+      "C:\\Users\\zteph\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\zteph\\.nuget\\packages"
     ]
   }
 }
