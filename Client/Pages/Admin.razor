@@ -10,7 +10,6 @@
     <div class="mt-6 p-6 max-w-l  bg-white rounded-xl shadow-md flex-wrap items-center border border-gray-300">
         <p class="text-3xl text-red-700 font-bold mx-auto text-center mt-5">Velkommen Admin</p>
 
-
         <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj ingrediens til fødevaregruppe</p>
 
         @if (FoodGroupList == null)
@@ -20,7 +19,7 @@
         else
         {
             <div class="flex justify-center mx-auto mt-4">
-               
+
                 <form class="form-group">
                     <label class="text-gray-700 text-sm font-semibold">Ingrediensnavn</label>
                     <input type="text" class=" border border-gray-300 rounded" @bind-value="ingredientName"/>
@@ -33,11 +32,11 @@
                             }
                         }
                     </select>
-                </form></div>
-                <div class="flex justify-center my-4">
-                    <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
-                </div>
-           
+                </form>
+            </div>
+            <div class="flex justify-center my-4">
+                <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
+            </div>
         }
         <hr class="border-t-4 border-dotted border-red-600">
 
@@ -134,36 +133,52 @@
 
     private async Task AddIngredientAsync()
     {
-        try
+        if (ingredientName is null or "" || _foodGroupId == 0)
         {
-            bool result = await _administration.AddIngredientAsync(ingredientName, _foodGroupId);
-
-            if (result)
-            {
-                label = "Succes";
-            }
-            else if (!result)
-            {
-                label = "Netværksfejl";
-            }
+            Console.WriteLine("Null I AddIngredient");
+            label = "Null i AddIngredient";
         }
-        catch (Exception e)
+        else
         {
-            label = "Noget gik galt, kontakt backend";
+            try
+            {
+                bool result = await _administration.AddIngredientAsync(ingredientName, _foodGroupId);
+
+                if (result)
+                {
+                    label = "Succes";
+                }
+                else if (!result)
+                {
+                    label = "Netværksfejl";
+                }
+            }
+            catch (Exception e)
+            {
+                label = "Noget gik galt, kontakt backend";
+            }
         }
     }
 
     private void AddIngredientToNewRecipeIngredientsList()
     {
-        RecipeIngredient recipeIngredient = new RecipeIngredient()
+        if (addedIngredient is null or "" || amount == 0 || _unitId == 0)
         {
-            IngredientName = addedIngredient,
-            Amount = amount,
-            UnitId = _unitId
-        };
-        NewRecipeIngredients.Add(recipeIngredient);
-        amount = 0;
-        _unitId = 0;
+            Console.WriteLine("null i ingredient til opskrift");
+            label = "null i ingredient til opskrift";
+        }
+        else
+        {
+            RecipeIngredient recipeIngredient = new RecipeIngredient()
+            {
+                IngredientName = addedIngredient,
+                Amount = amount,
+                UnitId = _unitId
+            };
+            NewRecipeIngredients.Add(recipeIngredient);
+            amount = 0;
+            _unitId = 0;
+        }
 
         Console.WriteLine("Ingredienser: " + NewRecipeIngredients.Count);
     }
@@ -172,24 +187,32 @@
     {
         try
         {
-            Recipe recipe = new Recipe()
+            if (recipeName is null or "" || NewRecipeIngredients == null || NewRecipeIngredients.Count == 0)
             {
-                Name = recipeName,
-            };
-            foreach (RecipeIngredient recipeIngredient in NewRecipeIngredients)
-            {
-                recipe.RecipeIngredient.Add(recipeIngredient);
+                Console.WriteLine("Nulll i ny opskrift");
             }
-            Console.WriteLine("Listen med ingredienser på oprettet opskrift i admin.razor: " + recipe.RecipeIngredient.Count);
-            bool result = await _administration.AddRecipeAsync(recipe);
+            else
+            {
+                Recipe recipe = new Recipe()
+                {
+                    Name = recipeName,
+                };
+                foreach (RecipeIngredient recipeIngredient in NewRecipeIngredients)
+                {
+                    recipe.RecipeIngredient.Add(recipeIngredient);
+                }
+                Console.WriteLine("Listen med ingredienser på oprettet opskrift i admin.razor: " + recipe.RecipeIngredient.Count);
 
-            if (result)
-            {
-                label = "Succes";
-            }
-            else if (!result)
-            {
-                label = "Netværksfejl";
+                bool result = await _administration.AddRecipeAsync(recipe);
+
+                if (result)
+                {
+                    label = "Succes";
+                }
+                else if (!result)
+                {
+                    label = "Netværksfejl";
+                }
             }
         }
         catch (Exception e)
