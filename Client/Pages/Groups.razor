@@ -27,7 +27,7 @@
                 </p>
                 @if (IsGroupOwner)
                 {
-                    <div class="flex flex-wrap mx-3 mb-6 justify-evenly">
+                    <div class="flex flex-wrap mx-3 mb-6 justify-evenly">   
                         @foreach (string type in SwipeOptions)
                         {
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -48,7 +48,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                                 Postnummer
                             </label>
-                            <input class="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4" id="grid-zip" type="text" placeholder="8700" @bind-value="zip">
+                            <input class="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4" id="grid-zip" type="text" placeholder="8700" @bind-value="zip" maxlength="4">
                         </div>
                     </div>
                 }
