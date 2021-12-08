@@ -29,11 +29,21 @@ namespace BusinessServer.Hubs
         }   
         public async Task<bool> AddRecipeAsync(Recipe recipe)
         {
-            Console.WriteLine("AdminHub er nået til AddRecipeAsync " + recipe.RecipeIngredient.Count);
-
             try
             {
                 return await AdminService.AddRecipeAsync(recipe);
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
+        }  
+        public async Task<bool> AddRestaurantAsync(Restaurant restaurant)
+        {
+            try
+            {
+                Console.WriteLine("AdminHub i AddRestaurantAsync");
+                return await AdminService.AddRestaurantAsync(restaurant);
             }
             catch (Exception e)
             {
@@ -76,5 +86,30 @@ namespace BusinessServer.Hubs
                 throw (new Exception(e.Message));
             }
         }
+
+        public async Task<List<Restaurant>> GetRestaurantListAsync()
+        {
+            try
+            {
+                return await AdminService.GetRestaurantListAsync();
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
+        }
+
+        public async Task<Address> GetAddressByIdAsync(int addressId)
+        {
+            try
+            {
+                return await AdminService.GetAddressByIdAsync(addressId);
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
+        }
+
     }
 }

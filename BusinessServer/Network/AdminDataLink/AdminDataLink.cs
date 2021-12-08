@@ -54,8 +54,6 @@ namespace BusinessServer.Network.AdminDataLink
                 recipeJson, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await client.PostAsync(
                 $"{uri}/addrecipe" , content);
-
-            Console.WriteLine("Jeg nåede til AdminDataLink");
             
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -65,7 +63,29 @@ namespace BusinessServer.Network.AdminDataLink
             return responseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<Dictionary<int, string>> getFoodgroupListAsync()
+        public async Task<bool> AddRestaurantAsync(Restaurant restaurant)
+        {
+            Console.WriteLine("AdminDataLink i AddRestaurantAsync");
+            
+            using HttpClient client = new HttpClient();
+            string restaurantJson = JsonSerializer.Serialize(restaurant, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+
+            HttpContent content = new StringContent(restaurantJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseMessage = await client.PostAsync(
+                $"{uri}/addrestaurant" , content);
+
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception("Kunne ikke tilføje restaurant");
+            }
+
+            return responseMessage.IsSuccessStatusCode;
+        }
+
+        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync
@@ -137,13 +157,51 @@ namespace BusinessServer.Network.AdminDataLink
             }
 
             string responseAsString = await response.Content.ReadAsStringAsync();
-            Dictionary<int, string> RecipesList = 
+            Dictionary<int, string> recipesList = 
                 JsonSerializer.Deserialize<Dictionary<int, string>>(responseAsString, new JsonSerializerOptions
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 });
 
-            return RecipesList;
+            return recipesList;
+        }
+
+        public async Task<List<Restaurant>> GetRestaurantListAsync()
+        {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{uri}/restaurants");
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"StatusCode: {response.StatusCode}");
+            }
+            
+            string listAsJson = await response.Content.ReadAsStringAsync();
+            List<Restaurant> restaurantList = JsonSerializer.Deserialize<List<Restaurant>>(listAsJson, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+
+            return restaurantList;
+        }
+
+        public async Task<Address> GetAddressByIdAsync(int addressId)
+        {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{uri}/address/{addressId}");
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"StatusCode: {response.StatusCode}");
+            }
+            
+            string addressAsString = await response.Content.ReadAsStringAsync();
+            Address address = JsonSerializer.Deserialize<Address>(addressAsString, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+
+            return address;
         }
     }
 }

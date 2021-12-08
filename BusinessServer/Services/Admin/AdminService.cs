@@ -14,6 +14,7 @@ namespace BusinessServer.Services.Admin
         private Dictionary<int, string> foodGroupList;
         private Dictionary<int, string> unitList;
         private Dictionary<int, string> recipeList;
+        private List<Restaurant> restaurantList;
 
         private readonly IAdminDataLink AdminDataLink;
 
@@ -24,6 +25,7 @@ namespace BusinessServer.Services.Admin
             foodGroupList = GetFoodgroupListAsync().Result;
             unitList = GetUnitListAsync().Result;
             recipeList = GetRecipeListAsync().Result;
+            restaurantList = GetRestaurantListAsync().Result;
         }
 
         public async Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId)
@@ -44,11 +46,23 @@ namespace BusinessServer.Services.Admin
             {
                 throw new Exception("Opskrift findes allerede i databasen");
             }
-
-            Console.WriteLine("AdminService er nået til AddRecipeAsync " + recipe.RecipeIngredient.Count);
             
             await AdminDataLink.AddRecipeAsync(recipe);
             await GetRecipeListAsync();
+            return true;
+        }
+
+        public async Task<bool> AddRestaurantAsync(Restaurant restaurant)
+        {
+            Console.WriteLine("AdminService i AddRestaurantAsync");
+            
+            if (restaurantList.Contains(restaurant))
+            {
+                throw new Exception("Restaurant findes allerede i databasen");
+            }
+
+            await AdminDataLink.AddRestaurantAsync(restaurant);
+            await GetRestaurantListAsync();
             return true;
         }
 
@@ -64,7 +78,7 @@ namespace BusinessServer.Services.Admin
 
         public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
         {
-            return foodGroupList = await AdminDataLink.getFoodgroupListAsync();
+            return foodGroupList = await AdminDataLink.GetFoodgroupListAsync();
         }
 
         public async Task<Dictionary<int, string>> GetUnitListAsync()
@@ -72,6 +86,14 @@ namespace BusinessServer.Services.Admin
             return unitList = await AdminDataLink.GetUnitListAsync();
         }
 
-      
+        public async Task<List<Restaurant>> GetRestaurantListAsync()
+        {
+            return restaurantList = await AdminDataLink.GetRestaurantListAsync();
+        }
+
+        public async Task<Address> GetAddressByIdAsync(int addressId)
+        {
+            return await AdminDataLink.GetAddressByIdAsync(addressId);
+        }
     }
 }
