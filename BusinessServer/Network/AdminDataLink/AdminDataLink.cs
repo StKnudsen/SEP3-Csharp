@@ -185,6 +185,25 @@ namespace BusinessServer.Network.AdminDataLink
             return restaurantList;
         }
 
+        public async Task<List<Address>> GetAddressListAsync()
+        {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{uri}/address");
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"StatusCode: {response.StatusCode}");
+            }
+            
+            string listAsJson = await response.Content.ReadAsStringAsync();
+            List<Address> addressList = JsonSerializer.Deserialize<List<Address>>(listAsJson, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+
+            return addressList;
+        }
+
         public async Task<Address> GetAddressByIdAsync(int addressId)
         {
             using HttpClient client = new HttpClient();

@@ -97,6 +97,18 @@ namespace BusinessServer.Hubs
             {
                 throw (new Exception(e.Message));
             }
+        } 
+        
+        public async Task<List<Address>> GetAddressListAsync()
+        {
+            try
+            {
+                return await AdminService.GetAddressListAsync();
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
         }
 
         public async Task<Address> GetAddressByIdAsync(int addressId)

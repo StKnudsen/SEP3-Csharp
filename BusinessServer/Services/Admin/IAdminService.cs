@@ -14,6 +14,7 @@ namespace BusinessServer.Services.Admin
         public Task<Dictionary<int, string>> GetFoodgroupListAsync();
         public Task<Dictionary<int, string>> GetUnitListAsync();
         public Task<List<Restaurant>> GetRestaurantListAsync();
+        public Task<List<Address>> GetAddressListAsync();
         public Task<Address> GetAddressByIdAsync(int addressId);
 
     }

@@ -14,6 +14,7 @@ namespace BusinessServer.Network.AdminDataLink
         Task<Dictionary<int, string>>  GetUnitListAsync();
         Task<Dictionary<int, string>> GetRecipeListAsync();
         Task<List<Restaurant>> GetRestaurantListAsync();
+        Task<List<Address>> GetAddressListAsync();
         Task<Address> GetAddressByIdAsync(int addressId);
     }
 }
