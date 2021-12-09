@@ -26,18 +26,28 @@
                     <div class="w-4/5 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
                         <header class="items-center py-12 px-4 text-center">
                             <h3 class="text-2xl text-center text-gray-800">
-                                Primaturt stoppet af gruppeejeren
+                                Afstemning stoppet
                                 <br/>
-                                <table class="table-active mt-8 border border-red-600">
-                                
-                                    @foreach (CustomPair pair in votesList)
-                                    {
-                                        <tr>
-                                            <td>@pair.Key</td>
-                                            <td>@pair.Value</td>
-                                        </tr>
-                                    }
-                                    
+                                <table class="w-full mt-8">
+                                    <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-2 text-gray-500">
+                                            Antal stemmer
+                                        </th>
+                                        <th class="px-6 py-2 text-gray-500">
+                                            Navn
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white">
+                                        @foreach (CustomPair pair in votesList)
+                                        {
+                                            <tr class="whitespace-nowrap">
+                                                <td class="px-6 py-4 text-gray-700">@pair.Key</td>
+                                                <td class="px-6 py-4 text-gray-800">@pair.Value</td>
+                                            </tr>
+                                        }
+                                    </tbody>
                                 </table>
                             </h3>
                         </header>

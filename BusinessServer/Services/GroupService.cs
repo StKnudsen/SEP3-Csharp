@@ -93,8 +93,8 @@ namespace BusinessServer.Services
         {
             Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
             
-            // Lav liste med objekter der har VOTES, 
             IList<CustomPair> result = new List<CustomPair>();
+            
             foreach (Vote vote in group.Votes)
             {
                 result.Add(
@@ -104,8 +104,8 @@ namespace BusinessServer.Services
                         Value = SwipeResultTitle(group, vote.SwipeObjectId)
                     });
             }
-
-            return result.OrderByDescending(pair => pair.Key).ToList();
+            
+            return result.OrderByDescending(pair => pair.Key).Take(5).ToList();
         }
 
         public async Task<bool> CastVote(string groupId, int id)
