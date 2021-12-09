@@ -21,7 +21,39 @@
         <!-- component -->
         <div class="p-16">
             <div class="w-full m-auto ">
-                @if (!IsMatch)
+                @if (IsStopped)
+                {
+                    <div class="w-4/5 mx-auto overflow-hidden rounded-xl shadow-md bg-white">
+                        <header class="items-center py-12 px-4 text-center">
+                            <h3 class="text-2xl text-center text-gray-800">
+                                Afstemning stoppet
+                                <br/>
+                                <table class="w-full mt-8">
+                                    <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-2 text-gray-500">
+                                            Antal stemmer
+                                        </th>
+                                        <th class="px-6 py-2 text-gray-500">
+                                            Navn
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white">
+                                        @foreach (CustomPair pair in votesList)
+                                        {
+                                            <tr class="whitespace-nowrap">
+                                                <td class="px-6 py-4 text-gray-700">@pair.Key</td>
+                                                <td class="px-6 py-4 text-gray-800">@pair.Value</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </h3>
+                        </header>
+                    </div>
+                }
+                else if (!IsMatch)
                 {
                     @if (!IsWaiting)
                     {
@@ -86,6 +118,19 @@
             </div>
         </div>
     }
+    
+    @if (IsGroupOwner && !IsStopped)
+    {
+        <div class="mt-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300 flex flex-wrap">
+            <p class="text-gray-600">
+                <button
+                    class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow"
+                    @onclick="StopSwipe">
+                    Stop swipe!
+                </button>
+            </p>
+        </div>
+    }
 </AuthorizeView>
 
 @code {
@@ -96,17 +141,23 @@
     private bool IsWaiting;
     private bool IsMatch;
     private bool IsNoMatch;
+    private bool IsStopped;
+    
     private int SwipeCount;
+    private bool IsGroupOwner { get; set; }
     private string SwipeTitle { get; set; }
 
     private Group Group { get; set; }
     private User User { get; set; }
+
+    private IList<CustomPair> votesList; 
 
     protected override async Task OnInitializedAsync()
     {
         Group = await GroupManager.GetGroupFromIdAsync(GroupId);
         await GetUser();
         await GroupManager.RegisterSwipePage(this);
+        IsGroupOwner = User.Username.Equals(Group.GroupOwner.Username);
         SwipeTitle = Group.SwipeObject[SwipeCount].Value;
     }
     
@@ -119,13 +170,8 @@
     public async Task Match(int id)
     {
         IsMatch = true;
-        foreach (CustomPair pair in Group.SwipeObject)
-        {
-            if (pair.Key == id)
-            {
-                SwipeTitle = pair.Value;
-            }
-        }
+
+        SwipeTitle = SwipeResultTitle(id);
         
         await InvokeAsync(StateHasChanged);
     }
@@ -179,4 +225,31 @@
         }
     }
 
+    private async Task StopSwipe()
+    {
+        await GroupManager.StopSwipeAsync(GroupId);
+    }
+
+    public async Task Stop(IList<CustomPair> stoppedVoteList)
+    {
+        IsStopped = true;
+
+        votesList = stoppedVoteList;
+        
+        await InvokeAsync(StateHasChanged);
+        Console.WriteLine("T1 ---> STOP!!!! :P");
+        
+    }
+
+    public string SwipeResultTitle(int id)
+    {
+        foreach (CustomPair pair in Group.SwipeObject)
+        {
+            if (pair.Key == id)
+            {
+                return pair.Value;
+            }
+        }
+        return null;
+    }
 }

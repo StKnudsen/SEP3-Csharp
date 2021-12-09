@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BusinessServer.Services;
 using Microsoft.AspNetCore.SignalR;
@@ -71,6 +72,15 @@ namespace BusinessServer.Hubs
             {
                 await Clients.Group(groupId).SendAsync("Match", id);
             }
+        }
+
+        public async Task StopSwipeAsync(string groupId)
+        {
+            Console.WriteLine($"T2--> HUB: stop swipe for group: {groupId}");
+            IList<CustomPair> finishedVoteList =await GroupService.StopSwipeAsync(groupId);
+
+            Console.WriteLine($"T2--> Broadcast the result to group members...");
+            await Clients.Group(groupId).SendAsync("Stop", finishedVoteList);
         }
     }
 }
