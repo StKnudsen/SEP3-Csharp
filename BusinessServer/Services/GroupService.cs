@@ -89,6 +89,25 @@ namespace BusinessServer.Services
             return group.Users.Count == group.WaitingUsers;
         }
 
+        public async Task<IList<CustomPair>> StopSwipeAsync(string groupId)
+        {
+            Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
+            
+            // Lav liste med objekter der har VOTES, 
+            IList<CustomPair> result = new List<CustomPair>();
+            foreach (Vote vote in group.Votes)
+            {
+                result.Add(
+                    new CustomPair()
+                    {
+                        Key = vote.Votes, 
+                        Value = SwipeResultTitle(group, vote.SwipeObjectId)
+                    });
+            }
+
+            return result.OrderByDescending(pair => pair.Key).ToList();
+        }
+
         public async Task<bool> CastVote(string groupId, int id)
         {
             Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
@@ -122,6 +141,18 @@ namespace BusinessServer.Services
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        
+        private string SwipeResultTitle(Group group, int id)
+        {
+            foreach (CustomPair pair in group.SwipeObject)
+            {
+                if (pair.Key == id)
+                {
+                    return pair.Value;
+                }
+            }
+            return null;
         }
     }
 }

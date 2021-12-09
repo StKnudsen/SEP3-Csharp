@@ -14,5 +14,6 @@ namespace Client.Connection.GroupManagement
         Task CastVote(string groupId, int id);
         Task RegisterSwipePage(Swipe page);
         Task DoneSwiping(string groupId);
+        Task StopSwipeAsync(string groupId);
     }
 }

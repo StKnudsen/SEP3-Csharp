@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Client.Pages;
@@ -49,6 +50,11 @@ namespace Client.Connection.GroupManagement
             await HubConnection.InvokeAsync("DoneSwiping", groupId);
         }
 
+        public async Task StopSwipeAsync(string groupId)
+        {
+            await HubConnection.InvokeAsync("StopSwipeAsync", groupId);
+        }
+
         public async Task<Group> GetGroupFromIdAsync(string groupId)
         {
             Group group = await HubConnection.InvokeAsync<Group>("GetGroupFromIdAsync", groupId);
@@ -82,6 +88,7 @@ namespace Client.Connection.GroupManagement
         {
             HubConnection.On("NoMatch", page.NoMatch);
             HubConnection.On<int>("Match", page.Match);
+            HubConnection.On<IList<CustomPair>>("Stop", page.Stop);
         }
 
         public async Task CastVote(string groupId, int id)
