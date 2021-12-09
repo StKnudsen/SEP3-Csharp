@@ -25,6 +25,13 @@
                             Admin
                         </NavLink>
                     </AuthorizeView>
+                    <AuthorizeView Policy="Restaurateur">
+                        <NavLink
+                            class="py-5 px-3 text-gray-800 font-medium hover:text-red-500 transition duration-500"
+                            href="/Restaurateur">
+                            Restauratør
+                        </NavLink>
+                    </AuthorizeView>
                 </div>
             </div>
 
@@ -77,6 +84,13 @@
                 class="block py-3 px-8 hover:bg-gray-300 hover:text-red-500 transition duration-500"
                 href="/Admin">
                 Admin
+            </NavLink>
+        </AuthorizeView>
+        <AuthorizeView Policy="Restaurateur">
+            <NavLink
+                class="py-5 px-3 text-gray-800 font-medium hover:text-red-500 transition duration-500"
+                href="/Restaurateur">
+                Restauratør
             </NavLink>
         </AuthorizeView>
         <AuthorizeView>

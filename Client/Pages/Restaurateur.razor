@@ -1,0 +1,156 @@
+@page "/Restaurateur"
+@using SharedLibrary.Models
+@using Client.Connection.Administration
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime JsRuntime
+<!-- FIXME: Er det her helt fyfy?? :( Jeg vil jo gerne have adgang til getIngredientListAsync, men det betyder jo også jeg skal lave en AddDishAsync gennem administration connectionen :((-->
+@inject IAdministration _administration 
+
+
+@attribute [Authorize(Policy = "Restaurateur")]
+
+<AuthorizeView>
+    <div class="mt-6 p-6 max-w-l bg-white rounded-xl shadow-md flex-wrap items-center border border-gray-300">
+
+        <p class="text-3xl text-red-700 font-bold mx-auto text-center mt-5">Velkommen restauratør af -- PLACEHOLDER TIL RESTAURANT KOBLET TIL AKTIV BRUGER -- </p>
+
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Restaurantoplysninger</p>
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj ret til menukortet</p>
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Fjern ret fra menukortet</p>
+
+        <hr class="border-t-4 border-dotted border-red-600">
+
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj ret til menukortet</p>
+
+        @if (ShowIngredientsList == null)
+        {
+            <p>Loader...</p>
+        }
+        else
+        {
+            <div class="flex justify-center mx-auto mt-4">
+                <form class="form-group">
+
+                    <label class="text-gray-700 text-sm font-semibold">Rettens navn</label>
+                    <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. boller i karry" @bind-value="DishName"/>
+
+                    <div class="dropdown border border-gray-300 rounded">
+                        <div id="myDropdown" class="dropdown-content show">
+                            <input list="ingredients" type="text" placeholder="Søg.." @bind-value="addedIngredient" @oninput="(arg) => Filter(arg)">
+                            <datalist id="ingredients">
+                                @{
+                                    foreach (string ingredient in ShowIngredientsList)
+                                    {
+                                        <option value="@ingredient">@ingredient</option>
+                                    }
+                                }
+                            </datalist>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="flex justify-center my-5">
+                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ingrediens til ret" type="submit" @onclick="AddIngredientToNewDishIngredientsList"/>
+                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ret" type="submit" @onclick="AddDishAsync"/>
+            </div>
+        }
+
+
+
+    </div>
+</AuthorizeView>
+
+@code {
+    public string addedIngredient { get; set; }
+    public string label { get; set; }
+    public string DishName { get; set; }
+    /*
+    public string restaurantName { get; set; }
+    public int cvr { get; set; }
+    public string theme { get; set; }
+    public string phoneNumber { get; set; }
+    public string streetName { get; set; }
+    public int houseNumber { get; set; }
+    public int postalCode { get; set; }*/
+
+
+    public Dictionary<int, string> IngredientList;
+    public List<string> ShowIngredientsList;
+    public List<DishIngredient> NewDishIngredients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        IngredientList = await _administration.GetIngredientListAsync();
+        ShowIngredientsList = new List<string>(IngredientList.Values);
+        NewDishIngredients = new List<DishIngredient>();
+    }
+    
+    private async Task AddDishAsync()
+    {
+        try
+        {
+            if (DishName is null or "" || NewDishIngredients == null || NewDishIngredients.Count == 0)
+            {
+                Console.WriteLine("Null i ny ret");
+            }
+            else
+            {
+                Dish dish = new Dish()
+                {
+                    Name = DishName,
+                };
+                foreach (DishIngredient dishIngredient in NewDishIngredients)
+                {
+                    dish.DishIngredient.Add(dishIngredient);
+                }
+                Console.WriteLine("Listen med ingredienser på oprettet ret i admin.razor: " + dish.DishIngredient.Count);
+
+                bool result = await _administration.AddDishAsync(dish);
+
+                if (result)
+                {
+                    label = "Succes";
+                }
+                else if (!result)
+                {
+                    label = "Netværksfejl";
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            label = "Noget gik galt med tilføjelse af opskrift, kontakt backend";
+            Console.WriteLine(e.StackTrace);
+        }
+    }
+    
+    private void AddIngredientToNewDishIngredientsList()
+    {
+        if (addedIngredient is null or "")
+        {
+            Console.WriteLine("null i ingredient til opskrift");
+            label = "null i ingrediens til ret";
+        }
+        else
+        {
+            DishIngredient dishIngredient = new DishIngredient()
+            {
+                IngredientName = addedIngredient,
+                
+            };
+            NewDishIngredients.Add(dishIngredient);
+         
+        }
+
+        Console.WriteLine("Ingredienser: " + NewDishIngredients.Count);
+    }
+    
+    private void Filter(ChangeEventArgs args)
+    {
+        List<string> match = new List<string>();
+        match.AddRange(IngredientList.Values);
+
+        ShowIngredientsList = match.Where(i => i.Contains(args.Value.ToString() ?? string.Empty)).ToList();
+    }
+}

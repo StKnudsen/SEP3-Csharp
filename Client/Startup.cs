@@ -41,7 +41,7 @@ namespace Client
                 options.AddPolicy("Registered",a => 
                     a.RequireAuthenticatedUser().RequireClaim("Registered", "true"));
                 options.AddPolicy("Restaurateur",a => 
-                    a.RequireAuthenticatedUser().RequireClaim("Restaurateur", "true"));
+                    a.RequireAuthenticatedUser().RequireClaim("Restaurateur", "Restaurateur"));
             });
 
             services.AddSignalR(options => 
