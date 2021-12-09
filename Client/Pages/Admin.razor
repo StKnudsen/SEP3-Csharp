@@ -100,8 +100,69 @@
                     <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj opskrift" type="submit" @onclick="AddRecipeAsync"/>
                 </div>
             </div>
-            <p>@label</p>
         }
+
+        <hr class="border-t-4 border-dotted border-red-600">
+
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj restaurant</p>
+        <div>
+            <div class="flex justify-center my-5">
+                <label class="text-gray-700 text-sm font-semibold">Restaurantnavn</label>
+                <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. Noma" @bind-value="restaurantName"/>
+            </div>
+            <table class="mx-auto">
+                <thead>
+                <tr>
+                    <td>CVR</td>
+                    <td>Tema</td>
+                    <td>Telefonnummer</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="cvr"/>
+                    </td>
+                    <td>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="Michelin-mad" @bind-value="theme"/>
+                    </td>
+                    <td>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="42424242" minlength="8" maxlength="8" @bind-value="phoneNumber"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="mx-auto">
+                <thead>
+                <tr>
+                    <td>Adresse</td>
+                </tr>
+                <tr>
+                    <td>Vejnavn</td>
+                    <td>Husnummer</td>
+                    <td>Postnummer</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="Smølfestræde" @bind-value="streetName"/>
+                    </td>
+                    <td>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="houseNumber"/>
+                    </td>
+                    <td>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="8700" minlength="4" maxlength="4" @bind-value="postalCode"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="flex justify-center my-5">
+                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj restaurant" type="submit" @onclick="AddRestaurantAsync"/>
+            </div>
+            <p>@label</p>
+
+        </div>
     </div>
 </AuthorizeView>
 
@@ -115,10 +176,19 @@
     public string label { get; set; }
     public int amount { get; set; }
     public string recipeName { get; set; }
+    public string restaurantName { get; set; }
+    public int cvr { get; set; }
+    public string theme { get; set; }
+    public string phoneNumber { get; set; }
+    public string streetName { get; set; }
+    public int houseNumber { get; set; }
+    public int postalCode { get; set; }
+
 
     public Dictionary<int, string> FoodGroupList;
     public Dictionary<int, string> UnitList;
     public Dictionary<int, string> IngredientList;
+    public List<Restaurant> RestaurantList;
     public List<string> ShowIngredientsList;
     public List<RecipeIngredient> NewRecipeIngredients;
 
@@ -127,6 +197,7 @@
         FoodGroupList = await _administration.GetFoodgroupListAsync();
         UnitList = await _administration.GetUnitListAsync();
         IngredientList = await _administration.GetIngredientListAsync();
+        RestaurantList = await _administration.GetRestaurantListAsync();
         ShowIngredientsList = new List<string>(IngredientList.Values);
         NewRecipeIngredients = new List<RecipeIngredient>();
     }
@@ -189,7 +260,7 @@
         {
             if (recipeName is null or "" || NewRecipeIngredients == null || NewRecipeIngredients.Count == 0)
             {
-                Console.WriteLine("Nulll i ny opskrift");
+                Console.WriteLine("Null i ny opskrift");
             }
             else
             {
@@ -222,6 +293,48 @@
         }
     }
 
+    public async Task AddRestaurantAsync()
+    {
+        if (restaurantName is null or "" || cvr == 0 || theme is null or "" || phoneNumber is null or "" || houseNumber == 0 || streetName is null or "" || postalCode == 0)
+        {
+            Console.WriteLine("Null i ny restaurant");
+        }
+        else
+        {
+            Restaurant restaurant = new Restaurant()
+            {
+                CVR = cvr,
+                Name = restaurantName,
+                Theme = theme,
+                Address = new Address()
+                {
+                    StreetName = streetName,
+                    HouseNumber = houseNumber,
+                    PostalCode = postalCode
+                },
+                PhoneNumber = "+45" + phoneNumber
+            };
+
+            try
+            {
+                bool result = await _administration.AddRestaurantAsync(restaurant);
+
+                if (result)
+                {
+                    label = "Succes";
+                }
+                else if (!result)
+                {
+                    label = "Netværksfejl";
+                }
+            }
+            catch (Exception e)
+            {
+                label = "Noget gik galt med tilføjelse af restaurant, kontakt backend";
+            }
+        }
+    }
+
 
     private void Filter(ChangeEventArgs args)
     {
@@ -230,7 +343,6 @@
 
         ShowIngredientsList = match.Where(i => i.Contains(args.Value.ToString() ?? string.Empty)).ToList();
     }
-
 
 
 }
