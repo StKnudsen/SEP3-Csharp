@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BusinessServer.Network;
 using BusinessServer.Network.AdminDataLink;
 using SharedLibrary.Models;
+using SharedLibrary.Models.Restaurateur;
 
 namespace BusinessServer.Services.Admin
 {

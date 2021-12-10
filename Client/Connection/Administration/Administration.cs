@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SharedLibrary.Models;
+using SharedLibrary.Models.Restaurateur;
 
 namespace Client.Connection.Administration
 {
@@ -130,7 +131,7 @@ namespace Client.Connection.Administration
                 await HubConnection.StartAsync();
             }
 
-            return await HubConnection.InvokeAsync<Address>("GetAddressByIdAsync");
+            return await HubConnection.InvokeAsync<Address>("GetAddressByIdAsync", addressId);
         }
     }
 }

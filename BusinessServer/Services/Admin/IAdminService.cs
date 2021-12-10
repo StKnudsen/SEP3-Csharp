@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedLibrary.Models;
+using SharedLibrary.Models.Restaurateur;
 
 namespace BusinessServer.Services.Admin
 {
