@@ -38,6 +38,24 @@ namespace Client.Connection.Administration
             }
         }
 
+        public async Task<bool> AddFoodGroup(string foodGroupName)
+        {
+            try
+            {
+                if (HubConnection is null)
+                {
+                    HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                    await HubConnection.StartAsync();
+                }
+
+                return await HubConnection.InvokeAsync<bool>("AddFoodGroup", foodGroupName);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public async Task<bool> AddRecipeAsync(Recipe recipe)
         {
             try

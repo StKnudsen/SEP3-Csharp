@@ -7,6 +7,7 @@ namespace BusinessServer.Services.Admin
     public interface IAdminService
     {
         public Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId);
+        Task<bool> AddFoodGroup(string foodGroupName);
         public Task<bool> AddRecipeAsync(Recipe recipe);
         public Task<bool> AddRestaurantAsync(Restaurant restaurant);
 

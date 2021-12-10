@@ -43,6 +43,11 @@ namespace BusinessServer.Services.Admin
             return true;
         }
 
+        public async Task<bool> AddFoodGroup(string foodGroupName)
+        {
+            return await AdminDataLink.AddFoodGroup(foodGroupName);
+        }
+
         public async Task<bool> AddRecipeAsync(Recipe recipe)
         {
             if (recipeList.ContainsValue(recipe.Name.ToLower()))

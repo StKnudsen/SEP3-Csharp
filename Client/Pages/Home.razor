@@ -11,11 +11,11 @@
 @attribute [Authorize(Policy = "SignedIn")]
 
 <AuthorizeView>
-    <div class="mt-6 p-6 max-w-l mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 border border-gray-300">
+    <div class="mt-6 p-6 max-w-l mx-auto bg-white rounded-xl shadow-md flex items-center border border-gray-300">
         <div class="container flex flex-col items-center">
             <img src="images/SDbench.png" alt="Sarah & Duck on bench" width="388" height="178">
             <p class="text-3xl text-red-700 font-bold mx-auto text-center mt-5">Velkommen @context.User.Identity?.Name</p>
-            <div class="flex flex-col mt-4 max-w-xs mx-auto ">
+            <div class="flex flex-col mt-4 max-w-xs mx-auto">
                 <p class="text-sm font-semibold text-gray-700">Gruppe ID:</p>
                 <input type="text" class="h-16 rounded border border-gray-400 shadow text-6xl text-gray-700 uppercase tracking-wide text-center" @bind-value="GroupId" maxlength="6">
                 <p class="text-red-600 text-sm">@ErrorLabel</p>
