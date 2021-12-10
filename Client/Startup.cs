@@ -1,5 +1,6 @@
 using Client.Connection.Administration;
 using Client.Connection.Authentication;
+using Client.Connection.DNNR;
 using Client.Connection.GroupManagement;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -31,6 +32,7 @@ namespace Client
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<IGroupManager, GroupManager>();
             services.AddScoped<IAdministration, Administration>();
+            services.AddScoped<ISharedDNNR, SharedDNNR>();
             // Opsætning af adgangspolitikker.
             services.AddAuthorization(options =>
             {

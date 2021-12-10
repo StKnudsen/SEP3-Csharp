@@ -75,17 +75,6 @@ namespace Client.Connection.Administration
             }
         }
 
-        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
-        {
-            if (HubConnection is null)
-            {
-                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
-                await HubConnection.StartAsync();
-            }
-
-            return await HubConnection.InvokeAsync<Dictionary<int, string>>
-                ("GetFoodgroupListAsync");
-        }
 
         public async Task<Dictionary<int, string>> GetUnitListAsync()
         {
@@ -97,18 +86,6 @@ namespace Client.Connection.Administration
 
             return await HubConnection.InvokeAsync<Dictionary<int, string>>
                 ("GetUnitListAsync");
-        }
-
-        public async Task<Dictionary<int, string>> GetIngredientListAsync()
-        {
-            if (HubConnection is null)
-            {
-                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
-                await HubConnection.StartAsync();
-            }
-
-            return await HubConnection.InvokeAsync<Dictionary<int, string>>
-                ("GetIngredientListAsync");
         }
 
         public async Task<List<Restaurant>> GetRestaurantListAsync()

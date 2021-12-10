@@ -9,8 +9,6 @@ namespace BusinessServer.Network.AdminDataLink
         Task<bool> AddIngredientAsync(string ingredientName, int foodGroupId);
         Task<bool> AddRecipeAsync(Recipe recipe);
         Task<bool> AddRestaurantAsync(Restaurant restaurant);
-        Task<Dictionary<int, string>> GetFoodgroupListAsync();
-        Task<Dictionary<int, string>> GetIngredientListAsync();
         Task<Dictionary<int, string>>  GetUnitListAsync();
         Task<Dictionary<int, string>> GetRecipeListAsync();
         Task<List<Restaurant>> GetRestaurantListAsync();
