@@ -1,0 +1,13 @@
+@page "/Profile"
+@using Client.Connection.Authentication
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView Policy="User">
+    <div class="bg-blue-300">
+        Hello profile...
+    </div>
+</AuthorizeView>
+
+@code {
+    
+}

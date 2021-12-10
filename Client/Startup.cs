@@ -37,11 +37,11 @@ namespace Client
                 options.AddPolicy("SignedIn", a =>
                     a.RequireAuthenticatedUser().RequireClaim("SignedIn", "true"));
                 options.AddPolicy("Admin",a => 
-                    a.RequireAuthenticatedUser().RequireClaim("Admin", "Admin"));
-                options.AddPolicy("Registered",a => 
-                    a.RequireAuthenticatedUser().RequireClaim("Registered", "true"));
+                    a.RequireAuthenticatedUser().RequireClaim("Role", "Admin"));
+                options.AddPolicy("User",a => 
+                    a.RequireAuthenticatedUser().RequireClaim("Role", "User"));
                 options.AddPolicy("Restaurateur",a => 
-                    a.RequireAuthenticatedUser().RequireClaim("Restaurateur", "true"));
+                    a.RequireAuthenticatedUser().RequireClaim("Role", "Restaurateur"));
             });
 
             services.AddSignalR(options => 
