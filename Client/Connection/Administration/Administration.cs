@@ -73,6 +73,24 @@ namespace Client.Connection.Administration
             {
                 throw(new Exception(e.Message));
             }
+        } 
+        public async Task<bool> AddRestaurantAsync(Restaurant restaurant)
+        {
+            try
+            {
+                if (HubConnection is null)
+                {
+                    HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                    await HubConnection.StartAsync();
+                }
+                
+                Console.WriteLine("Administration added restaurant: " + restaurant.Name);
+                return await HubConnection.InvokeAsync<bool>("AddRestaurantAsync", restaurant);
+            }
+            catch (Exception e)
+            {
+                throw(new Exception(e.Message));
+            }
         }
 
         public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
@@ -109,6 +127,28 @@ namespace Client.Connection.Administration
 
             return await HubConnection.InvokeAsync<Dictionary<int, string>>
                 ("GetIngredientListAsync");
+        }
+
+        public async Task<List<Restaurant>> GetRestaurantListAsync()
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            return await HubConnection.InvokeAsync<List<Restaurant>>("GetRestaurantListAsync");
+        }
+
+        public async Task<Address> GetAddressByIdAsync(int addressId)
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            return await HubConnection.InvokeAsync<Address>("GetAddressByIdAsync");
         }
     }
 }
