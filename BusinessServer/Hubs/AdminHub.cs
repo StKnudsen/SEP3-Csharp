@@ -57,30 +57,6 @@ namespace BusinessServer.Hubs
             }
         }
 
-        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
-        {
-            try
-            {
-                return await AdminService.GetFoodgroupListAsync();
-            }
-            catch (Exception e)
-            {
-                throw (new Exception(e.Message));
-            }
-        }
-
-        public async Task<Dictionary<int, string>> GetIngredientListAsync()
-        {
-            try
-            {
-                return await AdminService.GetIngredientListAsync();
-            }
-            catch (Exception e)
-            {
-                throw (new Exception(e.Message));
-            }
-        }
-
         public async Task<Dictionary<int, string>> GetUnitListAsync()
         {
             try

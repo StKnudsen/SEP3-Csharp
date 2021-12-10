@@ -18,6 +18,15 @@
                         href="/Home">
                         Hjem
                     </NavLink>
+                    <AuthorizeView Policy="User">
+                        <Authorized>
+                           <NavLink
+                               class="py-5 px-3 text-gray-800 font-medium hover:text-red-500 transition duration-500"
+                               href="/Profile">
+                               Profil
+                           </NavLink>
+                        </Authorized>
+                    </AuthorizeView>
                     <AuthorizeView Policy="Admin">
                         <NavLink
                             class="py-5 px-3 text-gray-800 font-medium hover:text-red-500 transition duration-500"
@@ -72,6 +81,15 @@
                  href="/Home">
             Hjem
         </NavLink>
+        <AuthorizeView Policy="User">
+            <Authorized>
+               <NavLink
+                   class="block py-3 px-8 hover:bg-gray-300 hover:text-red-500 transition duration-500"
+                   href="/Profile">
+                   Profil
+               </NavLink>
+            </Authorized>
+        </AuthorizeView>
         <AuthorizeView Policy="Admin">
             <NavLink
                 class="block py-3 px-8 hover:bg-gray-300 hover:text-red-500 transition duration-500"

@@ -1,10 +1,13 @@
 ﻿@page "/Admin"
+
 @using Client.Connection.Administration
+@using Client.Connection.DNNR
 @using SharedLibrary.Models
+
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IAdministration _administration
-
+@inject ISharedDNNR SharedDnnr
 
 <AuthorizeView Policy="Admin">
     <div class="mt-6 p-6 max-w-l  bg-white rounded-xl shadow-md flex-wrap items-center border border-gray-300">
@@ -211,9 +214,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        FoodGroupList = await _administration.GetFoodgroupListAsync();
+        FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
         UnitList = await _administration.GetUnitListAsync();
-        IngredientList = await _administration.GetIngredientListAsync();
+        IngredientList = await SharedDnnr.GetIngredientListAsync();
         RestaurantList = await _administration.GetRestaurantListAsync();
         ShowIngredientsList = new List<string>(IngredientList.Values);
         NewRecipeIngredients = new List<RecipeIngredient>();
