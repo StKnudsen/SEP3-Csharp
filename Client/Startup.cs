@@ -1,5 +1,6 @@
 using Client.Connection.Administration;
 using Client.Connection.Authentication;
+using Client.Connection.DNNR;
 using Client.Connection.GroupManagement;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -31,17 +32,18 @@ namespace Client
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<IGroupManager, GroupManager>();
             services.AddScoped<IAdministration, Administration>();
+            services.AddScoped<ISharedDNNR, SharedDNNR>();
             // Opsætning af adgangspolitikker.
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("SignedIn", a =>
                     a.RequireAuthenticatedUser().RequireClaim("SignedIn", "true"));
                 options.AddPolicy("Admin",a => 
-                    a.RequireAuthenticatedUser().RequireClaim("Admin", "Admin"));
-                options.AddPolicy("Registered",a => 
-                    a.RequireAuthenticatedUser().RequireClaim("Registered", "true"));
+                    a.RequireAuthenticatedUser().RequireClaim("Role", "Admin"));
+                options.AddPolicy("User",a => 
+                    a.RequireAuthenticatedUser().RequireClaim("Role", "User"));
                 options.AddPolicy("Restaurateur",a => 
-                    a.RequireAuthenticatedUser().RequireClaim("Restaurateur", "true"));
+                    a.RequireAuthenticatedUser().RequireClaim("Role", "Restaurateur"));
             });
 
             services.AddSignalR(options => 

@@ -11,9 +11,7 @@ namespace Client.Connection.Administration
         Task<bool> AddFoodGroup(string foodGroupName);
         public Task<bool> AddRecipeAsync(Recipe recipe);
         public Task<bool> AddRestaurantAsync(Restaurant restaurant);
-        Task<Dictionary<int, string>> GetFoodgroupListAsync();
         Task<Dictionary<int, string>>  GetUnitListAsync();
-        Task<Dictionary<int, string>> GetIngredientListAsync();
         Task<List<Restaurant>> GetRestaurantListAsync();
         Task<Address> GetAddressByIdAsync(int addressId);
 

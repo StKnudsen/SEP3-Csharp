@@ -2,6 +2,7 @@ using System.Linq;
 using BusinessServer.Hubs;
 using BusinessServer.Services;
 using BusinessServer.Services.Admin;
+using BusinessServer.Services.DNNRService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -26,6 +27,7 @@ namespace BusinessServer
             services.AddControllers();
             services.AddSingleton<IGroupService, GroupService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IDNNRService, DNNRService>();
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
@@ -56,6 +58,7 @@ namespace BusinessServer
                 endpoints.MapHub<UserHub>("/userhub");
                 endpoints.MapHub<GroupHub>("/grouphub");
                 endpoints.MapHub<AdminHub>("/adminhub");
+                endpoints.MapHub<DNNRHub>("/dnnrhub");
             });
         }
     }
