@@ -10,6 +10,18 @@
     <div class="mt-6 p-6 max-w-l  bg-white rounded-xl shadow-md flex-wrap items-center border border-gray-300">
         <p class="text-3xl text-red-700 font-bold mx-auto text-center mt-5">Velkommen Admin</p>
 
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj fødevaregruppe</p>
+
+        <div class="flex flex-col jusify-center place-content-center mx-auto mt-4 w-1/5">
+            <label class="text-gray-700 text-sm font-semibold">Ny Fødevaregruppe</label>
+            <input type="text" class="border border-gray-300 rounded" @bind-value="NewFoodGroup"/>
+            <div class="my-4 mx-auto">
+                <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddFoodGroup"/>
+            </div>
+        </div>
+        
+        <hr class="border-t-4 border-dotted border-red-600">
+        
         <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj ingrediens til fødevaregruppe</p>
 
         @if (FoodGroupList == null)
@@ -18,27 +30,18 @@
         }
         else
         {
-            <div class="flex flex-row">
-                <div class="flex flex-col justify-center ml-auto mt-4 mr-4 w-1/5">
-                    <label class="text-gray-700 text-sm font-semibold">Ingrediensnavn</label>
-                    <input type="text" class=" border border-gray-300 rounded" @bind-value="IngredientName"/>
-                    <label class="text-gray-700 text-sm font-semibold mt-4">Fødevaregruppe</label>
-                    <select name="_foodgroupId" class="border border-gray-300 rounded" @bind="FoodGroupId">
-                        @foreach (KeyValuePair<int, string> pair in FoodGroupList.OrderBy(pair => pair.Value))
-                        {
-                            <option value="@pair.Key">@(pair.Value[..1].ToUpper() + pair.Value[1..])</option>
-                        }
-                    </select>
-                    <div class="my-4 mx-auto">
-                        <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
-                    </div>
-                </div>
-                <div class="flex flex-col jusify-center place-content-center mr-auto mt-4 ml-4 w-1/5">
-                    <label class="text-gray-700 text-sm font-semibold">Ny Fødevaregruppe</label>
-                    <input type="text" class="border border-gray-300 rounded" @bind-value="NewFoodGroup"/>
-                    <div class="my-4 mx-auto">
-                        <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddFoodGroup"/>
-                    </div>
+            <div class="flex flex-col justify-center mx-auto mt-4 w-1/5">
+                <label class="text-gray-700 text-sm font-semibold">Ingrediensnavn</label>
+                <input type="text" class=" border border-gray-300 rounded" @bind-value="IngredientName"/>
+                <label class="text-gray-700 text-sm font-semibold mt-4">Fødevaregruppe</label>
+                <select name="_foodgroupId" class="border border-gray-300 rounded" @bind="FoodGroupId">
+                    @foreach (KeyValuePair<int, string> pair in FoodGroupList.OrderBy(pair => pair.Value))
+                    {
+                        <option value="@pair.Key">@(pair.Value[..1].ToUpper() + pair.Value[1..])</option>
+                    }
+                </select>
+                <div class="my-4 mx-auto">
+                    <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
                 </div>
             </div>
         }
@@ -176,7 +179,7 @@
             <div class="flex justify-center my-5">
                 <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj restaurant" type="submit" @onclick="AddRestaurantAsync"/>
             </div>
-            <p>@label</p>
+            <p>@Label</p>
 
         </div>
     </div>
@@ -367,16 +370,16 @@
 
                 if (result)
                 {
-                    label = "Succes";
+                    Label = "Succes";
                 }
                 else if (!result)
                 {
-                    label = "Netværksfejl";
+                    Label = "Netværksfejl";
                 }
             }
             catch (Exception e)
             {
-                label = "Noget gik galt med tilføjelse af restaurant, kontakt backend";
+                Label = "Noget gik galt med tilføjelse af restaurant, kontakt backend";
             }
         }
     }
@@ -396,4 +399,5 @@
         value = value?[..1].ToUpper() + value?[1..];
         return value;
     }
+
 }
