@@ -33,6 +33,14 @@ body {
     transform: translate(-50%, -50%);
 }
 
+tbody tr:nth-child(even) {
+    background-color: #f0f0f0;
+}
+
+tbody tr:last-child {
+    background-color: white;
+}
+
 .hide-scroll-bar {
     -ms-overflow-style: none;
     scrollbar-width: none;

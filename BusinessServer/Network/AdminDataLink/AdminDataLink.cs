@@ -41,6 +41,20 @@ namespace BusinessServer.Network.AdminDataLink
             return responseMessage.IsSuccessStatusCode;
         }
 
+        public async Task<bool> AddFoodGroup(string foodGroupName)
+        {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage responseMessage = await client.PostAsync(
+                $"{uri}/addfoodgroup?foodGroupName={foodGroupName}", null!);
+
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception("Kunne ikke tilføje fødevaregruppe");
+            }
+
+            return responseMessage.IsSuccessStatusCode;
+        }
+
         public async Task<bool> AddRecipeAsync(Recipe recipe)
         {
             

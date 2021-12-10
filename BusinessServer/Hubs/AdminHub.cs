@@ -26,7 +26,13 @@ namespace BusinessServer.Hubs
             {
                 throw (new Exception(e.Message));
             }
-        }   
+        }
+
+        public async Task<bool> AddFoodGroup(string foodGroupName)
+        {
+            return await AdminService.AddFoodGroup(foodGroupName);
+        }
+
         public async Task<bool> AddRecipeAsync(Recipe recipe)
         {
             Console.WriteLine("AdminHub er nået til AddRecipeAsync " + recipe.RecipeIngredient.Count);

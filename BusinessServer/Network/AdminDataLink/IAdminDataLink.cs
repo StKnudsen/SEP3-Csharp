@@ -7,6 +7,7 @@ namespace BusinessServer.Network.AdminDataLink
     public interface IAdminDataLink
     {
         Task<bool> AddIngredientAsync(string ingredientName, int foodGroupId);
+        Task<bool> AddFoodGroup(string foodGroupName);
         Task<bool> AddRecipeAsync(Recipe recipe);
         Task<Dictionary<int, string>> getFoodgroupListAsync();
         Task<Dictionary<int, string>> GetIngredientListAsync();

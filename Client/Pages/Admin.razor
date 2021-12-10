@@ -18,24 +18,28 @@
         }
         else
         {
-            <div class="flex justify-center mx-auto mt-4">
-
-                <form class="form-group">
+            <div class="flex flex-row">
+                <div class="flex flex-col justify-center ml-auto mt-4 mr-4 w-1/5">
                     <label class="text-gray-700 text-sm font-semibold">Ingrediensnavn</label>
-                    <input type="text" class=" border border-gray-300 rounded" @bind-value="ingredientName"/>
-                    <label class="text-gray-700 text-sm font-semibold">Fødevaregruppe</label>
-                    <select name="_foodgroupId" class="border border-gray-300 rounded" @bind="_foodGroupId">
-                        @{
-                            foreach (KeyValuePair<int, string> pair in FoodGroupList)
-                            {
-                                <option value="@pair.Key">@pair.Value</option>
-                            }
+                    <input type="text" class=" border border-gray-300 rounded" @bind-value="IngredientName"/>
+                    <label class="text-gray-700 text-sm font-semibold mt-4">Fødevaregruppe</label>
+                    <select name="_foodgroupId" class="border border-gray-300 rounded" @bind="FoodGroupId">
+                        @foreach (KeyValuePair<int, string> pair in FoodGroupList.OrderBy(pair => pair.Value))
+                        {
+                            <option value="@pair.Key">@(pair.Value[..1].ToUpper() + pair.Value[1..])</option>
                         }
                     </select>
-                </form>
-            </div>
-            <div class="flex justify-center my-4">
-                <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
+                    <div class="my-4 mx-auto">
+                        <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddIngredientAsync"/>
+                    </div>
+                </div>
+                <div class="flex flex-col jusify-center place-content-center mr-auto mt-4 ml-4 w-1/5">
+                    <label class="text-gray-700 text-sm font-semibold">Ny Fødevaregruppe</label>
+                    <input type="text" class="border border-gray-300 rounded" @bind-value="NewFoodGroup"/>
+                    <div class="my-4 mx-auto">
+                        <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddFoodGroup"/>
+                    </div>
+                </div>
             </div>
         }
         <hr class="border-t-4 border-dotted border-red-600">
@@ -52,75 +56,85 @@
             <div>
                 <div class="flex justify-center my-5">
                     <label class="text-gray-700 text-sm font-semibold">Opskriftnavn</label>
-                    <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. boller i karry" @bind-value="recipeName"/>
+                    <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. boller i karry" @bind-value="RecipeName"/>
                 </div>
-                <table class="mx-auto">
-                    <thead>
-                    <tr>
-                        <td>Ingrediensnavn</td>
-                        <td>Mængde</td>
-                        <td>Måleenhed</td>
+                <table class="w-1/2 mx-auto border border-gray-300 border-collapse rounded">
+                    <thead class="bg-gray-300">
+                    <tr class="text-sm">
+                        <th class="border border-gray-300">Ingrediens</th>
+                        <th class="border border-gray-300">Mængde</th>
+                        <th class="border border-gray-300">Måleenhed</th>
+                        <th class="border border-gray-300"/>
                     </tr>
                     </thead>
                     <tbody>
+                    @foreach (RecipeIngredient ingredient in NewRecipeIngredients.OrderBy(ing => ing.IngredientName))
+                    {
+                        <tr>
+                            <td class="border border-gray-300">@ingredient.IngredientName</td>
+                            <td class="border border-gray-300">@ingredient.Amount</td>
+                            <td class="border border-gray-300">@GetUnitValueFromKey(ingredient.UnitId)</td>
+                            @*<td class="border border-gray-300 w-2/5">
+                                <button class="bg-red-800 hover:bg-red-600 duration-500 transition px-1.5 border border-red-900 rounded inline-block align-middle">
+                                    <i class="oi oi-pencil text-white text-xs text-center"></i>
+                                </button>
+                            </td>*@
+                        </tr>
+                    }
                     <tr>
-                        <td>
-                            <div class="dropdown border border-gray-300 rounded">
-                                <div id="myDropdown" class="dropdown-content show">
-                                    <input list="ingredients" type="text" placeholder="Søg.." @bind-value="addedIngredient" @oninput="(arg) => Filter(arg)">
-                                    <datalist id="ingredients">
-                                        @{
-                                            foreach (string ingredient in ShowIngredientsList)
-                                            {
-                                                <option value="@ingredient">@ingredient</option>
-                                            }
-                                        }
-                                    </datalist>
-                                </div>
-                            </div>
+                        <td class="border border-gray-300 w-3/5">
+                            <input class="w-full" list="ingredient-list" @bind-value="AddedIngredient"/>
+
+                            <datalist id="ingredient-list">
+                                @foreach (string name in IngredientList.Values.OrderBy(value => value))
+                                {
+                                    <option value="@(name[..1].ToUpper() + name[1..])"/>
+                                }
+                            </datalist>
                         </td>
-                        <td>
-                            <input type="text" class=" border border-gray-300 rounded" @bind-value="amount"/>
+                        <td class="border border-gray-300 w-1/5">
+                            <input class="w-full" type="number" min="0.5" step="0.5" @bind-value="Amount"/>
                         </td>
-                        <td>
-                            <select name="_unitId" class=" border border-gray-300 rounded" @bind="_unitId">
-                                @{
-                                    foreach (KeyValuePair<int, string> pair in UnitList)
-                                    {
-                                        <option value="@pair.Key" selected="@pair.Key.Equals(1)">@pair.Value</option>
-                                    }
+                        <td class="border border-gray-300 w-1/5">
+                            <select class="w-full" @bind="UnitId">
+                                @foreach (KeyValuePair<int, string> pair in UnitList)
+                                {
+                                    <option value="@pair.Key">@(pair.Value[..1].ToUpper() + pair.Value[1..])</option>
                                 }
                             </select>
+                        </td>
+                        <td class="border border-gray-300 w-2/5">
+                            <button class="bg-red-800 hover:bg-red-600 duration-500 transition px-1.5 border border-red-900 rounded inline-block align-middle" @onclick="AddIngredientToNewRecipeIngredientsList">
+                                <i class="oi oi-plus text-white text-xs text-center"></i>
+                            </button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="flex justify-center my-5">
-                    <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ingrediens til opskrift" type="submit" @onclick="AddIngredientToNewRecipeIngredientsList"/>
                     <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj opskrift" type="submit" @onclick="AddRecipeAsync"/>
                 </div>
             </div>
-            <p>@label</p>
+            <p>@Label</p>
         }
     </div>
 </AuthorizeView>
 
 @code {
-    public int _foodGroupId { set; get; }
-    public int _unitId { set; get; }
-    public string ingredientName { get; set; }
-    public string ingredient { get; set; }
-    public string addedIngredient { get; set; }
-    public string unitName { get; set; }
-    public string label { get; set; }
-    public int amount { get; set; }
-    public string recipeName { get; set; }
+    private int FoodGroupId { set; get; }
+    private int UnitId { set; get; }
+    private string IngredientName { get; set; }
+    private string AddedIngredient { get; set; }
+    private string Label { get; set; }
+    private decimal Amount { get; set; }
+    private string RecipeName { get; set; }
+    private string NewFoodGroup { get; set; }
 
-    public Dictionary<int, string> FoodGroupList;
-    public Dictionary<int, string> UnitList;
-    public Dictionary<int, string> IngredientList;
-    public List<string> ShowIngredientsList;
-    public List<RecipeIngredient> NewRecipeIngredients;
+    private Dictionary<int, string> FoodGroupList;
+    private Dictionary<int, string> UnitList;
+    private Dictionary<int, string> IngredientList;
+    private List<string> ShowIngredientsList;
+    private List<RecipeIngredient> NewRecipeIngredients;
 
     protected override async Task OnInitializedAsync()
     {
@@ -131,53 +145,85 @@
         NewRecipeIngredients = new List<RecipeIngredient>();
     }
 
-    private async Task AddIngredientAsync()
+    private async Task AddFoodGroup()
     {
-        if (ingredientName is null or "" || _foodGroupId == 0)
+        if (NewFoodGroup is null or "")
         {
-            Console.WriteLine("Null I AddIngredient");
-            label = "Null i AddIngredient";
+            Label = "Null i NewFoodGroup";
         }
         else
         {
             try
             {
-                bool result = await _administration.AddIngredientAsync(ingredientName, _foodGroupId);
+                bool result = await _administration.AddFoodGroup(NewFoodGroup);
 
                 if (result)
                 {
-                    label = "Succes";
+                    Label = "Succes";
+                    FoodGroupList = await _administration.GetFoodgroupListAsync();
+                    NewFoodGroup = "";
                 }
-                else if (!result)
+                else
                 {
-                    label = "Netværksfejl";
+                    Label = "Netværksfejl";
                 }
             }
             catch (Exception e)
             {
-                label = "Noget gik galt, kontakt backend";
+                Label = "Noget gik galt, kontakt backend";
+            }
+        }
+    }
+
+    private async Task AddIngredientAsync()
+    {
+        if (IngredientName is null or "" || FoodGroupId == 0)
+        {
+            Console.WriteLine("Null I AddIngredient");
+            Label = "Null i AddIngredient";
+        }
+        else
+        {
+            try
+            {
+                bool result = await _administration.AddIngredientAsync(IngredientName, FoodGroupId);
+
+                if (result)
+                {
+                    Label = "Succes";
+                    IngredientList = await _administration.GetIngredientListAsync();
+                }
+                else
+                {
+                    Label = "Netværksfejl";
+                }
+            }
+            catch (Exception e)
+            {
+                Label = "Noget gik galt, kontakt backend";
             }
         }
     }
 
     private void AddIngredientToNewRecipeIngredientsList()
     {
-        if (addedIngredient is null or "" || amount == 0 || _unitId == 0)
+        if (AddedIngredient is null or "" || Amount == 0 || UnitId == 0)
         {
             Console.WriteLine("null i ingredient til opskrift");
-            label = "null i ingredient til opskrift";
+            Label = "null i ingredient til opskrift";
         }
         else
         {
-            RecipeIngredient recipeIngredient = new RecipeIngredient()
+            RecipeIngredient recipeIngredient = new RecipeIngredient
             {
-                IngredientName = addedIngredient,
-                Amount = amount,
-                UnitId = _unitId
+                IngredientName = AddedIngredient,
+                Amount = Amount,
+                UnitId = UnitId
             };
             NewRecipeIngredients.Add(recipeIngredient);
-            amount = 0;
-            _unitId = 0;
+            AddedIngredient = "";
+            Amount = 0;
+            UnitId = 0;
         }
 
         Console.WriteLine("Ingredienser: " + NewRecipeIngredients.Count);
@@ -187,15 +233,15 @@
     {
         try
         {
-            if (recipeName is null or "" || NewRecipeIngredients == null || NewRecipeIngredients.Count == 0)
+            if (RecipeName is null or "" || NewRecipeIngredients == null || NewRecipeIngredients.Count == 0)
             {
-                Console.WriteLine("Nulll i ny opskrift");
+                Console.WriteLine("Null i ny opskrift");
             }
             else
             {
-                Recipe recipe = new Recipe()
+                Recipe recipe = new Recipe
                 {
-                    Name = recipeName,
+                    Name = RecipeName,
                 };
                 foreach (RecipeIngredient recipeIngredient in NewRecipeIngredients)
                 {
@@ -207,17 +253,17 @@
 
                 if (result)
                 {
-                    label = "Succes";
+                    Label = "Succes";
                 }
-                else if (!result)
+                else
                 {
-                    label = "Netværksfejl";
+                    Label = "Netværksfejl";
                 }
             }
         }
         catch (Exception e)
         {
-            label = "Noget gik galt med tilføjelse af opskrift, kontakt backend";
+            Label = "Noget gik galt med tilføjelse af opskrift, kontakt backend";
             Console.WriteLine(e.StackTrace);
         }
     }
@@ -228,9 +274,14 @@
         List<string> match = new List<string>();
         match.AddRange(IngredientList.Values);
 
-        ShowIngredientsList = match.Where(i => i.Contains(args.Value.ToString() ?? string.Empty)).ToList();
+        ShowIngredientsList = match.Where(i => i.Contains(args.Value?.ToString() ?? string.Empty)).ToList();
     }
 
-
+    private string GetUnitValueFromKey(int key)
+    {
+        UnitList.TryGetValue(key, out string value);
+        value = value?[..1].ToUpper() + value?[1..];
+        return value;
+    }
 
 }
