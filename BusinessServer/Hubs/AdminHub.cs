@@ -28,9 +28,10 @@ namespace BusinessServer.Hubs
             }
         }
 
+        //FIXME async altså
         public async Task<bool> AddFoodGroup(string foodGroupName)
         {
-            return await AdminService.AddFoodGroup(foodGroupName);
+            return await AdminService.AddFoodGroupAsync(foodGroupName);
         }
 
         public async Task<bool> AddRecipeAsync(Recipe recipe)

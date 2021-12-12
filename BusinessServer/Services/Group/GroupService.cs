@@ -65,7 +65,7 @@ namespace BusinessServer.Services
             return groupFromId;
         }
 
-        public async Task SetSwipeType(string groupId, string type)
+        public async Task SetSwipeTypeAsync(string groupId, string type)
         {
             Group Group = GetGroupFromId(groupId);
             Group.SwipeType = type;
@@ -81,7 +81,7 @@ namespace BusinessServer.Services
             }
         }
 
-        public async Task<bool> DoneSwiping(string groupId)
+        public async Task<bool> DoneSwipingAsync(string groupId)
         {
             Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
             group.WaitingUsers++;
@@ -108,7 +108,7 @@ namespace BusinessServer.Services
             return result.OrderByDescending(pair => pair.Key).Take(5).ToList();
         }
 
-        public async Task<bool> CastVote(string groupId, int id)
+        public async Task<bool> CastVoteAsync(string groupId, int id)
         {
             Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
 

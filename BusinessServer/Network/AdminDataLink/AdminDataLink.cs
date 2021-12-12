@@ -41,7 +41,7 @@ namespace BusinessServer.Network.AdminDataLink
             return responseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AddFoodGroup(string foodGroupName)
+        public async Task<bool> AddFoodGroupAsync(string foodGroupName)
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage responseMessage = await client.PostAsync(

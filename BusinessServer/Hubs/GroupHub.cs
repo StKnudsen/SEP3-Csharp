@@ -43,9 +43,10 @@ namespace BusinessServer.Hubs
             return false;
         }
 
+        //FIXME ASYNC!!
         public async Task DoneSwiping(string groupId)
         {
-            bool Done = await GroupService.DoneSwiping(groupId);
+            bool Done = await GroupService.DoneSwipingAsync(groupId);
 
             if (Done)
             {
@@ -53,9 +54,10 @@ namespace BusinessServer.Hubs
             }
         }
 
+        //FIXME ASYNC!!
         public async Task SetSwipeType(string groupId, string type)
         {
-            await GroupService.SetSwipeType(groupId, type);
+            await GroupService.SetSwipeTypeAsync(groupId, type);
             await Clients.Group(groupId).SendAsync("SwipeStart");
         }
 
@@ -64,9 +66,10 @@ namespace BusinessServer.Hubs
             await Clients.Group(groupId).SendAsync("UpdateGroup");
         }
 
+        //FIXME ASYNC!!
         public async Task CastVote(string groupId, int id)
         {
-            bool match = await GroupService.CastVote(groupId, id);
+            bool match = await GroupService.CastVoteAsync(groupId, id);
 
             if (match)
             {

@@ -48,9 +48,9 @@ namespace BusinessServer.Services.Admin
             return true;
         }
 
-        public async Task<bool> AddFoodGroup(string foodGroupName)
+        public async Task<bool> AddFoodGroupAsync(string foodGroupName)
         {
-            return await AdminDataLink.AddFoodGroup(foodGroupName);
+            return await AdminDataLink.AddFoodGroupAsync(foodGroupName);
         }
 
         public async Task<bool> AddRecipeAsync(Recipe recipe)
