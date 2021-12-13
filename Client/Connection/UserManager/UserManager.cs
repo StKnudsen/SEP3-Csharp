@@ -10,7 +10,7 @@ namespace Client.Connection.UserManager
         private readonly string uriUserHub = "https://localhost:5001/userhub";
         private HubConnection HubConnection;
 
-        public UserManager(){ }
+        public UserManager(){ } 
 
         public async Task<Dictionary<int, string>> GetAllergyFoodGroupListAsync(int userId)
         {
