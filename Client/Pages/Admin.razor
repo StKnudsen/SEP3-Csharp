@@ -238,7 +238,7 @@
                 if (result)
                 {
                     Label = "Succes";
-                    FoodGroupList = await _administration.GetFoodgroupListAsync();
+                    FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
                     NewFoodGroup = "";
                 }
                 else
@@ -269,7 +269,7 @@
                 if (result)
                 {
                     Label = "Succes";
-                    IngredientList = await _administration.GetIngredientListAsync();
+                    IngredientList = await SharedDnnr.GetIngredientListAsync();
                 }
                 else
                 {
