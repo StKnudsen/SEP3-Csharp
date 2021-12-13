@@ -71,7 +71,7 @@
 
                                 <button
                                     class="w-1/2 py-6 px-4 bg-green-700 hover:bg-green-500 text-white text-2xl rounded-r-xl transition duration-500"
-                                    @onclick="VoteYes">
+                                    @onclick="VoteYesAsync">
                                     Ja tak!
                                 </button>
                             </div>
@@ -125,8 +125,8 @@
             <p class="text-gray-600">
                 <button
                     class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow"
-                    @onclick="StopSwipe">
-                    Stop swipe!
+                    @onclick="StopSwipeAsync">
+                    StopAsync swipe!
                 </button>
             </p>
         </div>
@@ -155,19 +155,19 @@
     protected override async Task OnInitializedAsync()
     {
         Group = await GroupManager.GetGroupFromIdAsync(GroupId);
-        await GetUser();
-        await GroupManager.RegisterSwipePage(this);
+        await GetUserAsync();
+        await GroupManager.RegisterSwipePageAsync(this);
         IsGroupOwner = User.Username.Equals(Group.GroupOwner.Username);
         SwipeTitle = Group.SwipeObject[SwipeCount].Value;
     }
     
-    public async void NoMatch()
+    public async Task NoMatchAsync()
     {
         IsNoMatch = true;
         await InvokeAsync(StateHasChanged);
     }
 
-    public async Task Match(int id)
+    public async Task MatchAsync(int id)
     {
         IsMatch = true;
 
@@ -189,7 +189,7 @@
         return false;
     }
 
-    private async Task GetUser()
+    private async Task GetUserAsync()
     {
         string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
         if (userAsJson is not null)
@@ -198,13 +198,13 @@
         }
     }
 
-    private async Task VoteYes()
+    private async Task VoteYesAsync()
     {
-        await GroupManager.CastVote(GroupId, Group.SwipeObject[SwipeCount].Key);
+        await GroupManager.CastVoteAsync(GroupId, Group.SwipeObject[SwipeCount].Key);
         UpdateCount();
     }
 
-    private async Task VoteNo()
+    private void VoteNo()
     {
         UpdateCount();
     }
@@ -216,7 +216,7 @@
         if (SwipeCount == Group.SwipeObject.Count - 1)
         {
             IsWaiting = true;
-            GroupManager.DoneSwiping(GroupId);
+            GroupManager.DoneSwipingAsync(GroupId);
         }
         else
         {
@@ -225,12 +225,12 @@
         }
     }
 
-    private async Task StopSwipe()
+    private async Task StopSwipeAsync()
     {
         await GroupManager.StopSwipeAsync(GroupId);
     }
 
-    public async Task Stop(IList<CustomPair> stoppedVoteList)
+    public async Task StopAsync(IList<CustomPair> stoppedVoteList)
     {
         IsStopped = true;
 
@@ -241,7 +241,7 @@
         
     }
 
-    public string SwipeResultTitle(int id)
+    private string SwipeResultTitle(int id)
     {
         foreach (CustomPair pair in Group.SwipeObject)
         {

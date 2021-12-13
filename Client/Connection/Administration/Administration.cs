@@ -39,7 +39,7 @@ namespace Client.Connection.Administration
             }
         }
 
-        public async Task<bool> AddFoodGroup(string foodGroupName)
+        public async Task<bool> AddFoodGroupAsync(string foodGroupName)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Client.Connection.Administration
                     await HubConnection.StartAsync();
                 }
 
-                return await HubConnection.InvokeAsync<bool>("AddFoodGroup", foodGroupName);
+                return await HubConnection.InvokeAsync<bool>("AddFoodGroupAsync", foodGroupName);
             }
             catch (Exception e)
             {

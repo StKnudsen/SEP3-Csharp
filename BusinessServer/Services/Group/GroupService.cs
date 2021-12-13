@@ -72,12 +72,12 @@ namespace BusinessServer.Services
 
             if (type.Equals(Util.RECIPE))
             {
-                Group.SwipeObject = await DataLink.GetShuffledRecipes();
+                Group.SwipeObject = await DataLink.GetShuffledRecipesAsync();
             }
 
             if (type.Equals(Util.RESTAURANT))
             {
-                Group.SwipeObject = await DataLink.GetShuffledRestaurants();
+                Group.SwipeObject = await DataLink.GetShuffledRestaurantsAsync();
             }
         }
 

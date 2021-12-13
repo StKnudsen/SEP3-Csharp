@@ -17,16 +17,16 @@
         <p class="text-3xl text-red-700 font-bold mx-auto text-center mt-5">Velkommen restauratør</p>
 
         <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Vælg restaurant</p>
-        @if (Restaurants == null)
+        @if (_restaurants == null)
         {
             <p>Loader...</p>
         }
         else
         {
             <div class="flex justify-center mx-auto mt-4">
-                <select name="chosenRestaurant" class=" border border-gray-300 rounded" @bind="_restaurantId">
+                <select name="chosenRestaurant" class=" border border-gray-300 rounded" @bind="RestaurantId">
                     @{
-                        foreach (Restaurant restaurant in Restaurants)
+                        foreach (Restaurant restaurant in _restaurants)
                         {
                             <option value="@restaurant.Id">@restaurant.Name</option>
                         }
@@ -60,11 +60,11 @@
 </AuthorizeView>
 
 @code {
-    public string label { get; set; }
-    public string DishName { get; set; }
-    public string DishDescription { get; set; }
-    public int _restaurantId { get; set; }
-    public RegisteredUser CurrentUser { get; set; }
+    private string Label { get; set; }
+    private string DishName { get; set; }
+    private string DishDescription { get; set; }
+    private int RestaurantId { get; set; }
+    private RegisteredUser CurrentUser { get; set; }
     /*
     public string restaurantName { get; set; }
     public int cvr { get; set; }
@@ -74,13 +74,13 @@
     public int houseNumber { get; set; }
     public int postalCode { get; set; }*/
 
-    public List<Restaurant> Restaurants;
+    private List<Restaurant> _restaurants;
 
 
     protected override async Task OnInitializedAsync()
     {
         await GetCurrentUser();
-        Restaurants = await _restaurateurManager.GetRestaurantsFromRestaurateurIdAsync(CurrentUser.UserId);
+        _restaurants = await _restaurateurManager.GetRestaurantsFromRestaurateurIdAsync(CurrentUser.UserId);
     }
 
     private async Task GetCurrentUser()
@@ -107,7 +107,7 @@
                 {
                     Name = DishName,
                     Description = DishDescription,
-                    RestaurantId = _restaurantId
+                    RestaurantId = RestaurantId
                 };
 
 
@@ -115,17 +115,17 @@
 
                 if (result)
                 {
-                    label = "Succes";
+                    Label = "Succes";
                 }
                 else if (!result)
                 {
-                    label = "Netværksfejl";
+                    Label = "Netværksfejl";
                 }
             }
         }
         catch (Exception e)
         {
-            label = "Noget gik galt med tilføjelse af ret, kontakt backend";
+            Label = "Noget gik galt med tilføjelse af ret, kontakt backend";
             Console.WriteLine(e.StackTrace);
         }
     }

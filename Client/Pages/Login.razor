@@ -95,7 +95,7 @@
     private string Password { get; set; }
     private string ErrorLabel { get; set; }
 
-    private async void PerformLoginAsync()
+    private async Task PerformLoginAsync()
     {
         ErrorLabel = "";
         try
@@ -109,7 +109,7 @@
         }
     }
 
-    private async void GuestLoginAsync()
+    private async Task GuestLoginAsync()
     {
         ErrorLabel = "";
         try

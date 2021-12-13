@@ -102,13 +102,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GroupManager.RegisterGroupPage(this);
+        await GroupManager.RegisterGroupPageAsync(this);
         group = await GroupManager.GetGroupFromIdAsync(groupId);
         await GetUsername();
         IsGroupOwner = Username.Equals(group.GroupOwner.Username);
     }
 
-    public async void ForceGroupUpdate()
+    public async Task ForceGroupUpdateAsync()
     {
         group = await GroupManager.GetGroupFromIdAsync(groupId);
         await InvokeAsync(StateHasChanged);
@@ -136,7 +136,7 @@
 
     private void StartGroupSwipe()
     {
-        GroupManager.SetSwipeType(groupId, SwipeTypeSelected);
+        GroupManager.SetSwipeTypeAsync(groupId, SwipeTypeSelected);
     }
 
 }

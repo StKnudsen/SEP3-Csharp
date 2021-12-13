@@ -15,7 +15,7 @@ namespace Client.Connection.Authentication
         private readonly IJSRuntime JsRuntime;
         private readonly string uriUserhub = "https://localhost:5001/userhub";
         private HubConnection HubConnection;
-        public User CachedUser { get; set; }
+        private User CachedUser { get; set; }
 
         public CustomAuthenticationStateProvider(IJSRuntime jsRuntime)
         {

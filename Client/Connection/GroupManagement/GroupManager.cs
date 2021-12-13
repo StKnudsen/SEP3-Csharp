@@ -45,9 +45,9 @@ namespace Client.Connection.GroupManagement
             return await HubConnection.InvokeAsync<string>("CreateGroupAsync", groupOwner);
         }
 
-        public async Task DoneSwiping(string groupId)
+        public async Task DoneSwipingAsync(string groupId)
         {
-            await HubConnection.InvokeAsync("DoneSwiping", groupId);
+            await HubConnection.InvokeAsync("DoneSwipingAsync", groupId);
         }
 
         public async Task StopSwipeAsync(string groupId)
@@ -73,27 +73,27 @@ namespace Client.Connection.GroupManagement
             return true;
         }
 
-        public async Task SetSwipeType(string groupId, string type)
+        public async Task SetSwipeTypeAsync(string groupId, string type)
         {
-            await HubConnection.InvokeAsync("SetSwipeType", groupId, type);
+            await HubConnection.InvokeAsync("SetSwipeTypeAsync", groupId, type);
         }
 
-        public async Task RegisterGroupPage(Groups page)
+        public async Task RegisterGroupPageAsync(Groups page)
         {
-            HubConnection.On("UpdateGroup", page.ForceGroupUpdate);
+            HubConnection.On("UpdateGroup", page.ForceGroupUpdateAsync);
             HubConnection.On("SwipeStart", page.SwipeStart);
         }
         
-        public async Task RegisterSwipePage(Swipe page)
+        public async Task RegisterSwipePageAsync(Swipe page)
         {
-            HubConnection.On("NoMatch", page.NoMatch);
-            HubConnection.On<int>("Match", page.Match);
-            HubConnection.On<IList<CustomPair>>("Stop", page.Stop);
+            HubConnection.On("NoMatchAsync", page.NoMatchAsync);
+            HubConnection.On<int>("MatchAsync", page.MatchAsync);
+            HubConnection.On<IList<CustomPair>>("StopAsync", page.StopAsync);
         }
 
-        public async Task CastVote(string groupId, int id)
+        public async Task CastVoteAsync(string groupId, int id)
         {
-            await HubConnection.InvokeAsync("CastVote", groupId, id);
+            await HubConnection.InvokeAsync("CastVoteAsync", groupId, id);
         }
     }
 }

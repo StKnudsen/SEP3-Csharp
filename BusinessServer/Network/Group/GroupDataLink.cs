@@ -12,7 +12,7 @@ namespace BusinessServer.Network.Group
     {
         private readonly string uri = "http://localhost:8080/group";
         
-        public async Task<List<CustomPair>> GetShuffledRecipes()
+        public async Task<List<CustomPair>> GetShuffledRecipesAsync()
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync($"{uri}/recipes");
@@ -31,7 +31,7 @@ namespace BusinessServer.Network.Group
             return list;
         }
 
-        public async Task<List<CustomPair>> GetShuffledRestaurants()
+        public async Task<List<CustomPair>> GetShuffledRestaurantsAsync()
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync($"{uri}/restaurants");

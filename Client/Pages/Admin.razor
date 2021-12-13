@@ -131,7 +131,7 @@
         <div>
             <div class="flex justify-center my-5">
                 <label class="text-gray-700 text-sm font-semibold">Restaurantnavn</label>
-                <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. Noma" @bind-value="restaurantName"/>
+                <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. Noma" @bind-value="RestaurantName"/>
             </div>
             <table class="mx-auto">
                 <thead>
@@ -144,13 +144,13 @@
                 <tbody>
                 <tr>
                     <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="cvr"/>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="Cvr"/>
                     </td>
                     <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="Michelin-mad" @bind-value="theme"/>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="Michelin-mad" @bind-value="Theme"/>
                     </td>
                     <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="42424242" minlength="8" maxlength="8" @bind-value="phoneNumber"/>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="42424242" minlength="8" maxlength="8" @bind-value="PhoneNumber"/>
                     </td>
                 </tr>
                 </tbody>
@@ -169,13 +169,13 @@
                 <tbody>
                 <tr>
                     <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="Smølfestræde" @bind-value="streetName"/>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="Smølfestræde" @bind-value="StreetName"/>
                     </td>
                     <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="houseNumber"/>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="HouseNumber"/>
                     </td>
                     <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="8700" minlength="4" maxlength="4" @bind-value="postalCode"/>
+                        <input type="text" class="border border-gray-300 rounded" placeholder="8700" minlength="4" maxlength="4" @bind-value="PostalCode"/>
                     </td>
                 </tr>
                 </tbody>
@@ -198,27 +198,25 @@
     private decimal Amount { get; set; }
     private string RecipeName { get; set; }
     private string NewFoodGroup { get; set; }
-    public string restaurantName { get; set; }
-    public int cvr { get; set; }
-    public string theme { get; set; }
-    public string phoneNumber { get; set; }
-    public string streetName { get; set; }
-    public int houseNumber { get; set; }
-    public int postalCode { get; set; }
+    private string RestaurantName { get; set; }
+    private int Cvr { get; set; }
+    private string Theme { get; set; }
+    private string PhoneNumber { get; set; }
+    private string StreetName { get; set; }
+    private int HouseNumber { get; set; }
+    private int PostalCode { get; set; }
 
-    public Dictionary<int, string> FoodGroupList;
-    public Dictionary<int, string> UnitList;
-    public Dictionary<int, string> IngredientList;
-    public List<Restaurant> RestaurantList;
-    public List<string> ShowIngredientsList;
-    public List<RecipeIngredient> NewRecipeIngredients;
+    private Dictionary<int, string> FoodGroupList;
+    private Dictionary<int, string> UnitList;
+    private Dictionary<int, string> IngredientList;
+    private List<string> ShowIngredientsList;
+    private List<RecipeIngredient> NewRecipeIngredients;
 
     protected override async Task OnInitializedAsync()
     {
         FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
         UnitList = await _administration.GetUnitListAsync();
         IngredientList = await SharedDnnr.GetIngredientListAsync();
-        RestaurantList = await _administration.GetRestaurantListAsync();
         ShowIngredientsList = new List<string>(IngredientList.Values);
         NewRecipeIngredients = new List<RecipeIngredient>();
     }
@@ -233,7 +231,7 @@
         {
             try
             {
-                bool result = await _administration.AddFoodGroup(NewFoodGroup);
+                bool result = await _administration.AddFoodGroupAsync(NewFoodGroup);
 
                 if (result)
                 {
@@ -346,9 +344,9 @@
         }
     }
 
-    public async Task AddRestaurantAsync()
+    private async Task AddRestaurantAsync()
     {
-        if (restaurantName is null or "" || cvr == 0 || theme is null or "" || phoneNumber is null or "" || houseNumber == 0 || streetName is null or "" || postalCode == 0)
+        if (RestaurantName is null or "" || Cvr == 0 || Theme is null or "" || PhoneNumber is null or "" || HouseNumber == 0 || StreetName is null or "" || PostalCode == 0)
         {
             Console.WriteLine("Null i ny restaurant");
         }
@@ -356,16 +354,16 @@
         {
             Restaurant restaurant = new Restaurant()
             {
-                CVR = cvr,
-                Name = restaurantName,
-                Theme = theme,
+                CVR = Cvr,
+                Name = RestaurantName,
+                Theme = Theme,
                 Address = new Address()
                 {
-                    StreetName = streetName,
-                    HouseNumber = houseNumber,
-                    PostalCode = postalCode
+                    StreetName = StreetName,
+                    HouseNumber = HouseNumber,
+                    PostalCode = PostalCode
                 },
-                PhoneNumber = "+45" + phoneNumber
+                PhoneNumber = "+45" + PhoneNumber
             };
 
             try

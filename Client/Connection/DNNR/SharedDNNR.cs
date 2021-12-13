@@ -7,7 +7,7 @@ namespace Client.Connection.DNNR
 {
     public class SharedDNNR : ISharedDNNR
     {
-        private readonly string dnnrHub = "https://localhost:5001/dnnrhub";
+        private readonly string uriDnnrHub = "https://localhost:5001/dnnrhub";
         private HubConnection HubConnection;
 
         public SharedDNNR() { }
@@ -16,7 +16,7 @@ namespace Client.Connection.DNNR
         {
             if (HubConnection is null)
             {
-                HubConnection = new HubConnectionBuilder().WithUrl(dnnrHub).Build();
+                HubConnection = new HubConnectionBuilder().WithUrl(uriDnnrHub).Build();
                 await HubConnection.StartAsync();
             }
 
@@ -28,7 +28,7 @@ namespace Client.Connection.DNNR
         {
             if (HubConnection is null)
             {
-                HubConnection = new HubConnectionBuilder().WithUrl(dnnrHub).Build();
+                HubConnection = new HubConnectionBuilder().WithUrl(uriDnnrHub).Build();
                 await HubConnection.StartAsync();
             }
 

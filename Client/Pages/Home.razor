@@ -64,7 +64,7 @@
         }
     }
 
-    private async void CreateGroupAsync()
+    private async Task CreateGroupAsync()
     {
         string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
         if (!string.IsNullOrEmpty(userAsJson))
