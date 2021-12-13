@@ -1,21 +1,65 @@
 @page "/Profile"
+@using SharedLibrary.Models
+@using System.Text.Json
+@using Client.Connection.Profile
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IProfile UserProfile
+@inject IJSRuntime JsRuntime
 
 <AuthorizeView Policy="User">
     <div class="mt-6 p-6 max-w-l  bg-white rounded-xl shadow-md flex-wrap items-center border border-gray-300">
-        <h1 class="text-2xl text-center mb-8">Hej @context.User.Identity?.Name</h1>
+        <h1 class="text-2xl text-center mb-8">Hej @User.Username</h1>
         
         <div class="bg-red-200">
+            VIS allergier
+            <ul>
+                <li class="ml-8">Ingrediensliste</li>
+                <li class="ml-8">Fødevaregruppeliste</li>
+            </ul>
+            <h3>Allegier (ingrediensgrupper)</h3>
+            <table> </table>
+            
+            <h3>Allegier (fødevaregrupper)</h3>
+        </div>
+        
+        <div class="bg-red-200 mt-8">
             Registrere allergier
             <ul>
-                <li>Ingrediensliste</li>
-                <li>Fødevaregruppeliste</li>
+                <li class="ml-8">Ingrediensliste</li>
+                <li class="ml-8">Fødevaregruppeliste</li>
             </ul>
         </div>
     </div>
 </AuthorizeView>
 
 @code {
+    private User User;
     
+    public Dictionary<int, string> UserAllergyIngredient;
+    public Dictionary<int, string> UserAllergyFoodGroup;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUsername();
+    }
+    
+    private async Task GetUsername()
+    {
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (userAsJson is not null)
+        {
+            User = JsonSerializer.Deserialize<User>(userAsJson);
+        }
+    }
+
+    private async Task GetUserAllergyIngredient(int userId)
+    {
+        await UserProfile.GetUserAllergyIngredient(userId);
+    }
+    
+    private async Task GetUserAllergyFoodGroup(int userId)
+    {
+        await UserProfile.GetUserAllergyFoodGroup(userId);
+    }
 }
