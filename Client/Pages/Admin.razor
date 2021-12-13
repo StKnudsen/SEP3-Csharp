@@ -129,6 +129,18 @@
 
         <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj restaurant</p>
         <div>
+
+            <div class="flex justify-center my-5">
+                <label class="text-gray-700 text-sm font-semibold">Restaurantejer</label>
+                <input class="w-full" list="userList" @bind-value="OwnerId"/>
+                <datalist id="userList">
+                    @foreach (KeyValuePair<int, string> user in UserList)
+                    {
+                        <option value="@user.Key">@(user.Value[..1].ToUpper() + user.Value[1..])</option>
+                    }
+                </datalist>
+            </div>
+
             <div class="flex justify-center my-5">
                 <label class="text-gray-700 text-sm font-semibold">Restaurantnavn</label>
                 <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. Noma" @bind-value="RestaurantName"/>
@@ -200,6 +212,7 @@
     private string NewFoodGroup { get; set; }
     private string RestaurantName { get; set; }
     private int Cvr { get; set; }
+    private int OwnerId { get; set; }
     private string Theme { get; set; }
     private string PhoneNumber { get; set; }
     private string StreetName { get; set; }
@@ -209,6 +222,7 @@
     private Dictionary<int, string> FoodGroupList;
     private Dictionary<int, string> UnitList;
     private Dictionary<int, string> IngredientList;
+    private Dictionary<int, string> UserList;
     private List<string> ShowIngredientsList;
     private List<RecipeIngredient> NewRecipeIngredients;
 
@@ -217,6 +231,7 @@
         FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
         UnitList = await _administration.GetUnitListAsync();
         IngredientList = await SharedDnnr.GetIngredientListAsync();
+        UserList = await _administration.GetUsersListAsync();
         ShowIngredientsList = new List<string>(IngredientList.Values);
         NewRecipeIngredients = new List<RecipeIngredient>();
     }

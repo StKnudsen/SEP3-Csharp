@@ -38,18 +38,19 @@
                 <label class="text-gray-700 text-sm font-semibold">Rettens navn</label>
                 <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. boller i karry" @bind-value="DishName"/>
             </div>
-            <label class="text-gray-700 text-sm font-semibold">Beskrivelse</label>
             <div class="flex justify-center mx-auto mt-4">
+                <label class="text-gray-700 text-sm font-semibold">Beskrivelse</label>
                 <form class="form-group" id="dishForm">
                     <textarea form="dishForm" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. karry-baseret SOVS med kogt kød i klumper smækket ovenpå en klat ris" @bind="DishDescription"></textarea>
                 </form>
             </div>
-            <div class="flex justify-center my-5">
+            <div class="flex justify-center my-4">
                 <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj ret" type="submit" @onclick="AddDishAsync"/>
             </div>
         }
 
-
+        <p class="text-red-600 text-sm">@Label</p>
+        
         <hr class="border-t-4 border-dotted border-red-600">
 
         <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Restaurantoplysninger</p>
@@ -99,7 +100,11 @@
         {
             if (DishName is null or "")
             {
-                Console.WriteLine("Null i ny ret");
+                Label = "Retten skal have et navn";
+            }
+            else if (RestaurantId == 0)
+            {
+                Label = "Vælg venligst restaurant";
             }
             else
             {

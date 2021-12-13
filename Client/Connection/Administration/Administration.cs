@@ -128,5 +128,16 @@ namespace Client.Connection.Administration
 
             return await HubConnection.InvokeAsync<Address>("GetAddressByIdAsync", addressId);
         }
+//TODO: Den her metode skal laves, så en liste med alle registerede brugere kan vises på admin-siden, når admin vil tilføje en restaurant. Her skal nemlig kobles en restaurantejer til.
+        public async Task<Dictionary<int, string>> GetUsersListAsync()
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriAdminhub).Build();
+                await HubConnection.StartAsync();
+            }
+
+            return await HubConnection.InvokeAsync<Dictionary<int, string>>("GetUsersListAsync");
+        }
     }
 }
