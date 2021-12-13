@@ -4,6 +4,7 @@ using Client.Connection.Authentication;
 using Client.Connection.DNNR;
 using Client.Connection.GroupManagement;
 using Client.Connection.Restaurateur;
+using Client.Connection.UserManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,7 @@ namespace Client
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<IGroupManager, GroupManager>();
             services.AddScoped<IAdministration, Administration>();
+            services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<ISharedDNNR, SharedDNNR>();
             services.AddScoped<IRestaurateurManager, RestaurateurManager>();
             // Opsætning af adgangspolitikker.
