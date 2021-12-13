@@ -93,6 +93,18 @@ namespace BusinessServer.Hubs
             {
                 throw (new Exception(e.Message));
             }
+        } 
+        
+        public async Task<Dictionary<int,string>> GetUsersAndRestaurateurListAsync()
+        {
+            try
+            {
+                return await AdminService.GetUsersAndRestaurateurListAsync();
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
         }
 
         public async Task<Address> GetAddressByIdAsync(int addressId)

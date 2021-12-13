@@ -134,7 +134,7 @@
                 <label class="text-gray-700 text-sm font-semibold">Restaurantejer</label>
                 <input class="w-full" list="userList" @bind-value="OwnerId"/>
                 <datalist id="userList">
-                    @foreach (KeyValuePair<int, string> user in UserList)
+                    @foreach (KeyValuePair<int, string> user in UsersAndRestaurateurList)
                     {
                         <option value="@user.Key">@(user.Value[..1].ToUpper() + user.Value[1..])</option>
                     }
@@ -222,7 +222,7 @@
     private Dictionary<int, string> FoodGroupList;
     private Dictionary<int, string> UnitList;
     private Dictionary<int, string> IngredientList;
-    private Dictionary<int, string> UserList;
+    private Dictionary<int, string> UsersAndRestaurateurList;
     private List<string> ShowIngredientsList;
     private List<RecipeIngredient> NewRecipeIngredients;
 
@@ -231,7 +231,7 @@
         FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
         UnitList = await _administration.GetUnitListAsync();
         IngredientList = await SharedDnnr.GetIngredientListAsync();
-        UserList = await _administration.GetUsersListAsync();
+        UsersAndRestaurateurList = await _administration.GetUsersAndRestaurateurListAsync();
         ShowIngredientsList = new List<string>(IngredientList.Values);
         NewRecipeIngredients = new List<RecipeIngredient>();
     }
@@ -371,6 +371,7 @@
             {
                 CVR = Cvr,
                 Name = RestaurantName,
+                OwnerId = OwnerId,
                 Theme = Theme,
                 Address = new Address()
                 {

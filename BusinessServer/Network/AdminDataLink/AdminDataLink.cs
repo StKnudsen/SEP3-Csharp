@@ -194,5 +194,24 @@ namespace BusinessServer.Network.AdminDataLink
 
             return address;
         }
+
+        public async Task<Dictionary<int, string>> GetUsersAndRestaurateurListAsync()
+        {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"{uri}/userlist");
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"StatusCode: {response.StatusCode}");
+            }
+            
+            string listAsJson = await response.Content.ReadAsStringAsync();
+            Dictionary<int, string> usersList = JsonSerializer.Deserialize<Dictionary<int, string>>(listAsJson, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+
+            return usersList;
+        }
     }
 }

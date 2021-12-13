@@ -16,6 +16,6 @@ namespace Client.Connection.Administration
         Task<List<Restaurant>> GetRestaurantListAsync();
         Task<Address> GetAddressByIdAsync(int addressId);
 
-        Task<Dictionary<int,string>> GetUsersListAsync();
+        Task<Dictionary<int,string>> GetUsersAndRestaurateurListAsync();
     }
 }
