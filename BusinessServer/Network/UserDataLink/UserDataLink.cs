@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BusinessServer.Models;
@@ -70,6 +71,25 @@ namespace BusinessServer.Network.UserDataLink
 
             return guest;
         }
-        
+
+        public async Task<bool> CreateUserAsync(RegisteredUser user)
+        {
+            using HttpClient client = new HttpClient();
+
+            string userAsJson = JsonSerializer.Serialize(user, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            HttpContent content = new StringContent(
+                userAsJson, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync($"{uri}/user", content);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Kunne ikke oprette bruger");
+            }
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }

@@ -10,6 +10,6 @@ namespace BusinessServer.Network.UserDataLink
         public Task<RegisteredUser> GetUserAsync(string username);
         public Task<ColourAnimalCount> GetColourAnimalCountAsync();
         public Task<GuestUser> GetGuestUserAsync(int ColourId, int AnimalId);
-        
+        public Task<bool> CreateUserAsync(RegisteredUser user);
     }
 }
