@@ -20,7 +20,7 @@ namespace Client.Connection.Restaurateur
             JsRuntime = jsRuntime;
         }
         
-        public async Task<bool> AddDishAsync(Dish dish, int restaurantId)
+        public async Task<bool> AddDishAsync(Dish dish)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Client.Connection.Restaurateur
                 }
 
                 return await HubConnection.InvokeAsync<bool>
-                    ("AddDishAsync", dish, restaurantId);
+                    ("AddDishAsync", dish);
             }
             catch (Exception e)
             {

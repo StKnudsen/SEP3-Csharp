@@ -7,7 +7,7 @@ namespace BusinessServer.Network.Restaurateur
 {
     public interface IRestaurateurDataLink
     {
-        Task<bool> AddDishAsync(Dish dish,  int restaurantId);
+        Task<bool> AddDishAsync(Dish dish);
         Task<List<Dish>> GetDishListAsync(int restaurantId);
         Task<List<Restaurant>> GetRestaurantsFromRestaurateurIdAsync(int restaurateurId);
     }

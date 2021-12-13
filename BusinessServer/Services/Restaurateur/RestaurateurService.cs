@@ -16,10 +16,10 @@ namespace BusinessServer.Services.Restaurateur
             restaurateurDataLink = new RestaurateurDataLink();
         }
 
-        public async Task<bool> AddDishAsync(Dish dish, int restaurantId)
+        public async Task<bool> AddDishAsync(Dish dish)
         {
             Console.WriteLine("Nåede til RestaurateurService");
-            await restaurateurDataLink.AddDishAsync(dish,restaurantId);
+            await restaurateurDataLink.AddDishAsync(dish);
             await GetDishListAsync(dish.RestaurantId);
             return true;
         }

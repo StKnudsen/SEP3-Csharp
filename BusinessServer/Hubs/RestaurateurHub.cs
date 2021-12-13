@@ -18,13 +18,13 @@ namespace BusinessServer.Hubs
             restaurateurService = new RestaurateurService();
         }
 
-        public async Task<bool> AddDishAsync(Dish dish,  int restaurantId)
+        public async Task<bool> AddDishAsync(Dish dish)
         {
             try
             {
                 Console.WriteLine("Nåede til RestaurateurHub");
 
-                return await restaurateurService.AddDishAsync(dish,restaurantId);
+                return await restaurateurService.AddDishAsync(dish);
             }
             catch (Exception e)
             {

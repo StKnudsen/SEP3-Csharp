@@ -13,24 +13,18 @@ namespace BusinessServer.Network.Restaurateur
     {
         private readonly string uri = "http://localhost:8080";
 
-        public async Task<bool> AddDishAsync(Dish dish,  int restaurantId)
+        public async Task<bool> AddDishAsync(Dish dish)
         {
             Console.WriteLine("Nåede til RestaurateurDataLink");
-
-            CustomPair dishAndRestaurant = new CustomPair()
-            {
-                Key = restaurantId,
-                Value = dish.Name + ";" + dish.Description
-            };
             
             using HttpClient client = new HttpClient();
-            string dishNameJson = JsonSerializer.Serialize(dishAndRestaurant, new JsonSerializerOptions
+            string dishJson = JsonSerializer.Serialize(dish, new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
             
             HttpContent content = new StringContent(
-                dishNameJson, Encoding.UTF8, "application/json");
+                dishJson, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await client.PostAsync(
                 $"{uri}/adddish" , content);
             

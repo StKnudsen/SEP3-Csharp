@@ -7,7 +7,7 @@ namespace BusinessServer.Services.Restaurateur
 {
     public interface IRestaurateurService
     {
-        public Task<bool> AddDishAsync(Dish dish, int restaurantId);
+        public Task<bool> AddDishAsync(Dish dish);
         public Task<List<Dish>> GetDishListAsync(int restaurantId);
         public Task<List<Restaurant>> GetRestaurantsFromRestaurateurIdAsync(int restaurateurId);
     }
