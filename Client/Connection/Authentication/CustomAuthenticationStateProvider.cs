@@ -60,9 +60,7 @@ namespace Client.Connection.Authentication
                 throw new Exception("Enter password");
             }
 
-            HubConnection = new HubConnectionBuilder()
-                .WithUrl(uriUserhub).Build();
-            await HubConnection.StartAsync();
+            await Connect();
 
             ClaimsIdentity identity = new ClaimsIdentity();
             bool response = await HubConnection.InvokeAsync<bool>("ValidateUserAsync", username, password);
@@ -85,8 +83,7 @@ namespace Client.Connection.Authentication
 
         public async Task GuestLoginAsync()
         {
-            HubConnection = new HubConnectionBuilder().WithUrl(uriUserhub).Build();
-            await HubConnection.StartAsync();
+            await Connect();
 
             ClaimsIdentity identity = new ClaimsIdentity();
             GuestUser guest = await HubConnection.InvokeAsync<GuestUser>("GetGuestUserAsync");
@@ -98,11 +95,33 @@ namespace Client.Connection.Authentication
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity))));
         }
 
+        public async Task<bool> CheckUsernameAvailabilityAsync(string username)
+        {
+            await Connect();
+
+            return await HubConnection.InvokeAsync<bool>("CheckUsernameAvailabilityAsync", username);
+        }
+
+        private async Task Connect()
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriUserhub).Build();
+                await HubConnection.StartAsync();
+            }
+        }
+
+        public async Task<bool> CreateUserAsync(string username, string password)
+        {
+            await Connect();
+            return await HubConnection.InvokeAsync<bool>("CreateUserAsync", username, password);
+        }
+
         public async Task LogoutAsync()
         {
             CachedUser = null;
             var user = new ClaimsPrincipal(new ClaimsIdentity());
-            await JsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", ""); //TODO: bruger bliver måske ikke slettet korrekt?
+            await JsRuntime.InvokeVoidAsync("sessionStorage.clear");
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }
 

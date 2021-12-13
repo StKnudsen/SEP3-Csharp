@@ -1,9 +1,106 @@
 ﻿@page "/NewUser"
+@using Client.Connection.Authentication
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 
-<div class="mt-6 p-6 max-w-l mx-auto bg-white rounded-xl shadow-md flex items-center border border-gray-300">
-    
+<div class="mt-6 p-6 max-w-md mx-auto bg-white rounded-xl shadow-md border border-gray-300">
+    <p class="uppercase text-3xl text-red-700 text-center">Hej!</p>
+    <p class="uppercase text-2xl text-red-700 text-center">velkommen til</p>
+
+    <div class="flex flex-col justify-center mx-auto w-2/3">
+        <label class="text-gray-700 text-sm font-semibold mt-4">Brugernavn</label>
+        <input type="text" class="@UnBorderColour rounded" @bind-value="Username" @onfocusout="UsernameAvailableAsync"/>
+        <p class="text-red-600 text-sm">@UnError</p>
+
+        <label class="text-gray-700 text-sm font-semibold mt-4">Kodeord</label>
+        <input type="password" class="@PwBorderColour rounded" @bind-value="Password" @onfocusout="PwMatching"/>
+
+        <label class="text-gray-700 text-sm font-semibold mt-4">Gentag Kodeord</label>
+        <input type="password" class="@PwBorderColour rounded" @bind-value="PasswordRpt" @onfocusout="PwMatching"/>
+        <p class="text-red-600 text-sm">@PwError</p>
+
+        <button class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold ml-auto p-2 mt-6 border border-gray-400 rounded shadow"
+                @onclick="CreateUserAsync">
+            Opret Bruger
+        </button>
+    </div>
 </div>
 
 @code {
-    
+    private string Username { get; set; } = "";
+    private string Password { get; set; } = "";
+    private string PasswordRpt { get; set; } = "";
+
+    private string UnBorderColour { get; set; } = "border border-gray-400";
+    private string PwBorderColour { get; set; } = "border border-gray-400";
+    private string UnError { get; set; } = "";
+    private string PwError { get; set; } = "";
+    private bool IsUsernameOk { get; set; }
+    private bool IsPasswordOk { get; set; }
+
+    private void PwMatching()
+    {
+        if (Password.Length > 3)
+        {
+            if (!Password.Equals(PasswordRpt))
+            {
+                PwBorderColour = "border-2 border-red-500";
+                PwError = "De to kodeord er ikke ens.";
+                IsPasswordOk = false;
+            }
+            else
+            {
+                PwBorderColour = "border-2 border-green-500";
+                PwError = "";
+                IsPasswordOk = true;
+            }
+        }
+        else
+        {
+            PwBorderColour = "border-2 border-red-500";
+            PwError = "Kodeord skal være på min. 4 tegn.";
+            IsPasswordOk = false;
+        }
+    }
+
+    private async Task UsernameAvailableAsync()
+    {
+        if (Username.Length > 2)
+        {
+            bool response = await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).CheckUsernameAvailabilityAsync(Username);
+            if (response)
+            {
+                UnBorderColour = "border-2 border-green-500";
+                UnError = "";
+                IsUsernameOk = true;
+            }
+            else
+            {
+                UnBorderColour = "border-2 border-red-500";
+                UnError = "Brugernavnet er allerede i brug.";
+                IsUsernameOk = false;
+            }
+        }
+        else
+        {
+            UnBorderColour = "border-2 border-red-500";
+            UnError = "Brugernavn skal være min. 3 tegn.";
+            IsUsernameOk = false;
+        }
+    }
+
+    private async Task CreateUserAsync()
+    {
+        if (IsPasswordOk && IsUsernameOk)
+        {
+            bool result = await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).CreateUserAsync(Username, Password);
+
+            if (result)
+            {
+                await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLoginAsync(Username, Password);
+                NavigationManager.NavigateTo("/Home");
+            }
+        }
+    }
+
 }

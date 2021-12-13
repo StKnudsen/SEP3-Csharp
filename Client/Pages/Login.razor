@@ -72,14 +72,14 @@
                         <p class="text-red-600 text-sm">@ErrorLabel</p>
                     </form>
                     <button @onclick="PerformLoginAsync"
-                            class="ml-2 mt-4 bg-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                            class="mt-4 bg-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                         Log in <!-- Disable hvis der er input i login felterne -->
                     </button>
                     <button @onclick="GuestLoginAsync"
                             class="mt-4 mr-2 bg-red-300 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                         Gæst
                     </button>
-                    <a href="#" class="text-sm text-red-800 hover:text-red-500 transition duration-500">Opret en bruger</a>
+                    <button @onclick="GoToNewUser" class="text-sm text-red-800 hover:text-red-500 transition duration-500">Opret en bruger</button>
                 </div>
             </div>
         </div>
@@ -107,6 +107,11 @@
         {
             ErrorLabel = e.Message;
         }
+    }
+
+    private void GoToNewUser()
+    {
+        NavigationManager.NavigateTo("/NewUser");
     }
 
     private async void GuestLoginAsync()

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BusinessServer.Models;
-using BusinessServer.Network;
 using BusinessServer.Network.UserDataLink;
 using BusinessServer.Services.Security;
 using SharedLibrary.Models;
@@ -54,6 +52,29 @@ namespace BusinessServer.Services
         public async Task<RegisteredUser> GetUserAsync(string username)
         {
             return await _userDataLink.GetUserAsync(username);
+        }
+
+        public async Task<bool> CheckUsernameAvailabilityAsync(string username)
+        {
+            RegisteredUser user = await _userDataLink.GetUserAsync(username);
+            Console.WriteLine(user.Username is null);
+            return user.Username is null;
+        }
+
+        public async Task<bool> CreateUserAsync(string username, string password)
+        {
+            using IHashCheck hashCheck = new Md5Check();
+
+            var hashedPassword = hashCheck.GenerateHash(password);
+            
+            RegisteredUser user = new RegisteredUser
+            {
+                Role = "User",
+                Username = username,
+                Password = hashedPassword
+            };
+
+            return await _userDataLink.CreateUserAsync(user);
         }
 
         private async Task<ColourAnimalCount> GetColourAnimalCountAsync()
