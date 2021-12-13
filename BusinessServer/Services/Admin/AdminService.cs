@@ -7,6 +7,7 @@ using BusinessServer.Network.AdminDataLink;
 using BusinessServer.Network.DNNRDataLink;
 using BusinessServer.Services.DNNRService;
 using SharedLibrary.Models;
+using SharedLibrary.Models.Recipe;
 using SharedLibrary.Models.Restaurateur;
 
 namespace BusinessServer.Services.Admin

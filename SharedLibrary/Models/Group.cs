@@ -6,8 +6,8 @@ namespace SharedLibrary.Models
     {
         public string Id { get; set; }
         public string SwipeType { get; set; }
-        public User GroupOwner { get; set; }
-        public IList<User> Users { get; set; }
+        public User.User GroupOwner { get; set; }
+        public IList<User.User> Users { get; set; }
         public IList<CustomPair> SwipeObject { get; set; }
         
         public IList<Vote> Votes { get; set; }
@@ -15,11 +15,11 @@ namespace SharedLibrary.Models
 
         public Group(){}
         
-        public Group(User owner, string id)
+        public Group(User.User owner, string id)
         {
             GroupOwner = owner;
             Id = id;
-            Users = new List<User>
+            Users = new List<User.User>
             {
                 GroupOwner
             };

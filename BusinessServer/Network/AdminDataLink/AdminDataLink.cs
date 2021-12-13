@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using SharedLibrary.Models;
+using SharedLibrary.Models.Recipe;
 using SharedLibrary.Models.Restaurateur;
 
 namespace BusinessServer.Network.AdminDataLink

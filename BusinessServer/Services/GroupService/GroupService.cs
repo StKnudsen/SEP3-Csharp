@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using BusinessServer.Network.Group;
 using SharedLibrary.Models;
+using SharedLibrary.Models.User;
 using SharedLibrary.Util;
 
-namespace BusinessServer.Services
+namespace BusinessServer.Services.GroupService
 {
     public class GroupService : IGroupService
     {
@@ -143,7 +144,7 @@ namespace BusinessServer.Services
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
         
-        private string SwipeResultTitle(Group group, int id)
+        private string SwipeResultTitle(SharedLibrary.Models.Group group, int id)
         {
             foreach (CustomPair pair in group.SwipeObject)
             {

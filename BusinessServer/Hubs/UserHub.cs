@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BusinessServer.Services;
+using BusinessServer.Services.UserService;
 using Microsoft.AspNetCore.SignalR;
 using SharedLibrary.Models;
+using SharedLibrary.Models.User;
 
 namespace BusinessServer.Hubs
 {

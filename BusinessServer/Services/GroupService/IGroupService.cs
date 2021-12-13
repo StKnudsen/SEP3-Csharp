@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharedLibrary.Models;
+using SharedLibrary.Models.User;
 
-namespace BusinessServer.Services
+namespace BusinessServer.Services.GroupService
 {
     public interface IGroupService
     {

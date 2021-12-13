@@ -1,4 +1,4 @@
-﻿namespace SharedLibrary.Models
+﻿namespace SharedLibrary.Models.User
 {
     public class RegisteredUser : User
     {

@@ -3,6 +3,7 @@ using BusinessServer.Hubs;
 using BusinessServer.Services;
 using BusinessServer.Services.Admin;
 using BusinessServer.Services.DNNRService;
+using BusinessServer.Services.GroupService;
 using BusinessServer.Services.Restaurateur;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

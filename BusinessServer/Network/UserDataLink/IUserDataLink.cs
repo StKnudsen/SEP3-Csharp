@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BusinessServer.Models;
 using SharedLibrary.Models;
+using SharedLibrary.Models.User;
 
 namespace BusinessServer.Network.UserDataLink
 {
