@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BusinessServer.Services.Admin;
 using Microsoft.AspNetCore.SignalR;
 using SharedLibrary.Models;
+using SharedLibrary.Models.Restaurateur;
 
 namespace BusinessServer.Hubs
 {

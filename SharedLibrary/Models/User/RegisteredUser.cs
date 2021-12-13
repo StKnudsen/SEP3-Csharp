@@ -3,7 +3,7 @@
     public class RegisteredUser : User
     {
         public string Password { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
 
         public RegisteredUser(string role)
         {

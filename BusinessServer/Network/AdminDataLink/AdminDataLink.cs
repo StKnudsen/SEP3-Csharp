@@ -4,9 +4,8 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using BusinessServer.Models;
-using Microsoft.AspNetCore.Http;
 using SharedLibrary.Models;
+using SharedLibrary.Models.Restaurateur;
 
 namespace BusinessServer.Network.AdminDataLink
 {

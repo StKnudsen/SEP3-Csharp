@@ -1,7 +1,9 @@
+using Client.Connection;
 using Client.Connection.Administration;
 using Client.Connection.Authentication;
 using Client.Connection.DNNR;
 using Client.Connection.GroupManagement;
+using Client.Connection.Restaurateur;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +35,7 @@ namespace Client
             services.AddScoped<IGroupManager, GroupManager>();
             services.AddScoped<IAdministration, Administration>();
             services.AddScoped<ISharedDNNR, SharedDNNR>();
+            services.AddScoped<IRestaurateurManager, RestaurateurManager>();
             // Opsætning af adgangspolitikker.
             services.AddAuthorization(options =>
             {
