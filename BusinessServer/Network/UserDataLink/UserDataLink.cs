@@ -1,22 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BusinessServer.Models;
-using SharedLibrary.Models;
 using SharedLibrary.Models.User;
 
 namespace BusinessServer.Network.UserDataLink
 {
     public class UserDataLink : IUserDataLink
     {
-        private const string URI = "http://localhost:8080";
+        private const string Uri = "http://localhost:8080";
 
         public async Task<RegisteredUser> GetUserAsync(string username)
         {
             using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"{URI}/user/{username}");
+            HttpResponseMessage response = await client.GetAsync($"{Uri}/user/{username}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -35,7 +35,7 @@ namespace BusinessServer.Network.UserDataLink
         public async Task<ColourAnimalCount> GetColourAnimalCountAsync()
         {
             using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"{URI}/user/guestColoursAnimals");
+            HttpResponseMessage response = await client.GetAsync($"{Uri}/user/guestColoursAnimals");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -52,11 +52,11 @@ namespace BusinessServer.Network.UserDataLink
             return count;
         }
 
-        public async Task<GuestUser> GetGuestUserAsync(int ColourId, int AnimalId)
+        public async Task<GuestUser> GetGuestUserAsync(int colourId, int animalId)
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response =
-                await client.GetAsync($"{URI}/user/guestUser?colourId={ColourId}&animalId={AnimalId}");
+                await client.GetAsync($"{Uri}/user/guestUser?colourId={colourId}&animalId={animalId}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -82,20 +82,21 @@ namespace BusinessServer.Network.UserDataLink
             });
             HttpContent content = new StringContent(
                 userAsJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync($"{uri}/user", content);
-            
+            HttpResponseMessage response = await client.PostAsync($"{Uri}/user", content);
+
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Kunne ikke oprette bruger");
             }
 
             return response.IsSuccessStatusCode;
+        }
 
         public async Task<Dictionary<int, string>> getAllergyFoodGroupListAsync(int userId)
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response =
-                await client.GetAsync($"{URI}/allergy/{userId}/foodgroup");
+                await client.GetAsync($"{Uri}/allergy/{userId}/foodgroup");
             
             if (!response.IsSuccessStatusCode)
             {
@@ -117,7 +118,7 @@ namespace BusinessServer.Network.UserDataLink
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response =
-                await client.GetAsync($"{URI}/allergy/{userId}/ingredient");
+                await client.GetAsync($"{Uri}/allergy/{userId}/ingredient");
             
             if (!response.IsSuccessStatusCode)
             {
@@ -140,7 +141,7 @@ namespace BusinessServer.Network.UserDataLink
             using HttpClient client = new HttpClient();
             
             HttpResponseMessage responseMessage = await client.PostAsync(
-                $"{URI}/allergy/{userId}/foodgroup?id={foodGroupId}", null!
+                $"{Uri}/allergy/{userId}/foodgroup?id={foodGroupId}", null!
                 );
 
             if (!responseMessage.IsSuccessStatusCode)
@@ -156,7 +157,7 @@ namespace BusinessServer.Network.UserDataLink
             using HttpClient client = new HttpClient();
 
             HttpResponseMessage responseMessage = await client.PostAsync(
-                $"{URI}/allergy/{userId}/ingredient?id={ingredientId}", null!
+                $"{Uri}/allergy/{userId}/ingredient?id={ingredientId}", null!
                 );
             if (!responseMessage.IsSuccessStatusCode)
             {

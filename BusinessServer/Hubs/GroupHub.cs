@@ -47,9 +47,9 @@ namespace BusinessServer.Hubs
         //FIXME ASYNC!!
         public async Task DoneSwiping(string groupId)
         {
-            bool Done = await GroupService.DoneSwipingAsync(groupId);
+            bool done = await GroupService.DoneSwipingAsync(groupId);
 
-            if (Done)
+            if (done)
             {
                 await Clients.Group(groupId).SendAsync("NoMatch");
             }

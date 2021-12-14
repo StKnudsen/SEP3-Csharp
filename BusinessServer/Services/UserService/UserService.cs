@@ -11,7 +11,7 @@ namespace BusinessServer.Services.UserService
     public class UserService : IUserService
     {
         private readonly IUserDataLink UserDataLink;
-        private IList<int[]> UsedGuestValues;
+        private readonly IList<int[]> UsedGuestValues;
 
         public UserService()
         {
@@ -46,6 +46,7 @@ namespace BusinessServer.Services.UserService
 
             } while (UsedGuestValues.Contains(guest));
 
+            UsedGuestValues.Add(guest);
             return await UserDataLink.GetGuestUserAsync(colour, animal);
         }
 
@@ -76,7 +77,7 @@ namespace BusinessServer.Services.UserService
 
         public async Task<bool> CheckUsernameAvailabilityAsync(string username)
         {
-            RegisteredUser user = await _userDataLink.GetUserAsync(username);
+            RegisteredUser user = await UserDataLink.GetUserAsync(username);
             Console.WriteLine(user.Username is null);
             return user.Username is null;
         }
@@ -94,7 +95,7 @@ namespace BusinessServer.Services.UserService
                 Password = hashedPassword
             };
 
-            return await _userDataLink.CreateUserAsync(user);
+            return await UserDataLink.CreateUserAsync(user);
         }
 
         private async Task<ColourAnimalCount> GetColourAnimalCountAsync()
