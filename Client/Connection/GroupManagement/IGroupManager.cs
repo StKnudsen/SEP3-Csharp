@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Client.Pages;
 using SharedLibrary.Models;
+using SharedLibrary.Models.User;
 
 namespace Client.Connection.GroupManagement
 {

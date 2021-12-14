@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace SharedLibrary.Models.Restaurateur
 {
     public class Dish

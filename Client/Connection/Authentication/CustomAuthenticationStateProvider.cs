@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SharedLibrary.Models;
+using SharedLibrary.Models.User;
 
 namespace Client.Connection.Authentication
 {

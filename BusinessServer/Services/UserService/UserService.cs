@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using BusinessServer.Models;
 using BusinessServer.Network.UserDataLink;
 using BusinessServer.Services.Security;
-using SharedLibrary.Models;
+using SharedLibrary.Models.User;
 
-namespace BusinessServer.Services
+namespace BusinessServer.Services.UserService
 {
     public class UserService : IUserService
     {

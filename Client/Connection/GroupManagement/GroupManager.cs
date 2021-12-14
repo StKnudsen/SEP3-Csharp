@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using SharedLibrary.Models;
+using SharedLibrary.Models.User;
 
 namespace Client.Connection.GroupManagement
 {

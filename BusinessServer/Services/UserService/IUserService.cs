@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using BusinessServer.Models;
 using SharedLibrary.Models;
+﻿using System.Threading.Tasks;
+using SharedLibrary.Models.User;
 
-namespace BusinessServer.Services
+namespace BusinessServer.Services.UserService
 {
     public interface IUserService
     {

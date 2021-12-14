@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SharedLibrary.Models;
+using SharedLibrary.Models.Recipe;
 using SharedLibrary.Models.Restaurateur;
 
 namespace Client.Connection.Administration
