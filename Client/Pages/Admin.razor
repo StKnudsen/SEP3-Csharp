@@ -126,78 +126,84 @@
         }
 
         <hr class="border-t-4 border-dotted border-red-600">
+        @if (UsersAndRestaurateurList == null)
+        {
+            <p>Loader...</p>
+        }
+        else
+        {
+            <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj restaurant</p>
+            <div>
 
-        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj restaurant</p>
-        <div>
+                <div class="flex justify-center my-5">
+                    <label class="text-gray-700 text-sm font-semibold">Restaurantejer</label>
+                    <input class="w-full" list="userList" @bind-value="OwnerId"/>
+                    <datalist id="userList">
+                        @foreach (KeyValuePair<int, string> user in UsersAndRestaurateurList)
+                        {
+                            <option value="@user.Key">@(user.Value[..1].ToUpper() + user.Value[1..])</option>
+                        }
+                    </datalist>
+                </div>
 
-            <div class="flex justify-center my-5">
-                <label class="text-gray-700 text-sm font-semibold">Restaurantejer</label>
-                <input class="w-full" list="userList" @bind-value="OwnerId"/>
-                <datalist id="userList">
-                    @foreach (KeyValuePair<int, string> user in UsersAndRestaurateurList)
-                    {
-                        <option value="@user.Key">@(user.Value[..1].ToUpper() + user.Value[1..])</option>
-                    }
-                </datalist>
+                <div class="flex justify-center my-5">
+                    <label class="text-gray-700 text-sm font-semibold">Restaurantnavn</label>
+                    <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. Noma" @bind-value="RestaurantName"/>
+                </div>
+                <table class="mx-auto">
+                    <thead>
+                    <tr>
+                        <td>CVR</td>
+                        <td>Tema</td>
+                        <td>Telefonnummer</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="Cvr"/>
+                        </td>
+                        <td>
+                            <input type="text" class="border border-gray-300 rounded" placeholder="Michelin-mad" @bind-value="Theme"/>
+                        </td>
+                        <td>
+                            <input type="text" class="border border-gray-300 rounded" placeholder="42424242" minlength="8" maxlength="8" @bind-value="PhoneNumber"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="mx-auto">
+                    <thead>
+                    <tr>
+                        <td>Adresse</td>
+                    </tr>
+                    <tr>
+                        <td>Vejnavn</td>
+                        <td>Husnummer</td>
+                        <td>Postnummer</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" class="border border-gray-300 rounded" placeholder="Smølfestræde" @bind-value="StreetName"/>
+                        </td>
+                        <td>
+                            <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="HouseNumber"/>
+                        </td>
+                        <td>
+                            <input type="text" class="border border-gray-300 rounded" placeholder="8700" minlength="4" maxlength="4" @bind-value="PostalCode"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="flex justify-center my-5">
+                    <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj restaurant" type="submit" @onclick="AddRestaurantAsync"/>
+                </div>
+                <p>@Label</p>
+
             </div>
-
-            <div class="flex justify-center my-5">
-                <label class="text-gray-700 text-sm font-semibold">Restaurantnavn</label>
-                <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. Noma" @bind-value="RestaurantName"/>
-            </div>
-            <table class="mx-auto">
-                <thead>
-                <tr>
-                    <td>CVR</td>
-                    <td>Tema</td>
-                    <td>Telefonnummer</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="Cvr"/>
-                    </td>
-                    <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="Michelin-mad" @bind-value="Theme"/>
-                    </td>
-                    <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="42424242" minlength="8" maxlength="8" @bind-value="PhoneNumber"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="mx-auto">
-                <thead>
-                <tr>
-                    <td>Adresse</td>
-                </tr>
-                <tr>
-                    <td>Vejnavn</td>
-                    <td>Husnummer</td>
-                    <td>Postnummer</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="Smølfestræde" @bind-value="StreetName"/>
-                    </td>
-                    <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="42" @bind-value="HouseNumber"/>
-                    </td>
-                    <td>
-                        <input type="text" class="border border-gray-300 rounded" placeholder="8700" minlength="4" maxlength="4" @bind-value="PostalCode"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="flex justify-center my-5">
-                <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj restaurant" type="submit" @onclick="AddRestaurantAsync"/>
-            </div>
-            <p>@Label</p>
-
-        </div>
+        }
     </div>
 </AuthorizeView>
 
