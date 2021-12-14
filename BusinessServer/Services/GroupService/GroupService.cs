@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessServer.Network.Group;
+using BusinessServer.Services.UserService;
 using SharedLibrary.Models;
 using SharedLibrary.Models.User;
 using SharedLibrary.Util;
@@ -13,11 +14,13 @@ namespace BusinessServer.Services.GroupService
     {
         private readonly IGroupDataLink DataLink;
         private List<Group> ActiveGroups;
+        private IGetUserInfo GetUserInfo;
 
         public GroupService()
         {
             ActiveGroups = new List<Group>();
             DataLink = new GroupDataLink();
+            GetUserInfo = new UserService.UserService();
         }
 
         public async Task<bool> AddUserToGroupAsync(User user, string groupId)
@@ -68,12 +71,45 @@ namespace BusinessServer.Services.GroupService
 
         public async Task SetSwipeTypeAsync(string groupId, string type)
         {
+            Console.WriteLine("Sætter swipe type for gruppe: " + groupId);
+            
             Group Group = GetGroupFromId(groupId);
             Group.SwipeType = type;
+            List<int> ingredientAllergies = new List<int>();
+            List<int> foodGroupAllergies = new List<int>();
+
+            foreach (var user in Group.Users)
+            {
+                if (!user.Username.Contains(" "))
+                {
+                    RegisteredUser RegUser = await GetUserInfo.GetUserAsync(user.Username);
+                    Dictionary<int, string> allergyDict =
+                        await GetUserInfo.getAllergyIngredientListAsync(RegUser.UserId);
+                    foreach (var allergy in allergyDict)
+                    {
+                        if (!ingredientAllergies.Contains(allergy.Key))
+                        {
+                            ingredientAllergies.Add(allergy.Key);
+                        }
+                    }
+
+                    Dictionary<int, string> foodgroupDict = await GetUserInfo.getAllergyFoodGroupListAsync(RegUser.UserId);
+                    foreach (var allergy in foodgroupDict)
+                    {
+                        if (!foodGroupAllergies.Contains(allergy.Key))
+                        {
+                            foodGroupAllergies.Add(allergy.Key);
+                        }
+                    }
+                }
+            }
+
+          string ingredientAllergiesString =  ingredientAllergies.ToString();
+           string foodGroupAllergiesString = foodGroupAllergies.ToString();
 
             if (type.Equals(Util.RECIPE))
             {
-                Group.SwipeObject = await DataLink.GetShuffledRecipesAsync();
+                Group.SwipeObject = await DataLink.GetShuffledRecipesAsync(ingredientAllergiesString, foodGroupAllergiesString);
             }
 
             if (type.Equals(Util.RESTAURANT))
@@ -93,19 +129,19 @@ namespace BusinessServer.Services.GroupService
         public async Task<IList<CustomPair>> StopSwipeAsync(string groupId)
         {
             Group group = ActiveGroups.Find(g => g.Id.Equals(groupId));
-            
+
             IList<CustomPair> result = new List<CustomPair>();
-            
+
             foreach (Vote vote in group.Votes)
             {
                 result.Add(
                     new CustomPair()
                     {
-                        Key = vote.Votes, 
+                        Key = vote.Votes,
                         Value = SwipeResultTitle(group, vote.SwipeObjectId)
                     });
             }
-            
+
             return result.OrderByDescending(pair => pair.Key).Take(5).ToList();
         }
 
@@ -143,7 +179,7 @@ namespace BusinessServer.Services.GroupService
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
-        
+
         private string SwipeResultTitle(SharedLibrary.Models.Group group, int id)
         {
             foreach (CustomPair pair in group.SwipeObject)
@@ -153,6 +189,7 @@ namespace BusinessServer.Services.GroupService
                     return pair.Value;
                 }
             }
+
             return null;
         }
     }
