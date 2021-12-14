@@ -1,21 +1,180 @@
 @page "/Profile"
+@using SharedLibrary.Models
+@using Client.Connection.UserManager
+@using Client.Connection.DNNR
+@using System.Text.Json
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject IUserManager UserManager
+@inject ISharedDNNR SharedDnnr
+@inject IJSRuntime JsRuntime
 
 <AuthorizeView Policy="User">
-    <div class="mt-6 p-6 max-w-l  bg-white rounded-xl shadow-md flex-wrap items-center border border-gray-300">
-        <h1 class="text-2xl text-center mb-8">Hej @context.User.Identity?.Name</h1>
-        
-        <div class="bg-red-200">
-            Registrere allergier
-            <ul>
-                <li>Ingrediensliste</li>
-                <li>Fødevaregruppeliste</li>
-            </ul>
+    @if (
+        UserAllergyIngredientList == null || UserAllergyFoodGroupList == null || 
+        FoodGroupList == null || IngredientList == null
+        )
+    {
+        <PageLoading/>
+    }
+    else
+    {
+        <div class="mt-6 p-6 max-w-l  bg-white rounded-xl shadow-md flex-wrap items-center border border-gray-300">
+            <h1 class="text-2xl text-center mb-8">Hej @User.Username</h1>
+            
+            <p class="text-red-500">@ErrorLabel</p>
+            <p class="text-green-500">@SuccessLabel</p>
+            
+            <div class="bg-red-200 mb-4">
+                <h3>Fødevaregruppeallergier</h3>
+                <table>
+                    @foreach (var group in UserAllergyFoodGroupList)
+                    {
+                        <tr>
+                            <td>@group.Value</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            <input class="w-full" list="foodgroup-list" @bind-value="foodGroupName"/>
+                            <datalist id="foodgroup-list">
+
+                                @foreach (string name in FoodGroupList.Values.OrderBy(value => value))
+                                {
+                                    <option value="@(name[..1].ToUpper() + name[1..])"/>
+                                }
+                            </datalist>
+                        </td>
+                        <td>
+                            <button @onclick="AddFoodGroupAllergy">Tilføj fødevareallerigruppe</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="bg-blue-200 mb-4">
+                <h3>Ingrediensallergier</h3>
+                <table>
+                    @foreach (var group in UserAllergyIngredientList)
+                    {
+                        <tr>
+                            <td>@group.Value</td>
+                            <td></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            <input class="w-full" list="ingredient-list" @bind-value="ingredientName"/>
+                            <datalist id="ingredient-list">
+
+                                @foreach (string name in IngredientList.Values.OrderBy(value => value))
+                                {
+                                    <option value="@(name[..1].ToUpper() + name[1..])"/>
+                                }
+                            </datalist>
+                        </td>
+                        <td>
+                            <button @onclick="AddIngedientAllergy">Tilføj fødevareallerigruppe</button>
+                        </td>
+                    </tr>
+                </table>
+                
+            </div>
         </div>
-    </div>
+    }
 </AuthorizeView>
 
 @code {
+    private RegisteredUser User;
+    private string ErrorLabel;
+    private string SuccessLabel;
+    private Dictionary<int, string> FoodGroupList;
+    private Dictionary<int, string> IngredientList;
+    private Dictionary<int, string> UserAllergyFoodGroupList;
+    private Dictionary<int, string> UserAllergyIngredientList;
+    private string foodGroupName { get; set; }
+    private string ingredientName { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        string userAsJson = await JsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+        if (!string.IsNullOrEmpty(userAsJson))
+        {
+            User = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
+        }
+        
+        FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
+        IngredientList = await SharedDnnr.GetIngredientListAsync();
+
+        UserAllergyFoodGroupList = await UserManager.GetAllergyFoodGroupListAsync(User.UserId);
+        UserAllergyIngredientList = await UserManager.GetAllergyIngredientListAsync(User.UserId);
+    }
+
+    private async Task AddFoodGroupAllergy()
+    {
+        int foodGroupId = GetFoodGroupId();
+        if (foodGroupId == 0)
+        {
+            ErrorLabel = "Fejl i valg af fødevaregruppeallergi";
+        }
+        else
+        {
+            bool result = await UserManager.SetUserAllergyFoodGroupAsync(User.UserId, foodGroupId);
+            if (result)
+            {
+                SuccessLabel = "Fødevaregruppeallergi er nu tilføjet";
+            }
+            if (!result)
+            {
+                ErrorLabel = "Fejl i tilføjelse af fødevaregruppeallergi";
+            }
+        }
+        
+        UserAllergyFoodGroupList = await UserManager.GetAllergyFoodGroupListAsync(User.UserId);
+        await InvokeAsync(StateHasChanged);
+    }
     
+    private async Task AddIngedientAllergy()
+    {
+        int ingredientId = GetIngredientId();
+        if (ingredientId == 0)
+        {
+            ErrorLabel = "Fejl i valg af ingrediens";
+        }
+        else
+        {
+            bool result = await UserManager.SetUserAllergyIngredientAsync(User.UserId, ingredientId);
+            if (result)
+            {
+                SuccessLabel = "Ingrediensallergi er nu tilføjet";
+            }
+            if (!result)
+            {
+                ErrorLabel = "Fejl i tilføjelse af ingrediensallergi";
+            }
+        }
+        
+        UserAllergyIngredientList = await UserManager.GetAllergyIngredientListAsync(User.UserId);
+        await InvokeAsync(StateHasChanged);
+    }
+    
+    private int GetFoodGroupId()
+    {
+        KeyValuePair<int, string> pair = FoodGroupList.First(
+            pair => pair.Value.ToLower().Equals(foodGroupName.ToLower())
+            );
+        return pair.Key;
+    }
+    
+    private int GetIngredientId()
+    {
+        KeyValuePair<int, string> pair = IngredientList.First(
+            pair => pair.Value.ToLower().Equals(ingredientName.ToLower())
+            );
+        return pair.Key;
+    }
+    
+    
+
 }

@@ -12,7 +12,6 @@ namespace BusinessServer.Hubs
 
         public DNNRHub()
         {
-            Console.WriteLine("#DNNRHub start");
             DnnrService = new DNNRService();
         }
         

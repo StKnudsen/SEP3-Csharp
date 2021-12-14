@@ -1,4 +1,5 @@
 ﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BusinessServer.Services;
 using Microsoft.AspNetCore.SignalR;
@@ -39,6 +40,27 @@ namespace BusinessServer.Hubs
         public async Task<RegisteredUser> GetUserAsync(string username)
         {
             return await UserService.GetUserAsync(username);
+        }
+        
+        //  For allergy registration
+        public async Task<Dictionary<int, string>> GetAllergyFoodGroupListAsync(int userId)
+        {
+            return await UserService.getAllergyFoodGroupListAsync(userId);
+        }
+
+        public async Task<Dictionary<int, string>> GetAllergyIngredientListAsync(int userId)
+        {
+            return await UserService.getAllergyIngredientListAsync(userId);
+        }
+
+        public async Task<bool> SetUserAllergyFoodGroupAsync(int userId, int foodGroupId)
+        {
+            return await UserService.SetUserAllergyFoodGroupAsync(userId, foodGroupId);
+        }
+
+        public async Task<bool> SetUserAllergyIngredientAsync(int userId, int ingredient)
+        {
+            return await UserService.SetUserAllergyIngredientAsync(userId, ingredient);
         }
     }
     

@@ -11,12 +11,12 @@ namespace BusinessServer.Network.UserDataLink
 {
     public class UserDataLink : IUserDataLink
     {
-        private readonly string uri = "http://localhost:8080";
+        private const string URI = "http://localhost:8080";
 
         public async Task<RegisteredUser> GetUserAsync(string username)
         {
             using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"{uri}/user/{username}");
+            HttpResponseMessage response = await client.GetAsync($"{URI}/user/{username}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -35,7 +35,7 @@ namespace BusinessServer.Network.UserDataLink
         public async Task<ColourAnimalCount> GetColourAnimalCountAsync()
         {
             using HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"{uri}/user/guestColoursAnimals");
+            HttpResponseMessage response = await client.GetAsync($"{URI}/user/guestColoursAnimals");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -56,7 +56,7 @@ namespace BusinessServer.Network.UserDataLink
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response =
-                await client.GetAsync($"{uri}/user/guestUser?colourId={ColourId}&animalId={AnimalId}");
+                await client.GetAsync($"{URI}/user/guestUser?colourId={ColourId}&animalId={AnimalId}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -90,6 +90,80 @@ namespace BusinessServer.Network.UserDataLink
             }
 
             return response.IsSuccessStatusCode;
+
+        public async Task<Dictionary<int, string>> getAllergyFoodGroupListAsync(int userId)
+        {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response =
+                await client.GetAsync($"{URI}/allergy/{userId}/foodgroup");
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"StatusCode: {response.StatusCode}");
+            }
+
+            string responseAsString = await response.Content.ReadAsStringAsync();
+
+            Dictionary<int, string> foodGroupAllergiesList = JsonSerializer.Deserialize<Dictionary<int, string>>(
+                responseAsString, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            return foodGroupAllergiesList;
+        }
+
+        public async Task<Dictionary<int, string>> getAllergyIngredientListAsync(int userId)
+        {
+            using HttpClient client = new HttpClient();
+            HttpResponseMessage response =
+                await client.GetAsync($"{URI}/allergy/{userId}/ingredient");
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"StatusCode: {response.StatusCode}");
+            }
+
+            string responseAsString = await response.Content.ReadAsStringAsync();
+
+            Dictionary<int, string> allergyIngredientList = JsonSerializer.Deserialize<Dictionary<int, string>>(
+                responseAsString, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            return allergyIngredientList;
+        }
+
+        public async Task<bool> SetUserAllergyFoodGroupAsync(int userId, int foodGroupId)
+        {
+            using HttpClient client = new HttpClient();
+            
+            HttpResponseMessage responseMessage = await client.PostAsync(
+                $"{URI}/allergy/{userId}/foodgroup?id={foodGroupId}", null!
+                );
+
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception("Fejl i oprettelse af fødevaregruppe allergi");
+            }
+
+            return responseMessage.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> SetUserAllergyIngredientAsync(int userId, int ingredientId)
+        {
+            using HttpClient client = new HttpClient();
+
+            HttpResponseMessage responseMessage = await client.PostAsync(
+                $"{URI}/allergy/{userId}/ingredient?id={ingredientId}", null!
+                );
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception("Fejl i oprettelse af ingrediens allergi");
+            }
+
+            return responseMessage.IsSuccessStatusCode;
         }
     }
 }
