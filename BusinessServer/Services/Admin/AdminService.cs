@@ -19,6 +19,7 @@ namespace BusinessServer.Services.Admin
         private Dictionary<int, string> foodGroupList;
         private Dictionary<int, string> ingredientList;
         private Dictionary<int, string> unitList;
+        private Dictionary<int, string> userList;
         private List<Restaurant> restaurantList;
         private List<Address> addressList;
         
@@ -36,6 +37,7 @@ namespace BusinessServer.Services.Admin
             addressList = GetAddressListAsync().Result;
             ingredientList = DnnrService.GetIngredientListAsync().Result;
             foodGroupList = DnnrService.GetFoodgroupListAsync().Result;
+            userList = GetUsersAndRestaurateurListAsync().Result;
         }
 
         public async Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId)
@@ -116,6 +118,11 @@ namespace BusinessServer.Services.Admin
         public async Task<Address> GetAddressByIdAsync(int addressId)
         {
             return await AdminDataLink.GetAddressByIdAsync(addressId);
+        }
+
+        public async Task<Dictionary<int, string>> GetUsersAndRestaurateurListAsync()
+        {
+            return userList = await AdminDataLink.GetUsersAndRestaurateurListAsync();
         }
     }
 }
