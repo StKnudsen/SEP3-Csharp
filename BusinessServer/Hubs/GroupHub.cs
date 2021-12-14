@@ -50,7 +50,7 @@ namespace BusinessServer.Hubs
 
             if (done)
             {
-                await Clients.Group(groupId).SendAsync("NoMatch");
+                await Clients.Group(groupId).SendAsync("NoMatchAsync");
             }
         }
         
@@ -71,7 +71,7 @@ namespace BusinessServer.Hubs
 
             if (match)
             {
-                await Clients.Group(groupId).SendAsync("Match", id);
+                await Clients.Group(groupId).SendAsync("MatchAsync", id);
             }
         }
 

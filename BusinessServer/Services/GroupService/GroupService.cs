@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BusinessServer.Network.Group;
 using BusinessServer.Services.UserService;
+using Microsoft.VisualBasic;
 using SharedLibrary.Models;
 using SharedLibrary.Models.User;
 using SharedLibrary.Util;
@@ -103,9 +104,18 @@ namespace BusinessServer.Services.GroupService
                     }
                 }
             }
-
-          string ingredientAllergiesString =  ingredientAllergies.ToString();
-           string foodGroupAllergiesString = foodGroupAllergies.ToString();
+            
+            string ingredientAllergiesString = string.Join(", ", ingredientAllergies);
+            if (ingredientAllergiesString.Length == 0)
+            {
+                ingredientAllergiesString = "0";
+            }
+            
+            string foodGroupAllergiesString = string.Join(", ", foodGroupAllergies);
+            if (foodGroupAllergiesString.Length == 0)
+            {
+                foodGroupAllergiesString = "0";
+            }
 
             if (type.Equals(Util.RECIPE))
             {
