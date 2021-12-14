@@ -127,27 +127,27 @@
         }
 
         <hr class="border-t-4 border-dotted border-red-600">
+
+        <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj restaurant</p>
+
         @if (UsersAndRestaurateurList == null)
         {
             <p>Loader...</p>
         }
         else
         {
-            <p class="text-xl text-red-700 font-bold mx-auto text-center mt-5">Tilføj restaurant</p>
             <div>
-
-                <div class="flex justify-center my-5">
-                    <label class="text-gray-700 text-sm font-semibold">Restaurantejer</label>
-                    <input class="w-full" list="userList" @bind-value="OwnerId"/>
-                    <datalist id="userList">
-                        @foreach (KeyValuePair<int, string> user in UsersAndRestaurateurList)
+                <div class="flex flex-col justify-center mx-auto mt-4 w-1/5">
+                    <label class="text-gray-700 text-sm font-semibold">Restaurantejer </label>
+                    <select name="userList" class="ml-4 border border-gray-300 rounded" @bind="OwnerId">
+                        @foreach (KeyValuePair<int, string> user in UsersAndRestaurateurList.OrderBy(user => user.Value))
                         {
                             <option value="@user.Key">@(user.Value[..1].ToUpper() + user.Value[1..])</option>
                         }
-                    </datalist>
+                    </select>
                 </div>
 
-                <div class="flex justify-center my-5">
+                <div class="flex flex-col justify-center mx-auto mt-4 w-1/5">
                     <label class="text-gray-700 text-sm font-semibold">Restaurantnavn</label>
                     <input type="text" class="ml-4 border border-gray-300 rounded" placeholder="f.eks. Noma" @bind-value="RestaurantName"/>
                 </div>
@@ -198,11 +198,10 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="flex justify-center my-5">
+                <div class="flex justify-center my-4">
                     <input class="mt-4 bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj restaurant" type="submit" @onclick="AddRestaurantAsync"/>
                 </div>
                 <p>@Label</p>
-
             </div>
         }
     </div>
