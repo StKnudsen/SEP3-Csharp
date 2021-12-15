@@ -17,8 +17,6 @@ namespace BusinessServer.Services.UserService
         Task<bool> CreateUserAsync(string username, string password);
         
         //  For allergy registration
-    //    Task<Dictionary<int, string>> getAllergyFoodGroupListAsync(int userId);
-      //  Task<Dictionary<int, string>> getAllergyIngredientListAsync(int userId);
         Task<bool> SetUserAllergyFoodGroupAsync(int userId, int foodGroupId);
         Task<bool> SetUserAllergyIngredientAsync(int userId, int ingredient);
     }

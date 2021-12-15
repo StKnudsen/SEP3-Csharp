@@ -15,6 +15,37 @@
     <ItemGroup>
       <Content Remove="Pages\Prototype.razor" />
       <Content Remove="Pages\SuperSecretPage.razor" />
+      <Content Remove="wwwroot\css\bootstrap\**" />
+      <Content Remove="wwwroot\css\open-iconic\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="wwwroot\css\bootstrap\**" />
+      <Compile Remove="wwwroot\css\open-iconic\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="wwwroot\css\bootstrap\**" />
+      <EmbeddedResource Remove="wwwroot\css\open-iconic\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="wwwroot\css\bootstrap\**" />
+      <None Remove="wwwroot\css\open-iconic\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\FONT-LICENSE" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\font\css\open-iconic-bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\font\fonts\open-iconic.eot" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\font\fonts\open-iconic.otf" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\font\fonts\open-iconic.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\font\fonts\open-iconic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\font\fonts\open-iconic.woff" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\ICON-LICENSE" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\open-iconic\README.md" />
     </ItemGroup>
 
 </Project>

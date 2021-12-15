@@ -76,6 +76,7 @@ namespace Client.Connection.Administration
                 throw(new Exception(e.Message));
             }
         } 
+        
         public async Task<bool> AddRestaurantAsync(Restaurant restaurant)
         {
             try
@@ -94,8 +95,7 @@ namespace Client.Connection.Administration
                 throw(new Exception(e.Message));
             }
         }
-
-
+        
         public async Task<Dictionary<int, string>> GetUnitListAsync()
         {
             if (HubConnection is null)
@@ -129,7 +129,7 @@ namespace Client.Connection.Administration
 
             return await HubConnection.InvokeAsync<Address>("GetAddressByIdAsync", addressId);
         }
-//TODO: Den her metode skal laves, så en liste med alle registerede brugere kan vises på admin-siden, når admin vil tilføje en restaurant. Her skal nemlig kobles en restaurantejer til.
+        
         public async Task<Dictionary<int, string>> GetUsersAndRestaurateurListAsync()
         {
             if (HubConnection is null)

@@ -92,7 +92,7 @@ namespace BusinessServer.Network.UserDataLink
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<Dictionary<int, string>> getAllergyFoodGroupListAsync(int userId)
+        public async Task<Dictionary<int, string>> GetAllergyFoodGroupListAsync(int userId)
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response =
@@ -114,7 +114,7 @@ namespace BusinessServer.Network.UserDataLink
             return foodGroupAllergiesList;
         }
 
-        public async Task<Dictionary<int, string>> getAllergyIngredientListAsync(int userId)
+        public async Task<Dictionary<int, string>> GetAllergyIngredientListAsync(int userId)
         {
             using HttpClient client = new HttpClient();
             HttpResponseMessage response =

@@ -85,7 +85,7 @@ namespace BusinessServer.Services.GroupService
                 {
                     RegisteredUser RegUser = await GetUserInfo.GetUserAsync(user.Username);
                     Dictionary<int, string> allergyDict =
-                        await GetUserInfo.getAllergyIngredientListAsync(RegUser.UserId);
+                        await GetUserInfo.GetAllergyIngredientListAsync(RegUser.UserId);
                     foreach (var allergy in allergyDict)
                     {
                         if (!ingredientAllergies.Contains(allergy.Key))
@@ -94,7 +94,7 @@ namespace BusinessServer.Services.GroupService
                         }
                     }
 
-                    Dictionary<int, string> foodgroupDict = await GetUserInfo.getAllergyFoodGroupListAsync(RegUser.UserId);
+                    Dictionary<int, string> foodgroupDict = await GetUserInfo.GetAllergyFoodGroupListAsync(RegUser.UserId);
                     foreach (var allergy in foodgroupDict)
                     {
                         if (!foodGroupAllergies.Contains(allergy.Key))
@@ -190,7 +190,7 @@ namespace BusinessServer.Services.GroupService
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        private string SwipeResultTitle(SharedLibrary.Models.Group group, int id)
+        private string SwipeResultTitle(Group group, int id)
         {
             foreach (CustomPair pair in group.SwipeObject)
             {

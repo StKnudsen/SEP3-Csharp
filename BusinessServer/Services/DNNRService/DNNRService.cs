@@ -6,17 +6,11 @@ namespace BusinessServer.Services.DNNRService
 {
     public class DNNRService : IDNNRService
     {
-        private Dictionary<int, string> foodGroupList;
-        private Dictionary<int, string> ingredientList;
-
         private readonly IDNNRDataLink DataLink;
         
         public DNNRService()
         {
             DataLink = new DNNRDataLink();
-            foodGroupList = GetFoodgroupListAsync().Result;
-            ingredientList = GetIngredientListAsync().Result;
-            
         }
 
         public async Task<Dictionary<int, string>> GetIngredientListAsync()
@@ -24,7 +18,7 @@ namespace BusinessServer.Services.DNNRService
             return await DataLink.GetIngredientListAsync();
         }
 
-        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
+        public async Task<Dictionary<int, string>> GetFoodGroupListAsync()
         {
             return await DataLink.GetFoodgroupListAsync();
         }

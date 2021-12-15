@@ -103,15 +103,6 @@ namespace Client.Connection.Authentication
             return await HubConnection.InvokeAsync<bool>("CheckUsernameAvailabilityAsync", username);
         }
 
-        private async Task Connect()
-        {
-            if (HubConnection is null)
-            {
-                HubConnection = new HubConnectionBuilder().WithUrl(uriUserhub).Build();
-                await HubConnection.StartAsync();
-            }
-        }
-
         public async Task<bool> CreateUserAsync(string username, string password)
         {
             await Connect();
@@ -126,6 +117,15 @@ namespace Client.Connection.Authentication
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }
 
+        private async Task Connect()
+        {
+            if (HubConnection is null)
+            {
+                HubConnection = new HubConnectionBuilder().WithUrl(uriUserhub).Build();
+                await HubConnection.StartAsync();
+            }
+        }
+
         private ClaimsIdentity SetupClaimsForUser(User user)
         {
             List<Claim> claims = new List<Claim>();
@@ -138,6 +138,5 @@ namespace Client.Connection.Authentication
             ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth_type");
             return identity;
         }
-
     }
 }

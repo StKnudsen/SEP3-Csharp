@@ -8,16 +8,14 @@ namespace BusinessServer.Services.Admin
 {
     public interface IAdminService
     {
-        public Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId);
+        Task<bool> AddIngredientAsync(string ingredientName, int _foodGroupId);
         Task<bool> AddFoodGroupAsync(string foodGroupName);
-        public Task<bool> AddRecipeAsync(Recipe recipe);
-        public Task<bool> AddRestaurantAsync(Restaurant restaurant);
-        public Task<Dictionary<int, string>> GetUnitListAsync();
-        public Task<List<Restaurant>> GetRestaurantListAsync();
-        public Task<List<Address>> GetAddressListAsync();
-        public Task<Address> GetAddressByIdAsync(int addressId);
-       public Task<Dictionary<int,string>> GetUsersAndRestaurateurListAsync();
-
-
+        Task<bool> AddRecipeAsync(Recipe recipe);
+        Task<bool> AddRestaurantAsync(Restaurant restaurant);
+        Task<Dictionary<int, string>> GetUnitListAsync();
+        Task<List<Restaurant>> GetRestaurantListAsync();
+        Task<List<Address>> GetAddressListAsync();
+        Task<Address> GetAddressByIdAsync(int addressId);
+        Task<Dictionary<int,string>> GetUsersAndRestaurateurListAsync();
     }
 }

@@ -57,7 +57,6 @@ namespace BusinessServer.Network.AdminDataLink
 
         public async Task<bool> AddRecipeAsync(Recipe recipe)
         {
-            
             using HttpClient client = new HttpClient();
             string recipeJson = JsonSerializer.Serialize(recipe, new JsonSerializerOptions
             {
@@ -79,8 +78,6 @@ namespace BusinessServer.Network.AdminDataLink
 
         public async Task<bool> AddRestaurantAsync(Restaurant restaurant)
         {
-            Console.WriteLine("AdminDataLink i AddRestaurantAsync");
-            
             using HttpClient client = new HttpClient();
             string restaurantJson = JsonSerializer.Serialize(restaurant, new JsonSerializerOptions
             {

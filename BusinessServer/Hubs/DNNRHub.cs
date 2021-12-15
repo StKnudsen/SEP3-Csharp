@@ -19,7 +19,7 @@ namespace BusinessServer.Hubs
         {
             try
             {
-                return await DnnrService.GetFoodgroupListAsync();
+                return await DnnrService.GetFoodGroupListAsync();
             }
             catch (Exception e)
             {

@@ -3,6 +3,7 @@
 @using System.Text.Json
 @using Client.Connection.GroupManagement
 @using SharedLibrary.Models.User
+
 @inject IGroupManager GroupManager
 @inject IJSRuntime JsRuntime
 
@@ -19,7 +20,6 @@
     }
     else
     {
-        <!-- component -->
         <div class="p-16">
             <div class="w-full m-auto ">
                 @if (IsStopped)
@@ -135,7 +135,6 @@
 </AuthorizeView>
 
 @code {
-
     [Parameter]
     public string GroupId { get; set; }
 

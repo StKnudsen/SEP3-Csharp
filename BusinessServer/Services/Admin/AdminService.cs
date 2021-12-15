@@ -36,7 +36,7 @@ namespace BusinessServer.Services.Admin
             restaurantList = GetRestaurantListAsync().Result;
             addressList = GetAddressListAsync().Result;
             ingredientList = DnnrService.GetIngredientListAsync().Result;
-            foodGroupList = DnnrService.GetFoodgroupListAsync().Result;
+            foodGroupList = DnnrService.GetFoodGroupListAsync().Result;
             userList = GetUsersAndRestaurateurListAsync().Result;
         }
 
@@ -90,7 +90,7 @@ namespace BusinessServer.Services.Admin
             return true;
         }
 
-        public async Task<Dictionary<int, string>> GetIngredientListAsync()
+        private async Task<Dictionary<int, string>> GetIngredientListAsync()
         {
             return ingredientList = await DnnrService.GetIngredientListAsync();
         }
@@ -99,8 +99,7 @@ namespace BusinessServer.Services.Admin
         {
             return recipeList = await AdminDataLink.GetRecipeListAsync();
         }
-
-
+        
         public async Task<Dictionary<int, string>> GetUnitListAsync()
         {
             return unitList = await AdminDataLink.GetUnitListAsync();
@@ -110,6 +109,7 @@ namespace BusinessServer.Services.Admin
         {
             return restaurantList = await AdminDataLink.GetRestaurantListAsync();
         }   
+        
         public async Task<List<Address>> GetAddressListAsync()
         {
             return addressList = await AdminDataLink.GetAddressListAsync();

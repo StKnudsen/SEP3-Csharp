@@ -8,7 +8,7 @@ namespace BusinessServer.Services.UserService
     {
         // Interface segregation på user-ting
         Task<RegisteredUser> GetUserAsync(string username);
-        Task<Dictionary<int, string>> getAllergyFoodGroupListAsync(int userId);
-        Task<Dictionary<int, string>> getAllergyIngredientListAsync(int userId);
+        Task<Dictionary<int, string>> GetAllergyFoodGroupListAsync(int userId);
+        Task<Dictionary<int, string>> GetAllergyIngredientListAsync(int userId);
     }
 }

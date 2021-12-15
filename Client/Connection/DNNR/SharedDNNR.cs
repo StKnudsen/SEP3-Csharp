@@ -12,7 +12,7 @@ namespace Client.Connection.DNNR
 
         public SharedDNNR() { }
         
-        public async Task<Dictionary<int, string>> GetFoodgroupListAsync()
+        public async Task<Dictionary<int, string>> GetFoodGroupListAsync()
         {
             if (HubConnection is null)
             {
@@ -21,7 +21,7 @@ namespace Client.Connection.DNNR
             }
 
             return await HubConnection.InvokeAsync<Dictionary<int, string>>
-                ("GetFoodgroupListAsync");
+                ("GetFoodGroupListAsync");
         }
         
         public async Task<Dictionary<int, string>> GetIngredientListAsync()

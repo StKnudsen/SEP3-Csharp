@@ -29,8 +29,7 @@ namespace BusinessServer.Hubs
                 throw (new Exception(e.Message));
             }
         }
-
-        //FIXME async altså
+        
         public async Task<bool> AddFoodGroupAsync(string foodGroupName)
         {
             return await AdminService.AddFoodGroupAsync(foodGroupName);
@@ -47,6 +46,7 @@ namespace BusinessServer.Hubs
                 throw (new Exception(e.Message));
             }
         }  
+        
         public async Task<bool> AddRestaurantAsync(Restaurant restaurant)
         {
             try
@@ -94,18 +94,6 @@ namespace BusinessServer.Hubs
             {
                 throw (new Exception(e.Message));
             }
-        } 
-        
-        public async Task<Dictionary<int,string>> GetUsersAndRestaurateurListAsync()
-        {
-            try
-            {
-                return await AdminService.GetUsersAndRestaurateurListAsync();
-            }
-            catch (Exception e)
-            {
-                throw (new Exception(e.Message));
-            }
         }
 
         public async Task<Address> GetAddressByIdAsync(int addressId)
@@ -120,5 +108,16 @@ namespace BusinessServer.Hubs
             }
         }
 
+        public async Task<Dictionary<int,string>> GetUsersAndRestaurateurListAsync()
+        {
+            try
+            {
+                return await AdminService.GetUsersAndRestaurateurListAsync();
+            }
+            catch (Exception e)
+            {
+                throw (new Exception(e.Message));
+            }
+        }
     }
 }

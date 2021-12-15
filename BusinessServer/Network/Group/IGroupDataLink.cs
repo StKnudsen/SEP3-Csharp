@@ -8,7 +8,7 @@ namespace BusinessServer.Network.Group
 {
     public interface IGroupDataLink
     {
-        Task<List<CustomPair>> GetShuffledRecipesAsync( string ingredientAllergies, string foodGroupAllergies);
+        Task<List<CustomPair>> GetShuffledRecipesAsync(string ingredientAllergies, string foodGroupAllergies);
         Task<List<CustomPair>> GetShuffledRestaurantsAsync();
     }
 }

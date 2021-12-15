@@ -44,15 +44,14 @@ namespace BusinessServer.Hubs
             return await UserService.GetUserAsync(username);
         }
         
-        //  For allergy registration
         public async Task<Dictionary<int, string>> GetAllergyFoodGroupListAsync(int userId)
         {
-            return await UserService.getAllergyFoodGroupListAsync(userId);
+            return await UserService.GetAllergyFoodGroupListAsync(userId);
         }
 
         public async Task<Dictionary<int, string>> GetAllergyIngredientListAsync(int userId)
         {
-            return await UserService.getAllergyIngredientListAsync(userId);
+            return await UserService.GetAllergyIngredientListAsync(userId);
         }
 
         public async Task<bool> SetUserAllergyFoodGroupAsync(int userId, int foodGroupId)

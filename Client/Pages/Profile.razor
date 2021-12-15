@@ -47,7 +47,7 @@
                             </datalist>
                         </td>
                         <td>
-                            <button @onclick="AddFoodGroupAllergy">Tilføj fødevareallerigruppe</button>
+                            <button @onclick="AddFoodGroupAllergyAsync">Tilføj fødevareallerigruppe</button>
                         </td>
                     </tr>
                 </table>
@@ -75,7 +75,7 @@
                             </datalist>
                         </td>
                         <td>
-                            <button @onclick="AddIngedientAllergy">Tilføj ingrediens</button>
+                            <button @onclick="AddIngedientAllergyAsync">Tilføj ingrediens</button>
                         </td>
                     </tr>
                 </table>
@@ -104,14 +104,14 @@
             User = JsonSerializer.Deserialize<RegisteredUser>(userAsJson);
         }
         
-        FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
+        FoodGroupList = await SharedDnnr.GetFoodGroupListAsync();
         IngredientList = await SharedDnnr.GetIngredientListAsync();
 
         UserAllergyFoodGroupList = await UserManager.GetAllergyFoodGroupListAsync(User.UserId);
         UserAllergyIngredientList = await UserManager.GetAllergyIngredientListAsync(User.UserId);
     }
 
-    private async Task AddFoodGroupAllergy()
+    private async Task AddFoodGroupAllergyAsync()
     {
         int foodGroupId = GetFoodGroupId();
         if (foodGroupId == 0)
@@ -135,7 +135,7 @@
         await InvokeAsync(StateHasChanged);
     }
     
-    private async Task AddIngedientAllergy()
+    private async Task AddIngedientAllergyAsync()
     {
         int ingredientId = GetIngredientId();
         if (ingredientId == 0)

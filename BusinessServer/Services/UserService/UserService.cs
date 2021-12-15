@@ -55,14 +55,14 @@ namespace BusinessServer.Services.UserService
             return await UserDataLink.GetUserAsync(username);
         }
 
-        public async Task<Dictionary<int, string>> getAllergyFoodGroupListAsync(int userId)
+        public async Task<Dictionary<int, string>> GetAllergyFoodGroupListAsync(int userId)
         {
-            return await UserDataLink.getAllergyFoodGroupListAsync(userId);
+            return await UserDataLink.GetAllergyFoodGroupListAsync(userId);
         }
 
-        public async Task<Dictionary<int, string>> getAllergyIngredientListAsync(int userId)
+        public async Task<Dictionary<int, string>> GetAllergyIngredientListAsync(int userId)
         {
-            return await UserDataLink.getAllergyIngredientListAsync(userId);
+            return await UserDataLink.GetAllergyIngredientListAsync(userId);
         }
 
         public async Task<bool> SetUserAllergyFoodGroupAsync(int userId, int foodGroupId)

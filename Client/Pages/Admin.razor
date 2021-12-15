@@ -21,7 +21,7 @@
             <label class="text-gray-700 text-sm font-semibold">Ny Fødevaregruppe</label>
             <input type="text" class="border border-gray-300 rounded" @bind-value="NewFoodGroup"/>
             <div class="my-4 mx-auto">
-                <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddFoodGroup"/>
+                <input class="bg-red-800 hover:bg-red-600 duration-500 transition text-gray-100 font-semibold py-3 px-8 border border-gray-400 rounded shadow" value="Tilføj" type="submit" @onclick="AddFoodGroupAsync"/>
             </div>
         </div>
 
@@ -234,7 +234,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
+        FoodGroupList = await SharedDnnr.GetFoodGroupListAsync();
         UnitList = await _administration.GetUnitListAsync();
         IngredientList = await SharedDnnr.GetIngredientListAsync();
         UsersAndRestaurateurList = await _administration.GetUsersAndRestaurateurListAsync();
@@ -242,7 +242,7 @@
         NewRecipeIngredients = new List<RecipeIngredient>();
     }
 
-    private async Task AddFoodGroup()
+    private async Task AddFoodGroupAsync()
     {
         if (NewFoodGroup is null or "")
         {
@@ -257,7 +257,7 @@
                 if (result)
                 {
                     Label = "Succes";
-                    FoodGroupList = await SharedDnnr.GetFoodgroupListAsync();
+                    FoodGroupList = await SharedDnnr.GetFoodGroupListAsync();
                     NewFoodGroup = "";
                 }
                 else
@@ -306,7 +306,6 @@
     {
         if (AddedIngredient is null or "" || Amount == 0 || UnitId == 0)
         {
-            Console.WriteLine("null i ingredient til opskrift");
             Label = "null i ingredient til opskrift";
         }
         else
@@ -408,7 +407,6 @@
         }
     }
 
-
     private void Filter(ChangeEventArgs args)
     {
         List<string> match = new List<string>();
@@ -423,5 +421,4 @@
         value = value?[..1].ToUpper() + value?[1..];
         return value;
     }
-
 }

@@ -17,8 +17,7 @@ namespace BusinessServer.Services.Restaurateur
 
         public async Task<bool> AddDishAsync(Dish dish)
         {
-            Console.WriteLine("Nåede til RestaurateurService");
-            if(dish.Name is null || dish.RestaurantId == 0)
+            if (dish.Name is null || dish.RestaurantId == 0)
             { 
                 throw new Exception("Retten skal have et navn og tilknyttes en restaurant");
             }
@@ -29,7 +28,6 @@ namespace BusinessServer.Services.Restaurateur
 
         public async Task<List<Dish>> GetDishListAsync(int restaurantId)
         {
-            
             return await restaurateurDataLink.GetDishListAsync(restaurantId);
         }
 
