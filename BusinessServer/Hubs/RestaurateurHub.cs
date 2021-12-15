@@ -22,8 +22,6 @@ namespace BusinessServer.Hubs
         {
             try
             {
-                Console.WriteLine("Nåede til RestaurateurHub");
-
                 return await restaurateurService.AddDishAsync(dish);
             }
             catch (Exception e)
@@ -55,6 +53,5 @@ namespace BusinessServer.Hubs
                 throw (new Exception(e.Message));
             }
         }
-
     }
 }

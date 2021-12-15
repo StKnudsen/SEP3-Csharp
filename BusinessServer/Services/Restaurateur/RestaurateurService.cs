@@ -9,7 +9,6 @@ namespace BusinessServer.Services.Restaurateur
 {
     public class RestaurateurService : IRestaurateurService
     {
-
         private readonly IRestaurateurDataLink restaurateurDataLink;
         public RestaurateurService()
         {
